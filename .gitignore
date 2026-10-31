@@ -1,0 +1,5 @@
+.DS_Store
+node_modules/
+# Contexte personnel : reste en local, le dépôt est public
+CLAUDE.md
+docs/
