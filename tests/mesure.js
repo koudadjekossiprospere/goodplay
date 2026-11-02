@@ -61,11 +61,12 @@ function rendre(nomScene, i, graine, c) {
 }
 
 /* Fait tourner le moteur sur l'audio (x) ou sur des trames déjà calculées, et note ce que le pianiste voit à chaque instant. */
-function executer(c, source, variante, params) {
+function executer(c, source, variante, params) { // source.prepare(m) : compare-ia y branche un autre détecteur
   const V = { sansMem: { memoire: false }, sansContre: { basseAbs: 0, clarteSure: 0 }, piano: { clarteSuggeree: .95 } }[variante] || {}, reglages = { params: { ...params, ...V } };
   if (variante === 'basse') reglages.basseReelle = true;
   const m = new GP.Moteur({ sr: source.x ? 48000 : 16000, reglages });
   const log = { keys: [], chords: [], notes: 0, trames: [], grille: m.grille, tempo8: null, corrigees: 0, corrPost: 0, lettres: [] };
+  if (source.prepare) source.prepare(m);
   let now = 0, dernierAffiche = null;
   const affiche = (root, q) => { if (dernierAffiche !== root + q) { log.chords.push({ t: now, root, q }); dernierAffiche = root + q; } };
   m.on('tonalite', k => { const l = log.keys[log.keys.length - 1]; if (!l || l.tonic !== k.tonic || l.mode !== k.mode) log.keys.push({ t: now, tonic: k.tonic, mode: k.mode, isMod: k.modulation, correction: !!k.correction, delaiPreuve: k.correction ? m.delaiCorrection : null }); });
@@ -236,7 +237,7 @@ async function main() {
   return { crit };
 }
 
-module.exports = { SCENES, CORPUS, chantDe, executer, metriques, cumule, pool, CACHE };
+module.exports = { SCENES, CORPUS, chantDe, rendre, executer, metriques, cumule, pool, CACHE };
 if (!isMainThread && workerData && workerData.travailleur) {
   parentPort.on('message', ({ n, j }) => parentPort.postMessage({ n, r: travail(j) }));
 } else if (isMainThread && require.main === module) {

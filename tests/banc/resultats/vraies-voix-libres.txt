@@ -1,0 +1,88 @@
+vraies-voix-libres, 2 novembre 2026. node tests/banc/vraies-voix-libres.js (voir docs/recherche/ia-oreille.md). Audio hors du dépôt.
+
+== vocadito : 40 extraits ; plafond humain (A2 contre A1) : notes justes 88 %, temps faux 11 % (médianes)
+| oreille | notes justes, médiane | temps faux, médiane | dernière tonalité = référence | tonalité juste, part du temps (oreille parfaite) |
+|---|---|---|---|---|
+| mpm | 57 % | 33 % | 22/40 | 37 % (58 %) |
+
+== LibriVox, mesuré depuis le début du chant (annonce parlée coupée)
+
+mpm
+| chant | référence | 1re tonalité | tonalité juste dès | part juste | avec l'annonce | changements | chant reconnu à |
+|---|---|---|---|---|---|---|---|
+| abidewithme | Do maj (53 c) | Do maj à 6.0 s | 6.0 s | 42 % | 39 % | 1 | 43 s |
+| alleluiasingtojesus | Ré♭ maj (156 c) | Ré♭ maj à 5.1 s | 5.1 s | 98 % | 96 % | 0 | 45 s |
+| amazinggrace | Mi♭ maj (68 c) | Mi♭ maj à 5.6 s | 5.6 s | 98 % | 100 % | 0 | 31 s |
+| bethoumyvision | Ré maj (5 c) | Sol maj à 5.3 s, fausse | 11.3 s | 94 % | 94 % | 1 | 29 s |
+| holyholyholy | Ré♭ maj (-12 c) | Ré♭ maj à 4.9 s | 4.9 s | 98 % | 99 % | 0 | 44 s |
+| howfirmafoundation | Fa maj (74 c) | Fa maj à 6.0 s | 6.0 s | 97 % | 92 % | 0 | 40 s |
+| lovedivine | aucune (287 c) | Si♭ maj à 5.7 s, fausse | - | - | - | 2 | non |
+| nearermygodtothee | Sol♭ maj (-19 c) | Si maj à 8.1 s, fausse | 14.8 s | 95 % | 100 % | 1 | 52 s |
+| ourgodourhelp | La maj (61 c) | La maj à 4.7 s | 4.7 s | 3 % | 0 % | 1 | 14 s |
+| praisetothelord | Mi♭ maj (-50 c) | Do min à 4.3 s, fausse | - | 0 % | 0 % | 0 | 25 s |
+| rockofages | La maj (-22 c) | Do♯ min à 6.2 s, fausse | - | 0 % | 0 % | 2 | 49 s |
+bilan : 1re tonalité juste 6/10, juste dès 6.0 s (médiane), part juste 63 %, avec l'annonce 62 %, reconnus 10/10 en 43 s (médiane), faux chants 0
+== vocadito : 40 extraits ; plafond humain (A2 contre A1) : notes justes 88 %, temps faux 11 % (médianes)
+| oreille | notes justes, médiane | temps faux, médiane | dernière tonalité = référence | tonalité juste, part du temps (oreille parfaite) |
+|---|---|---|---|---|
+| swift2k2.agc | 48 % | 40 % | 20/40 | 32 % (58 %) |
+| crepe | 56 % | 37 % | 21/40 | 38 % (58 %) |
+
+== LibriVox, mesuré depuis le début du chant (annonce parlée coupée)
+
+swift2k2.agc
+| chant | référence | 1re tonalité | tonalité juste dès | part juste | avec l'annonce | changements | chant reconnu à |
+|---|---|---|---|---|---|---|---|
+| abidewithme | Do maj (54 c) | Do maj à 7.3 s | 7.3 s | 42 % | 43 % | 1 | 38 s |
+| alleluiasingtojesus | Ré♭ maj (155 c) | Ré♭ maj à 5.4 s | 5.4 s | 98 % | 96 % | 0 | 45 s |
+| amazinggrace | Mi maj (-29 c) | Mi maj à 5.6 s | 5.6 s | 97 % | 98 % | 0 | 24 s |
+| bethoumyvision | Ré♭ maj (107 c) | Sol♭ maj à 5.4 s, fausse | 9.2 s | 95 % | 0 % | 1 | 27 s |
+| holyholyholy | Do maj (97 c) | Do maj à 5.0 s | 5.0 s | 98 % | 97 % | 0 | 43 s |
+| howfirmafoundation | Fa maj (75 c) | Fa maj à 6.1 s | 6.1 s | 97 % | 98 % | 0 | 21 s |
+| lovedivine | aucune (183 c) | Si maj à 5.7 s, fausse | - | - | - | 1 | non |
+| nearermygodtothee | Sol♭ maj (-16 c) | Mi♭ min à 5.9 s, fausse | 31.0 s | 89 % | 88 % | 1 | 56 s |
+| ourgodourhelp | Si♭ maj (-39 c) | Si♭ maj à 4.8 s | 4.8 s | 3 % | 0 % | 1 | 14 s |
+| praisetothelord | Mi♭ maj (-50 c) | Do min à 5.5 s, fausse | 65.1 s | 77 % | 6 % | 1 | 26 s |
+| rockofages | La maj (-22 c) | Do♯ min à 6.1 s, fausse | - | 0 % | 0 % | 2 | 43 s |
+bilan : 1re tonalité juste 6/10, juste dès 7.3 s (médiane), part juste 71 %, avec l'annonce 54 %, reconnus 10/10 en 38 s (médiane), faux chants 0
+
+crepe
+| chant | référence | 1re tonalité | tonalité juste dès | part juste | avec l'annonce | changements | chant reconnu à |
+|---|---|---|---|---|---|---|---|
+| abidewithme | Si maj (248 c) | Si maj à 7.3 s | 7.3 s | 42 % | 36 % | 1 | 47 s |
+| alleluiasingtojesus | Ré♭ maj (161 c) | Ré♭ maj à 5.3 s | 5.3 s | 98 % | 98 % | 0 | 46 s |
+| amazinggrace | Ré maj (174 c) | Si min à 6.8 s, fausse | 16.1 s | 93 % | 100 % | 1 | 51 s |
+| bethoumyvision | Ré maj (6 c) | Sol maj à 5.3 s, fausse | 11.3 s | 94 % | 99 % | 1 | 26 s |
+| holyholyholy | Ré maj (-14 c) | Do maj à 4.5 s, fausse | - | 0 % | 89 % | 2 | 68 s |
+| howfirmafoundation | Sol♭ maj (-105 c) | Si♭ min à 5.9 s, fausse | 11.9 s | 94 % | 99 % | 1 | 26 s |
+| lovedivine | aucune (287 c) | Si♭ maj à 5.7 s, fausse | - | - | - | 2 | non |
+| nearermygodtothee | Fa maj (88 c) | Si♭ maj à 8.2 s, fausse | 14.8 s | 95 % | 88 % | 1 | 82 s |
+| ourgodourhelp | La maj (65 c) | La maj à 4.8 s | 4.8 s | 3 % | 0 % | 1 | 15 s |
+| praisetothelord | Mi♭ maj (-52 c) | Do min à 4.3 s, fausse | - | 0 % | 0 % | 0 | 25 s |
+| rockofages | La maj (-18 c) | La♭ maj à 5.2 s, fausse | - | 0 % | 0 % | 1 | 26 s |
+bilan : 1re tonalité juste 3/10, juste dès 14.8 s (médiane), part juste 53 %, avec l'annonce 61 %, reconnus 10/10 en 46 s (médiane), faux chants 0
+
+== Après la correction de tonalité (profil: 'hymnes', priorMaj: .5), MPM. Les lignes au-dessus ont été mesurées avec l'ancien profil.
+
+== vocadito : 40 extraits ; plafond humain (A2 contre A1) : notes justes 88 %, temps faux 11 % (médianes)
+| oreille | notes justes, médiane | temps faux, médiane | dernière tonalité = référence | tonalité juste, part du temps (oreille parfaite) |
+|---|---|---|---|---|
+| mpm | 57 % | 33 % | 21/40 | 36 % (57 %) |
+
+== LibriVox, mesuré depuis le début du chant (annonce parlée coupée)
+
+mpm
+| chant | référence | 1re tonalité | tonalité juste dès | part juste | avec l'annonce | changements | chant reconnu à |
+|---|---|---|---|---|---|---|---|
+| abidewithme | Do maj (53 c) | Do maj à 6.0 s | 6.0 s | 42 % | 37 % | 1 | 43 s |
+| alleluiasingtojesus | Ré♭ maj (156 c) | Sol♭ maj à 5.1 s, fausse | 9.5 s | 96 % | 95 % | 1 | 45 s |
+| amazinggrace | Mi♭ maj (68 c) | Mi♭ maj à 5.6 s | 5.6 s | 98 % | 100 % | 0 | 31 s |
+| bethoumyvision | Ré maj (5 c) | Ré maj à 5.3 s | 5.3 s | 97 % | 96 % | 0 | 29 s |
+| holyholyholy | Ré♭ maj (-12 c) | Ré♭ maj à 4.9 s | 4.9 s | 98 % | 99 % | 0 | 44 s |
+| howfirmafoundation | Fa maj (74 c) | Fa maj à 6.0 s | 6.0 s | 97 % | 95 % | 0 | 40 s |
+| lovedivine | aucune (287 c) | Si♭ maj à 5.7 s, fausse | - | - | - | 1 | non |
+| nearermygodtothee | Sol♭ maj (-19 c) | Sol♭ maj à 8.1 s | 8.1 s | 97 % | 100 % | 0 | 52 s |
+| ourgodourhelp | La maj (61 c) | La maj à 4.7 s | 4.7 s | 97 % | 6 % | 0 | 14 s |
+| praisetothelord | Mi♭ maj (-50 c) | Mi♭ maj à 4.3 s | 4.3 s | 98 % | 99 % | 0 | 25 s |
+| rockofages | La maj (-22 c) | Ré♭ maj à 6.2 s, fausse | 40.0 s | 75 % | 0 % | 3 | 49 s |
+bilan : 1re tonalité juste 8/10, juste dès 6.0 s (médiane), part juste 87 %, avec l'annonce 75 %, reconnus 10/10 en 43 s (médiane), faux chants 0

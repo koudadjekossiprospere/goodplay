@@ -18,6 +18,8 @@
     ronfle: true, ronfleBlocs: 12, ronfleForce: 8, ronfleQ: 8, ronfleNiveau: 16, plie: 8.5, tauReg: 2, lisse: 3, confirme: 2, confirmeDemi: 4, pureMax: 300, pureRap: 1.25, repriseApres: 1, confirmeReprise: 7, pauseMin: .2, pauseRel: .25, phraseMin: 6, vitAccord: .04, priseAccord: 2,
     // Tonalité : probable dès que la preuve suffit (attenteMin s chantées, notesLock notes différentes, margeLock nats d'avance), au plus tard après `attente` s ; sûre après 60 s ou une avance nette. Le relatif n'est jamais une modulation.
     attente: 8, limiteTon: 4.6, attenteMin: 3, notesLock: 4, margeLock: .4, margeSure: 6, voixSure: 20, hypMin: .1, fenetreCorrection: 60, margeCorrection: 1.2, H: 8, margeMod: 3, margeModeMod: 6, phrasesMod: 2, tempsMod: 6, horsGamme: .05, plancherProfil: .012,
+    // Profil de cantiques et a priori majeur (157 cantiques sur 189), réglés sur les pairs de tests/banc/tonalite-hymnes.js et de balayage-tonalite.js. 'ae' et 0 pour l'ancien réglage.
+    profil: 'hymnes', priorMaj: .5,
     // Accords : aucun bonus sur la fondamentale, la note chantée est souvent la tierce ou la quinte.
     // Rythme harmonique : quitter un accord de moins de `jeune` s coûte `surcout` ; plus de case sous `caseMin` s, ni de crochet A B A sous `blip` s si `blipFrac` du chant de B tient dans A. Une vraie basse garde ses propres valeurs.
     ambigu: .5, clarteAcc: .9, margeAcc: 3, margeJeuneAcc: 3, caseTenue: 2, pAccord: .28, pGamme: .04, pHors: .012, gain: 4, attaque: .25, noteRapide: .2, cout: 1, coutTrans: 2, jeune: 2, jeuneBasse: .9, surcout: 1, duree: 1, retard: 1.5, caseMin: .6, caseMinBasse: .3, fenetreDecode: 300, blip: 2, blipFrac: .3, pSept: .12,
@@ -32,7 +34,9 @@
 
   /* Aarden-Essen : le profil le mieux mesuré sur des mélodies (audio.md) */
   const AE = [[17.7661, .145624, 14.9265, .160186, 19.8049, 11.3587, .291248, 22.062, .145624, 8.15494, .232998, 4.95122], [18.2648, .737619, 14.0499, 16.8599, .702494, 14.4362, .702494, 18.6161, 4.56621, 1.93186, 7.37619, 1.75623]];
-  const logProfil = pl => AE.map(p => { const s = p.reduce((a, b) => a + b, 0), q = p.map(v => Math.max(v / s, pl)), z = q.reduce((a, b) => a + b, 0); return q.map(v => Math.log(v / z)); });
+  /* Cantiques : durées par degré des 95 cantiques pairs de la base (tests/banc/tonalite-hymnes.js). La tonique pèse plus, le 4e degré moins que dans les chants populaires d'Essen. */
+  const HY = [[24.2, 0, 14, .1, 18, 6.8, .7, 21, 0, 9.4, .3, 5.3], [23.2, 1.5, 10.1, 18.1, .3, 15.3, 0, 20.3, 4.3, .5, 5.4, .8]];
+  const logProfil = (pl, prof = AE) => prof.map(p => { const s = p.reduce((a, b) => a + b, 0), q = p.map(v => Math.max(v / s, pl)), z = q.reduce((a, b) => a + b, 0); return q.map(v => Math.log(v / z)); });
 
   /* Fondamentales entendues à la basse : ordres de grandeur du corpus de basse (1, 4, 5 : 89 % du temps) */
   const LB = [[.42, .01, .05, .005, .02, .2, .005, .22, .005, .06, .005, .01], [.42, .01, .02, .05, .005, .18, .005, .18, .05, .005, .06, .015]].map(p => p.map(Math.log));
@@ -107,7 +111,7 @@
     constructor({ sr = SR, reglages = {} } = {}) {
       this.reglages = { basseReelle: false, modulationAuto: true, tempsNouveauChant: 15, tonalite: null, ...reglages };
       this.P = { ...P0, ...(reglages.params || {}) };
-      this.LP = logProfil(this.P.plancherProfil);
+      this.LP = logProfil(this.P.plancherProfil, this.P.profil === 'hymnes' ? HY : AE);
       this.ecouteurs = {};
       this.definirSr(sr);
       this.reinit();
@@ -128,7 +132,7 @@
     _nouveauChantEtat() {
       this.zr = 0; this.zi = 0; this.poids = 0; this.accordage = 0; this.accordageInit = false; this.fen = []; this.reg = null; this.tVoix = 0; this.finAttente = null; this.tPhrase = 0; this.tete = null; this.delaiCorrection = null; this.tFinNote = -1e9; this.tChange = -1e9;
       this.cur = null; this.pend = null; this.bc = null; this.tempsBasse = 0; this.fige = false; this.tess = null; this.hauts = []; this.notes = []; this.mel = []; this.dernierAlign = -1; this.prevu = null; this.phrases = []; this.debutPhrase = 0; this.nLettres = 0;
-      this.key = null; this.etat = null; this.L = new Float64Array(24); this.sigHyp = ''; this.voise = 0; this.finsPhrase = 0; this.lockT = null; this.recentes = []; this.provi = -1;
+      this.key = null; this.etat = null; this.L = this._apriori(); this.sigHyp = ''; this.voise = 0; this.finsPhrase = 0; this.lockT = null; this.recentes = []; this.provi = -1;
       this.cusum = new Float64Array(24); this.candDebut = new Float64Array(24).fill(-1); this.candPhrases = new Int32Array(24); this.candHors = new Float64Array(24);
       this.cands = null; this.delta = null; this.entree = null; this.courant = -1; this.rapide = false; this.iDecode = 0;
       this.onsets = []; this.resteB = []; this.mesureCourante = null; this.tempoAuto = null; this.dernierTempo = 0; this.numTemps = 0; this.prochainTemps = null;
@@ -168,7 +172,7 @@
     _oublieBande(m) {
       if (this.key) return;
       const garde = e => Math.abs(e.midi - m) > 2.5, ns = this.notes.filter(garde), tf = this.recentes.filter(x => ns.some(e => e.fin === x.t));
-      this.notes = ns; this.recentes = tf; this.L.fill(0); this.voise = 0; this.finsPhrase = 0; this.provi = -1; this.zr = 0; this.zi = 0; this.poids = 0; this.accordageInit = false; this.fen = []; this.reg = null; this.hauts = []; this.tess = null; this.mel = this.mel.filter(x => garde(x.note)); this.debutPhrase = 0; this.pend = null;
+      this.notes = ns; this.recentes = tf; this.L = this._apriori(); this.voise = 0; this.finsPhrase = 0; this.provi = -1; this.zr = 0; this.zi = 0; this.poids = 0; this.accordageInit = false; this.fen = []; this.reg = null; this.hauts = []; this.tess = null; this.mel = this.mel.filter(x => garde(x.note)); this.debutPhrase = 0; this.pend = null;
       if (this.cur && !garde(this.cur)) { this.cur = null; this._emet('noteCourante', null); }
       for (const x of tf) for (let i = 0; i < 24; i++) this.L[i] += x.w * this._logP(i, x.pc);
       for (const e of ns) this.voise += e.fin - e.debut;
@@ -292,6 +296,7 @@
     _dansGamme(i, pc) { return GAMMES[i & 1 ? 'min' : 'maj'].includes(mod(pc - (i >> 1))); }
     _confiance(v, i) { let z = 0; const m = Math.max(...v); for (let x = 0; x < v.length; x++) z += Math.exp(v[x] - m); return Math.exp(v[i] - m) / z; }
 
+    _apriori() { const L = new Float64Array(24); for (let i = 0; i < 24; i += 2) L[i] = this.P.priorMaj || 0; return L; }
     _meilleur() { let b = 0; for (let i = 1; i < 24; i++) if (this.L[i] > this.L[b]) b = i; return b; }
     /* Les tonalités encore possibles, avec leur probabilité. Émis quand la liste change d'un dixième : l'interface montre un choix tant que l'avance est faible. */
     _hypotheses() {

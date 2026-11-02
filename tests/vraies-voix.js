@@ -20,9 +20,10 @@ const verite = ({ m, ev }) => {
 
 const med = a => { const s = [...a].sort((x, y) => x - y); return s.length ? s[s.length >> 1] : NaN; };
 
-function ecouter(x, sr, params = {}) {
+function ecouter(x, sr, params = {}, prepare = null) {
   const m = new GP.Moteur({ sr, reglages: { params } }), ev = { note: [], tonalite: [], phrase: [], accord: 0, refaite: 0, nouveauChant: 0 };
   m.on('note', e => ev.note.push(e)).on('tonalite', e => ev.tonalite.push({ ...e, delaiPreuve: e.correction ? m.delaiCorrection : null })).on('phrase', e => ev.phrase.push(e)).on('accord', () => ev.accord++).on('grilleRefaite', () => ev.refaite++).on('nouveauChant', () => ev.nouveauChant++);
+  if (prepare) prepare(m);
   const pas = Math.round(sr * .02);
   for (let i = 0; i < x.length; i += pas) { const f = x.subarray(i, Math.min(x.length, i + pas)); m.trame(f, (i + f.length) / sr); }
   return { m, ev, duree: x.length / sr };

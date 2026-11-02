@@ -171,4 +171,14 @@ ok('octave sans effet sur la tonalité');
   }
 }
 ok('silence : aucune case, aucun accord');
+
+/* Raison de tonalité en notes parfaites, cantiques impairs (contrôle) : 78 % de finales justes avec l'ancien profil d'Essen, 89 % avec celui des cantiques.
+   St. Anne n'a jamais de 4e degré naturel, seulement le 4e haussé : par la seule gamme c'est la dominante, le musicien entend la tonique.
+   Juste 9 % du temps avec l'ancien profil, 62 % avec le nouveau ; sa 2e phrase passe vraiment à la dominante et la finale y retombe encore. */
+{
+  const H = require('./banc/tonalite-hymnes.js'), r = H.banc({}, 'controle');
+  assert(+r.der >= 88, 'finales justes au contrôle : ' + r.der + ' %'); assert(+r.juste >= 75, 'part juste au contrôle : ' + r.juste + ' %');
+  const i = GP.baseHymnes.findIndex(c => c.titre === 'St. Anne'), sa = H.joue(GP.baseHymnes[i], i, {}); assert(sa.juste >= 50, 'St. Anne juste ' + sa.juste.toFixed(0) + ' % du temps');
+}
+ok('tonalité des cantiques en notes parfaites');
 console.log('test-moteur : tout passe');

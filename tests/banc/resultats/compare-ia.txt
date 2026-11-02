@@ -1,0 +1,286 @@
+compare-ia, 1er et 2 novembre 2026. node tests/banc/compare-ia.js (voir docs/recherche/ia-oreille.md). Voix synthétique et un seul enregistrement réel : valeurs absolues optimistes.
+
+== Tableaux
+== CONTROLE
+
+piano 0 dB
+| | notes justes % | temps faux % | ton % | 1er verrou juste % | couverture % | latence ms | T+300 % |
+|---|---|---|---|---|---|---|---|
+| MPM | 46 | 18 | 88 | 71 | 53 | 260 | 31 |
+| SwiftF0 L2 | 69 | 11 | 93 | 43 | 58 | 340 | 32 |
+| SwiftF0 L10 | 58 | 10 | 87 | 71 | 51 | 760 | 19 |
+| CREPE tiny | 64 | 18 | 87 | 57 | 62 | 220 | 42 |
+| Basic Pitch | 40 | 38 | 88 | 43 | 46 | 420 | 24 |
+
+piano +6 dB
+| | notes justes % | temps faux % | ton % | 1er verrou juste % | couverture % | latence ms | T+300 % |
+|---|---|---|---|---|---|---|---|
+| MPM | 37 | 27 | 91 | 57 | 44 | 80 | 29 |
+| SwiftF0 L2 | 57 | 20 | 90 | 43 | 54 | 260 | 35 |
+| SwiftF0 L10 | 42 | 18 | 58 | 29 | 36 | 740 | 14 |
+| CREPE tiny | 52 | 32 | 59 | 43 | 54 | 140 | 35 |
+| Basic Pitch | 34 | 49 | 72 | 57 | 41 | 480 | 19 |
+
+piano +12 dB
+| | notes justes % | temps faux % | ton % | 1er verrou juste % | couverture % | latence ms | T+300 % |
+|---|---|---|---|---|---|---|---|
+| MPM | 35 | 44 | 85 | 57 | 48 | 0 | 36 |
+| SwiftF0 L2 | 44 | 32 | 63 | 29 | 46 | 120 | 29 |
+| SwiftF0 L10 | 32 | 24 | 52 | 29 | 33 | 680 | 16 |
+| CREPE tiny | 45 | 42 | 55 | 43 | 48 | 80 | 35 |
+| Basic Pitch | 22 | 62 | 63 | 71 | 40 | 0 | 23 |
+
+simple, studio
+| | notes justes % | temps faux % | ton % | 1er verrou juste % | couverture % | latence ms | T+300 % |
+|---|---|---|---|---|---|---|---|
+| MPM | 95 | 7 | 100 | 100 | 71 | 100 | 65 |
+| SwiftF0 L2 | 94 | 8 | 100 | 100 | 70 | 140 | 66 |
+| SwiftF0 L10 | 94 | 8 | 100 | 100 | 70 | 240 | 59 |
+| CREPE tiny | 95 | 6 | 100 | 100 | 69 | 100 | 63 |
+| Basic Pitch | 95 | 6 | 100 | 100 | 68 | 220 | 34 |
+
+RMS .002
+| | notes justes % | temps faux % | ton % | 1er verrou juste % | couverture % | latence ms | T+300 % |
+|---|---|---|---|---|---|---|---|
+| MPM | 95 | 6 | 100 | 100 | 70 | 100 | 65 |
+| SwiftF0 L2 | 94 | 8 | 100 | 100 | 70 | 140 | 66 |
+| SwiftF0 L10 | 93 | 7 | 100 | 100 | 69 | 280 | 48 |
+| CREPE tiny | 95 | 6 | 100 | 100 | 69 | 100 | 63 |
+| Basic Pitch | 95 | 7 | 100 | 100 | 68 | 280 | 34 |
+
+RMS .005
+| | notes justes % | temps faux % | ton % | 1er verrou juste % | couverture % | latence ms | T+300 % |
+|---|---|---|---|---|---|---|---|
+| MPM | 95 | 6 | 100 | 100 | 70 | 100 | 65 |
+| SwiftF0 L2 | 94 | 8 | 100 | 100 | 70 | 140 | 66 |
+| SwiftF0 L10 | 93 | 8 | 100 | 100 | 70 | 260 | 59 |
+| CREPE tiny | 95 | 6 | 100 | 100 | 69 | 100 | 63 |
+| Basic Pitch | 95 | 7 | 100 | 100 | 68 | 280 | 34 |
+
+simple, salle
+| | notes justes % | temps faux % | ton % | 1er verrou juste % | couverture % | latence ms | T+300 % |
+|---|---|---|---|---|---|---|---|
+| MPM | 83 | 10 | 100 | 100 | 68 | 140 | 52 |
+| SwiftF0 L2 | 83 | 15 | 100 | 100 | 67 | 180 | 50 |
+| SwiftF0 L10 | 83 | 14 | 100 | 100 | 67 | 280 | 41 |
+| CREPE tiny | 82 | 12 | 100 | 100 | 66 | 160 | 50 |
+| Basic Pitch | 85 | 11 | 100 | 100 | 63 | 380 | 33 |
+
+église 3 m
+| | notes justes % | temps faux % | ton % | 1er verrou juste % | couverture % | latence ms | T+300 % |
+|---|---|---|---|---|---|---|---|
+| MPM | 67 | 13 | 99 | 86 | 62 | 280 | 35 |
+| SwiftF0 L2 | 69 | 17 | 100 | 100 | 65 | 260 | 42 |
+| SwiftF0 L10 | 63 | 25 | 93 | 86 | 56 | 340 | 27 |
+| CREPE tiny | 66 | 15 | 99 | 86 | 62 | 200 | 42 |
+| Basic Pitch | 69 | 13 | 100 | 100 | 56 | 540 | 27 |
+
+vocalises, salle
+| | notes justes % | temps faux % | ton % | 1er verrou juste % | couverture % | latence ms | T+300 % |
+|---|---|---|---|---|---|---|---|
+| MPM | 66 | 18 | 99 | 86 | 46 | 180 | 35 |
+| SwiftF0 L2 | 69 | 29 | 100 | 100 | 49 | 240 | 34 |
+| SwiftF0 L10 | 69 | 27 | 100 | 100 | 50 | 340 | 28 |
+| CREPE tiny | 69 | 22 | 91 | 100 | 43 | 320 | 26 |
+| Basic Pitch | 71 | 24 | 98 | 100 | 39 | 580 | 19 |
+
+== REGLAGE
+
+piano 0 dB
+| | notes justes % | temps faux % | ton % | 1er verrou juste % | couverture % | latence ms | T+300 % |
+|---|---|---|---|---|---|---|---|
+| MPM | 33 | 39 | 67 | 50 | 43 | 0 | 32 |
+| SwiftF0 L2 | 56 | 11 | 93 | 25 | 49 | 280 | 29 |
+| SwiftF0 L10 | 51 | 10 | 65 | 50 | 41 | 80 | 24 |
+| CREPE tiny | 51 | 32 | 72 | 50 | 53 | 80 | 39 |
+| Basic Pitch | 23 | 50 | 64 | 38 | 44 | 0 | 32 |
+
+piano +6 dB
+| | notes justes % | temps faux % | ton % | 1er verrou juste % | couverture % | latence ms | T+300 % |
+|---|---|---|---|---|---|---|---|
+| MPM | 31 | 50 | 72 | 63 | 46 | 0 | 37 |
+| SwiftF0 L2 | 35 | 11 | 74 | 38 | 45 | 0 | 28 |
+| SwiftF0 L10 | 29 | 24 | 42 | 38 | 36 | 0 | 25 |
+| CREPE tiny | 38 | 45 | 71 | 75 | 44 | 0 | 36 |
+| Basic Pitch | 24 | 60 | 46 | 38 | 41 | 0 | 29 |
+
+piano +12 dB
+| | notes justes % | temps faux % | ton % | 1er verrou juste % | couverture % | latence ms | T+300 % |
+|---|---|---|---|---|---|---|---|
+| MPM | 28 | 56 | 60 | 50 | 45 | 0 | 37 |
+| SwiftF0 L2 | 23 | 29 | 69 | 38 | 49 | 0 | 36 |
+| SwiftF0 L10 | 22 | 19 | 53 | 50 | 40 | 0 | 25 |
+| CREPE tiny | 35 | 55 | 62 | 38 | 43 | 0 | 38 |
+| Basic Pitch | 18 | 59 | 48 | 25 | 41 | 0 | 31 |
+
+simple, studio
+| | notes justes % | temps faux % | ton % | 1er verrou juste % | couverture % | latence ms | T+300 % |
+|---|---|---|---|---|---|---|---|
+| MPM | 91 | 7 | 91 | 88 | 59 | 60 | 49 |
+| SwiftF0 L10 | 90 | 8 | 91 | 88 | 59 | 220 | 47 |
+
+RMS .002
+| | notes justes % | temps faux % | ton % | 1er verrou juste % | couverture % | latence ms | T+300 % |
+|---|---|---|---|---|---|---|---|
+| MPM | 91 | 7 | 91 | 88 | 59 | 80 | 48 |
+| SwiftF0 L2 | 89 | 7 | 91 | 88 | 59 | 120 | 48 |
+| SwiftF0 L10 | 89 | 7 | 91 | 88 | 57 | 160 | 40 |
+
+== VOIX
+| | 1re tonalité | tonalités | Do♯ maj dans les hypothèses % | notes | sous 150 ms % | sauts d'octave /min | phrases | accords /min | gamme de Do♯ % | reconnu |
+|---|---|---|---|---|---|---|---|---|---|---|
+| MPM | 18.1 s | La♭ maj (18.1 s) > Si♭ min (75.3 s) | 0 | 272 | 37 | 1.5 | 19 | 25.5 | 71 | non |
+| SwiftF0 L2 | 23.9 s | La min (23.9 s) > Sol maj (35.5 s) > La min (45.6 s) | 0 | 326 | 29 | 5.6 | 17 | 19.5 | 49 | non |
+| SwiftF0 L10 | 11.5 s | Fa maj (11.5 s) > La♭ maj (25.2 s) > Si♭ min (55.7 s) > Ré min (71.2 s) | 0 | 330 | 36 | 8.3 | 18 | 18.8 | 27 | non |
+| CREPE tiny | 23.8 s | Sol♭ maj (23.8 s) > Si♭ min (43.6 s) | 36 | 124 | 19 | 0.4 | 17 | 5.6 | 47 | non |
+| Basic Pitch | 22.7 s | Si min (22.7 s) > Sol♭ maj (24.0 s) > Si♭ min (24.7 s) | 14 | 123 | 25 | 1.1 | 18 | 5.6 | 39 | non |
+
+== SILENCE
+| MPM | 3 | 0 | 0 | 296 |
+| SwiftF0 L2 | 0 | 0 | 0 | 329 |
+| SwiftF0 L10 | 0 | 0 | 0 | 303 |
+| CREPE tiny | 0 | 0 | 0 | 341 |
+| Basic Pitch | 0 | 0 | 0 | 497 |
+
+== Coût navigateur, un seul fil, ralentissement CDP (pas un vrai téléphone), machine au repos
+prepa                        {"swiftCharge":536,"bpCharge":230,"simd":true,"secondes":159.9110625}
+x1 moteur complet (MPM)      {"appels":1500,"p50":0.3,"p95":0.6,"max":4.2,"msParSeconde":17}
+x1 moteur sans MPM           {"appels":1500,"p50":0.1,"p95":0.2,"max":1.7,"msParSeconde":3.8}
+x1 swift L2 k2 g12           {"appels":461,"p50":8.4,"p95":13.5,"max":22.4,"msParSeconde":289.1}
+x1 swift L2 k2 g6            {"appels":464,"p50":8.2,"p95":13.1,"max":15.8,"msParSeconde":270.8}
+x1 swift L2 k4 g6            {"appels":232,"p50":7.7,"p95":9.4,"max":10.4,"msParSeconde":121.2}
+x1 swift L2 k8 g6            {"appels":116,"p50":8.5,"p95":9.5,"max":10.2,"msParSeconde":67.6}
+x1 swift L2 k16 g6           {"appels":58,"p50":11.4,"p95":12.7,"max":14,"msParSeconde":46}
+x1 crepe tiny                {"appels":296,"p50":6.4,"p95":7.5,"max":29,"msParSeconde":317.4}
+x1 basic pitch 240 ms        {"appels":25,"p50":84.9,"p95":88.9,"max":90.4,"msParSeconde":354.9}
+x4 moteur complet (MPM)      {"appels":1500,"p50":2.4,"p95":5.9,"max":23.9,"msParSeconde":150.9}
+x4 moteur sans MPM           {"appels":1500,"p50":0.5,"p95":2.1,"max":6,"msParSeconde":36.6}
+x4 swift L2 k2 g12           {"appels":461,"p50":63.3,"p95":82,"max":99.2,"msParSeconde":2008.7}
+x4 swift L2 k2 g6            {"appels":464,"p50":49.5,"p95":70.8,"max":86.3,"msParSeconde":1592.6}
+x4 swift L2 k4 g6            {"appels":232,"p50":54.5,"p95":72.7,"max":87,"msParSeconde":876.1}
+x4 swift L2 k8 g6            {"appels":116,"p50":66.2,"p95":89.8,"max":100.7,"msParSeconde":532.5}
+x4 swift L2 k16 g6           {"appels":58,"p50":99.4,"p95":127.9,"max":134.2,"msParSeconde":389.6}
+x4 crepe tiny                {"appels":296,"p50":49,"p95":70.3,"max":91.1,"msParSeconde":2516.2}
+x4 basic pitch 240 ms        {"appels":25,"p50":707.4,"p95":764.4,"max":764.8,"msParSeconde":2945.8}
+x6 moteur complet (MPM)      {"appels":1500,"p50":4.1,"p95":14.5,"max":48,"msParSeconde":284.2}
+x6 moteur sans MPM           {"appels":1500,"p50":0.9,"p95":5.5,"max":17.7,"msParSeconde":76.4}
+x6 swift L2 k2 g12           {"appels":461,"p50":134,"p95":185.2,"max":276.5,"msParSeconde":4314.6}
+x6 swift L2 k2 g6            {"appels":464,"p50":113,"p95":154.4,"max":196.5,"msParSeconde":3600.5}
+x6 swift L2 k4 g6            {"appels":232,"p50":122.6,"p95":173.4,"max":214,"msParSeconde":1989.4}
+x6 swift L2 k8 g6            {"appels":116,"p50":148.5,"p95":193,"max":214.7,"msParSeconde":1185.2}
+x6 swift L2 k16 g6           {"appels":58,"p50":196.2,"p95":263.9,"max":320.1,"msParSeconde":815.1}
+x6 crepe tiny                {"appels":296,"p50":106.3,"p95":151.5,"max":202.4,"msParSeconde":5393.5}
+x6 basic pitch 240 ms        {"appels":25,"p50":1458.3,"p95":1606.9,"max":1681.8,"msParSeconde":6159.9}
+
+== reg-mpm
+mpm            simple, studio     notes 90.7 %, faux 6.6 %, ton 91 %, verrou 4.9 s, 1er 88 %, couv 59 %, 1re passe 56 %, reprise 62 %, lat 60 ms, T+300 49 %, fausses 0
+mpm            RMS .002           notes 90.5 %, faux 6.5 %, ton 91 %, verrou 4.9 s, 1er 88 %, couv 59 %, 1re passe 56 %, reprise 62 %, lat 80 ms, T+300 48 %, fausses 0
+mpm            RMS .005           notes 90.5 %, faux 6.5 %, ton 91 %, verrou 4.9 s, 1er 88 %, couv 59 %, 1re passe 56 %, reprise 62 %, lat 80 ms, T+300 48 %, fausses 0
+mpm            simple, salle      notes 83.6 %, faux 11.6 %, ton 89 %, verrou 5.1 s, 1er 75 %, couv 57 %, 1re passe 55 %, reprise 59 %, lat 80 ms, T+300 44 %, fausses 0
+mpm            église 3 m         notes 69.2 %, faux 15.6 %, ton 83 %, verrou 5.2 s, 1er 63 %, couv 50 %, 1re passe 49 %, reprise 51 %, lat 200 ms, T+300 32 %, fausses 0
+mpm            vocalises, salle   notes 63.9 %, faux 23.2 %, ton 92 %, verrou 4.9 s, 1er 63 %, couv 44 %, 1re passe 42 %, reprise 45 %, lat 240 ms, T+300 29 %, fausses 0
+mpm            piano 0 dB         notes 33.0 %, faux 39.4 %, ton 67 %, verrou 8.7 s, 1er 50 %, couv 43 %, 1re passe 39 %, reprise 46 %, lat 0 ms, T+300 32 %, fausses 0
+mpm            piano +6 dB        notes 30.7 %, faux 50.0 %, ton 72 %, verrou 11.6 s, 1er 63 %, couv 46 %, 1re passe 45 %, reprise 47 %, lat 0 ms, T+300 37 %, fausses 0
+mpm            piano +12 dB       notes 27.5 %, faux 56.2 %, ton 60 %, verrou 12.8 s, 1er 50 %, couv 45 %, 1re passe 46 %, reprise 45 %, lat 0 ms, T+300 37 %, fausses 0
+
+== reg-swift10k1
+swift10k1      simple, studio     notes 89.5 %, faux 7.6 %, ton 91 %, verrou 5.1 s, 1er 88 %, couv 59 %, 1re passe 55 %, reprise 63 %, lat 220 ms, T+300 47 %, fausses 0
+swift10k1      RMS .002           notes 89.1 %, faux 7.4 %, ton 91 %, verrou 5.1 s, 1er 88 %, couv 57 %, 1re passe 53 %, reprise 62 %, lat 160 ms, T+300 40 %, fausses 0
+swift10k1      RMS .005           notes 89.2 %, faux 7.5 %, ton 91 %, verrou 5.1 s, 1er 88 %, couv 59 %, 1re passe 55 %, reprise 62 %, lat 220 ms, T+300 45 %, fausses 0
+swift10k1      simple, salle      notes 84.5 %, faux 13.6 %, ton 91 %, verrou 4.9 s, 1er 88 %, couv 58 %, 1re passe 56 %, reprise 60 %, lat 220 ms, T+300 41 %, fausses 0
+swift10k1      église 3 m         notes 71.3 %, faux 16.6 %, ton 90 %, verrou 5.3 s, 1er 75 %, couv 54 %, 1re passe 52 %, reprise 55 %, lat 280 ms, T+300 29 %, fausses 0
+swift10k1      vocalises, salle   notes 66.6 %, faux 28.1 %, ton 94 %, verrou 4.7 s, 1er 75 %, couv 45 %, 1re passe 44 %, reprise 45 %, lat 300 ms, T+300 31 %, fausses 0
+swift10k1      piano 0 dB         notes 51.0 %, faux 9.6 %, ton 65 %, verrou 10.4 s, 1er 50 %, couv 41 %, 1re passe 40 %, reprise 41 %, lat 80 ms, T+300 24 %, fausses 0
+swift10k1      piano +6 dB        notes 29.5 %, faux 23.8 %, ton 42 %, verrou 12.9 s, 1er 38 %, couv 36 %, 1re passe 38 %, reprise 34 %, lat 0 ms, T+300 25 %, fausses 0
+swift10k1      piano +12 dB       notes 22.4 %, faux 19.4 %, ton 53 %, verrou 11.7 s, 1er 50 %, couv 40 %, 1re passe 40 %, reprise 39 %, lat 0 ms, T+300 25 %, fausses 0
+
+== regp-swift2k2agc
+swift2k2.agc   piano 0 dB         notes 55.8 %, faux 10.6 %, ton 93 %, verrou 8.6 s, 1er 25 %, couv 49 %, 1re passe 44 %, reprise 53 %, lat 280 ms, T+300 29 %, fausses 0
+swift2k2.agc   piano +6 dB        notes 34.8 %, faux 10.6 %, ton 74 %, verrou 11.6 s, 1er 38 %, couv 45 %, 1re passe 41 %, reprise 48 %, lat 0 ms, T+300 28 %, fausses 0
+swift2k2.agc   piano +12 dB       notes 22.7 %, faux 28.6 %, ton 69 %, verrou 11.2 s, 1er 38 %, couv 49 %, 1re passe 51 %, reprise 47 %, lat 0 ms, T+300 36 %, fausses 0
+
+== regr-swift2k2agc
+swift2k2.agc   RMS .002           notes 89.4 %, faux 7.5 %, ton 91 %, verrou 4.8 s, 1er 88 %, couv 59 %, 1re passe 56 %, reprise 62 %, lat 120 ms, T+300 48 %, fausses 0
+
+== regp-crepe
+crepe          piano 0 dB         notes 50.8 %, faux 31.5 %, ton 72 %, verrou 8.2 s, 1er 50 %, couv 53 %, 1re passe 53 %, reprise 53 %, lat 80 ms, T+300 39 %, fausses 0
+crepe          piano +6 dB        notes 38.3 %, faux 45.3 %, ton 71 %, verrou 10.8 s, 1er 75 %, couv 44 %, 1re passe 46 %, reprise 42 %, lat 0 ms, T+300 36 %, fausses 0
+crepe          piano +12 dB       notes 35.1 %, faux 54.6 %, ton 62 %, verrou 10.8 s, 1er 38 %, couv 43 %, 1re passe 44 %, reprise 43 %, lat 0 ms, T+300 38 %, fausses 0
+
+== regp-basicpitch
+basicpitch     piano 0 dB         notes 22.8 %, faux 49.9 %, ton 64 %, verrou 9.7 s, 1er 38 %, couv 44 %, 1re passe 41 %, reprise 47 %, lat 0 ms, T+300 32 %, fausses 0
+basicpitch     piano +6 dB        notes 24.3 %, faux 60.2 %, ton 46 %, verrou 11.5 s, 1er 38 %, couv 41 %, 1re passe 36 %, reprise 44 %, lat 0 ms, T+300 29 %, fausses 0
+basicpitch     piano +12 dB       notes 17.6 %, faux 58.6 %, ton 48 %, verrou 11.6 s, 1er 25 %, couv 41 %, 1re passe 39 %, reprise 43 %, lat 0 ms, T+300 31 %, fausses 0
+
+== ctl-mpm
+mpm            simple, studio     notes 95.0 %, faux 6.5 %, ton 100 %, verrou 4.8 s, 1er 100 %, couv 71 %, 1re passe 70 %, reprise 71 %, lat 100 ms, T+300 65 %, fausses 0
+mpm            RMS .002           notes 95.0 %, faux 6.4 %, ton 100 %, verrou 4.8 s, 1er 100 %, couv 70 %, 1re passe 70 %, reprise 71 %, lat 100 ms, T+300 65 %, fausses 0
+mpm            RMS .005           notes 95.0 %, faux 6.4 %, ton 100 %, verrou 4.8 s, 1er 100 %, couv 70 %, 1re passe 70 %, reprise 71 %, lat 100 ms, T+300 65 %, fausses 0
+mpm            simple, salle      notes 82.5 %, faux 10.0 %, ton 100 %, verrou 4.8 s, 1er 100 %, couv 68 %, 1re passe 64 %, reprise 71 %, lat 140 ms, T+300 52 %, fausses 0
+mpm            église 3 m         notes 66.8 %, faux 12.9 %, ton 99 %, verrou 4.9 s, 1er 86 %, couv 62 %, 1re passe 55 %, reprise 67 %, lat 280 ms, T+300 35 %, fausses 0
+mpm            vocalises, salle   notes 65.9 %, faux 18.2 %, ton 99 %, verrou 4.8 s, 1er 86 %, couv 46 %, 1re passe 47 %, reprise 45 %, lat 180 ms, T+300 35 %, fausses 0
+mpm            piano 0 dB         notes 46.2 %, faux 17.6 %, ton 88 %, verrou 9.6 s, 1er 71 %, couv 53 %, 1re passe 47 %, reprise 58 %, lat 260 ms, T+300 31 %, fausses 0
+mpm            piano +6 dB        notes 37.0 %, faux 27.2 %, ton 91 %, verrou 8.9 s, 1er 57 %, couv 44 %, 1re passe 37 %, reprise 50 %, lat 80 ms, T+300 29 %, fausses 0
+mpm            piano +12 dB       notes 34.9 %, faux 44.0 %, ton 85 %, verrou 8.9 s, 1er 57 %, couv 48 %, 1re passe 41 %, reprise 53 %, lat 0 ms, T+300 36 %, fausses 0
+
+== ctl-swift2k2agc
+swift2k2.agc   simple, studio     notes 93.6 %, faux 7.9 %, ton 100 %, verrou 4.9 s, 1er 100 %, couv 70 %, 1re passe 69 %, reprise 72 %, lat 140 ms, T+300 66 %, fausses 0
+swift2k2.agc   RMS .002           notes 93.6 %, faux 7.7 %, ton 100 %, verrou 4.9 s, 1er 100 %, couv 70 %, 1re passe 69 %, reprise 72 %, lat 140 ms, T+300 66 %, fausses 0
+swift2k2.agc   RMS .005           notes 93.6 %, faux 7.7 %, ton 100 %, verrou 4.9 s, 1er 100 %, couv 70 %, 1re passe 69 %, reprise 72 %, lat 140 ms, T+300 66 %, fausses 0
+swift2k2.agc   simple, salle      notes 82.6 %, faux 14.9 %, ton 100 %, verrou 4.9 s, 1er 100 %, couv 67 %, 1re passe 65 %, reprise 70 %, lat 180 ms, T+300 50 %, fausses 0
+swift2k2.agc   église 3 m         notes 69.1 %, faux 17.3 %, ton 100 %, verrou 4.9 s, 1er 100 %, couv 65 %, 1re passe 63 %, reprise 66 %, lat 260 ms, T+300 42 %, fausses 0
+swift2k2.agc   vocalises, salle   notes 68.6 %, faux 28.6 %, ton 100 %, verrou 4.9 s, 1er 100 %, couv 49 %, 1re passe 49 %, reprise 49 %, lat 240 ms, T+300 34 %, fausses 0
+swift2k2.agc   piano 0 dB         notes 68.8 %, faux 11.4 %, ton 93 %, verrou 9.0 s, 1er 43 %, couv 58 %, 1re passe 53 %, reprise 62 %, lat 340 ms, T+300 32 %, fausses 0
+swift2k2.agc   piano +6 dB        notes 56.5 %, faux 19.9 %, ton 90 %, verrou 8.8 s, 1er 43 %, couv 54 %, 1re passe 49 %, reprise 59 %, lat 260 ms, T+300 35 %, fausses 0
+swift2k2.agc   piano +12 dB       notes 43.5 %, faux 31.7 %, ton 63 %, verrou 9.1 s, 1er 29 %, couv 46 %, 1re passe 39 %, reprise 51 %, lat 120 ms, T+300 29 %, fausses 0
+
+== ctl-swift10k1
+swift10k1      simple, studio     notes 93.6 %, faux 7.8 %, ton 100 %, verrou 5.0 s, 1er 100 %, couv 70 %, 1re passe 67 %, reprise 72 %, lat 240 ms, T+300 59 %, fausses 0
+swift10k1      RMS .002           notes 93.3 %, faux 7.5 %, ton 100 %, verrou 5.0 s, 1er 100 %, couv 69 %, 1re passe 66 %, reprise 72 %, lat 280 ms, T+300 48 %, fausses 0
+swift10k1      RMS .005           notes 93.5 %, faux 7.7 %, ton 100 %, verrou 5.0 s, 1er 100 %, couv 70 %, 1re passe 68 %, reprise 72 %, lat 260 ms, T+300 59 %, fausses 0
+swift10k1      simple, salle      notes 83.0 %, faux 14.2 %, ton 100 %, verrou 5.0 s, 1er 100 %, couv 67 %, 1re passe 63 %, reprise 70 %, lat 280 ms, T+300 41 %, fausses 0
+swift10k1      église 3 m         notes 63.1 %, faux 24.8 %, ton 93 %, verrou 5.0 s, 1er 86 %, couv 56 %, 1re passe 56 %, reprise 57 %, lat 340 ms, T+300 27 %, fausses 0
+swift10k1      vocalises, salle   notes 69.5 %, faux 27.3 %, ton 100 %, verrou 4.1 s, 1er 100 %, couv 50 %, 1re passe 50 %, reprise 49 %, lat 340 ms, T+300 28 %, fausses 0
+swift10k1      piano 0 dB         notes 58.5 %, faux 9.6 %, ton 87 %, verrou 9.7 s, 1er 71 %, couv 51 %, 1re passe 44 %, reprise 55 %, lat 760 ms, T+300 19 %, fausses 0
+swift10k1      piano +6 dB        notes 42.3 %, faux 17.6 %, ton 58 %, verrou 12.3 s, 1er 29 %, couv 36 %, 1re passe 29 %, reprise 40 %, lat 740 ms, T+300 14 %, fausses 0
+swift10k1      piano +12 dB       notes 32.3 %, faux 24.3 %, ton 52 %, verrou 12.2 s, 1er 29 %, couv 33 %, 1re passe 30 %, reprise 35 %, lat 680 ms, T+300 16 %, fausses 0
+
+== ctlp-crepe
+crepe          piano 0 dB         notes 64.1 %, faux 17.9 %, ton 87 %, verrou 8.8 s, 1er 57 %, couv 62 %, 1re passe 59 %, reprise 64 %, lat 220 ms, T+300 42 %, fausses 0
+crepe          piano +6 dB        notes 52.4 %, faux 31.6 %, ton 59 %, verrou 8.1 s, 1er 43 %, couv 54 %, 1re passe 42 %, reprise 63 %, lat 140 ms, T+300 35 %, fausses 0
+crepe          piano +12 dB       notes 44.6 %, faux 42.3 %, ton 55 %, verrou 8.6 s, 1er 43 %, couv 48 %, 1re passe 39 %, reprise 55 %, lat 80 ms, T+300 35 %, fausses 0
+
+== ctlp-bp
+basicpitch     {"premier":22.720937499999998,"tons":"Si min (22.7 s) > Sol♭ maj (24.0 s) > Si♭ min (24.7 s)","hypotheses5s":"Sol♭ maj 0.14, Si♭ min 0.13, La♭ maj 0.10","hypDoD":13.99322433348063,"brefs":25.203252032520325,"notes":123,"durMed":199.9999999999993,"octMin":1.125619090499775,"phrases":18,"accMin":5.628095452498874,"refMin":5.628095452498874,"cases":21,"gamme":39.03614457831327,"ton":0,"reconnu":"non","perdus":0,"retard":298.0498866213152}
+basicpitch     piano 0 dB         notes 39.8 %, faux 37.5 %, ton 88 %, verrou 8.9 s, 1er 43 %, couv 46 %, 1re passe 42 %, reprise 48 %, lat 420 ms, T+300 24 %, fausses 0
+basicpitch     piano +6 dB        notes 34.3 %, faux 48.8 %, ton 72 %, verrou 8.9 s, 1er 57 %, couv 41 %, 1re passe 33 %, reprise 47 %, lat 480 ms, T+300 19 %, fausses 0
+basicpitch     piano +12 dB       notes 21.6 %, faux 61.6 %, ton 63 %, verrou 9.8 s, 1er 71 %, couv 40 %, 1re passe 39 %, reprise 40 %, lat 0 ms, T+300 23 %, fausses 0
+
+== fin-crepe
+crepe          {"premier":23.8009375,"tons":"Sol♭ maj (23.8 s) > Si♭ min (43.6 s)","hypotheses5s":"Sol♭ maj 0.10","hypDoD":35.84691708008504,"brefs":19.35483870967742,"notes":124,"durMed":240.0000000000091,"octMin":0.375206363499925,"phrases":17,"accMin":5.628095452498874,"refMin":12.757016358997449,"cases":18,"gamme":47.20113851992408,"ton":0,"reconnu":"non","perdus":0,"retard":32}
+crepe          silence {"notes":0,"accords":0,"cases":0,"trames":341,"detail":{}}
+crepe          simple, studio     notes 94.9 %, faux 6.4 %, ton 100 %, verrou 4.8 s, 1er 100 %, couv 69 %, 1re passe 68 %, reprise 70 %, lat 100 ms, T+300 63 %, fausses 0
+crepe          RMS .002           notes 94.8 %, faux 6.3 %, ton 100 %, verrou 4.8 s, 1er 100 %, couv 69 %, 1re passe 68 %, reprise 70 %, lat 100 ms, T+300 63 %, fausses 0
+crepe          RMS .005           notes 94.8 %, faux 6.3 %, ton 100 %, verrou 4.8 s, 1er 100 %, couv 69 %, 1re passe 68 %, reprise 70 %, lat 100 ms, T+300 63 %, fausses 0
+crepe          simple, salle      notes 82.2 %, faux 11.6 %, ton 100 %, verrou 4.8 s, 1er 100 %, couv 66 %, 1re passe 62 %, reprise 69 %, lat 160 ms, T+300 50 %, fausses 0
+crepe          église 3 m         notes 66.1 %, faux 14.8 %, ton 99 %, verrou 4.9 s, 1er 86 %, couv 62 %, 1re passe 56 %, reprise 67 %, lat 200 ms, T+300 42 %, fausses 0
+crepe          vocalises, salle   notes 68.7 %, faux 21.9 %, ton 91 %, verrou 4.8 s, 1er 100 %, couv 43 %, 1re passe 40 %, reprise 45 %, lat 320 ms, T+300 26 %, fausses 0
+
+== fin-bp
+basicpitch     silence {"notes":0,"accords":0,"cases":0,"trames":497,"detail":{}}
+basicpitch     simple, studio     notes 94.6 %, faux 6.5 %, ton 100 %, verrou 5.1 s, 1er 100 %, couv 68 %, 1re passe 64 %, reprise 71 %, lat 220 ms, T+300 34 %, fausses 0
+basicpitch     RMS .002           notes 94.6 %, faux 6.7 %, ton 100 %, verrou 5.1 s, 1er 100 %, couv 68 %, 1re passe 65 %, reprise 71 %, lat 280 ms, T+300 34 %, fausses 0
+basicpitch     RMS .005           notes 94.6 %, faux 6.6 %, ton 100 %, verrou 5.1 s, 1er 100 %, couv 68 %, 1re passe 65 %, reprise 71 %, lat 280 ms, T+300 34 %, fausses 0
+basicpitch     simple, salle      notes 85.3 %, faux 10.5 %, ton 100 %, verrou 5.1 s, 1er 100 %, couv 63 %, 1re passe 59 %, reprise 67 %, lat 380 ms, T+300 33 %, fausses 0
+basicpitch     église 3 m         notes 69.1 %, faux 13.3 %, ton 100 %, verrou 5.1 s, 1er 100 %, couv 56 %, 1re passe 50 %, reprise 63 %, lat 540 ms, T+300 27 %, fausses 0
+basicpitch     vocalises, salle   notes 70.8 %, faux 24.2 %, ton 98 %, verrou 5.1 s, 1er 100 %, couv 39 %, 1re passe 40 %, reprise 39 %, lat 580 ms, T+300 19 %, fausses 0
+
+== fin-swift10k1
+swift10k1      {"premier":11.4609375,"tons":"Fa maj (11.5 s) > La♭ maj (25.2 s) > Si♭ min (55.7 s) > Ré min (71.2 s)","hypotheses5s":"Sol maj 0.12, Mi min 0.11","hypDoD":0,"brefs":36.06060606060606,"notes":330,"durMed":180.00000000000682,"octMin":8.254539996998348,"phrases":18,"accMin":18.760318174996247,"refMin":31.89254089749362,"cases":45,"gamme":27.104377104376987,"ton":0,"reconnu":"non","perdus":0,"retard":176}
+swift10k1      silence {"notes":0,"accords":0,"cases":0,"trames":303,"detail":{}}
+
+== voix-a
+mpm            {"premier":18.060937499999998,"tons":"La♭ maj (18.1 s) > Si♭ min (75.3 s)","hypotheses5s":"Fa maj 0.11","hypDoD":0,"brefs":36.76470588235294,"notes":272,"durMed":199.9999999999993,"octMin":1.5008254539997,"phrases":19,"accMin":25.514032717994898,"refMin":25.514032717994898,"cases":36,"gamme":71.44249512670568,"ton":0,"reconnu":"non","perdus":0,"retard":21}
+mpm            silence {"notes":3,"accords":0,"cases":0,"trames":296,"detail":{"bourdon secteur riche, RMS .005":{"notes":3,"accords":0,"trames":241,"cases":0}}}
+swift2k2.agc   {"premier":23.8609375,"tons":"La min (23.9 s) > Sol maj (35.5 s) > La min (45.6 s)","hypotheses5s":"La min 0.12, Fa maj 0.12","hypDoD":0,"brefs":28.834355828220858,"notes":326,"durMed":200.00000000000284,"octMin":5.628095452498874,"phrases":17,"accMin":19.510730901996098,"refMin":29.64130271649407,"cases":24,"gamme":48.68136619109389,"ton":0,"reconnu":"non","perdus":0,"retard":64}
+swift2k2.agc   silence {"notes":0,"accords":0,"cases":0,"trames":329,"detail":{}}
