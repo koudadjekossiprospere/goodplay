@@ -51,7 +51,7 @@ const champ = (ls, re) => { for (const l of ls) { const m = l.match(re); if (m) 
 /* Lit une voix : le texte de toutes ses lignes bout à bout. d et t en temps (l'unité est le dénominateur de M:). */
 function lireVoix(s, L, den, sig) {
   const r = { evts: [], barres: [], reprises: 0, variantes: 0, superpositions: 0, q: null, changeMesure: false };
-  let t = 0, acc = {}, n = 0, tup = null, casse = 1;
+  let t = 0, acc = {}, n = 0, tup = null, casse = 1, point = false;
   const longueur = (num, bar, deno) => {
     let v = num === '' ? 1 : +num;
     if (deno !== '') v /= +deno; else if (bar) v /= 2 ** bar.length;
@@ -70,13 +70,14 @@ function lireVoix(s, L, den, sig) {
   const ajoute = (p, d, cles) => {
     if (tup) { d *= tup.q / tup.p; if (--tup.r <= 0) tup = null; }
     d *= casse; casse = 1;
-    r.evts.push({ t, d, p, lie: false, cles }); t += d;
+    r.evts.push({ t, d, p, lie: false, cles, point }); t += d; point = false;
   };
   const NOTE = /^(\^\^|\^|__|_|=)?([A-Ga-g])([,']*)(\d*)(\/*)(\d*)/, REPOS = /^[zx](\d*)(\/*)(\d*)/;
   while (n < s.length) {
     const c = s[n], reste = s.slice(n, n + 40);
     let m;
-    if (c === '!') { const f = s.indexOf('!', n + 1); n = f < 0 ? s.length : f + 1; continue; }
+    if (c === '!') { const f = s.indexOf('!', n + 1); if (s.slice(n + 1, f) === 'fermata') point = true; n = f < 0 ? s.length : f + 1; continue; }
+    if (c === 'H') { point = true; n++; continue; }   // point d'orgue : sert au jeu d'entraînement (fins de phrase)
     if (c === '"') { const f = s.indexOf('"', n + 1); n = f < 0 ? s.length : f + 1; continue; }
     if (c === '{') { const f = s.indexOf('}', n + 1); n = f < 0 ? s.length : f + 1; continue; }
     if ((m = reste.match(/^\[([A-Za-z]):([^\]]*)\]/))) {
@@ -490,4 +491,4 @@ function main(chemin) {
 }
 
 if (require.main === module) main(process.argv[2]);
-module.exports = { lireVoix, analyser, droits, intervalles };
+module.exports = { lireVoix, analyser, droits, intervalles, lireTexte, decouper, preparer, champ, armure, ARMURES, hauteurK, accord, pas, bornes, degre, modulation, moduleTrop, aligner };

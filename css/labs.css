@@ -21,6 +21,9 @@
 .lb p{overflow-wrap:anywhere}
 .lb-titre{font-size:15px;font-weight:600;padding:6px 10px 2px}
 .lb-chapo{padding:0 10px 6px}
+/* Le bouton et sa note s'alignent sur le titre des chants : retrait des lignes moins le retrait du lien (8px) */
+.lb-export{padding:4px 2px 10px}
+.lb-export .note{margin:0;padding:0 8px;font-size:12px}
 .lb-sur{font-size:12px;color:var(--texte-2)}
 .lb-retour{align-self:flex-start;padding-left:6px}
 .lb-retour .ic{transform:rotate(180deg)}
@@ -237,6 +240,8 @@
   .ar-rac,.ar-noeud{min-height:28px;padding-right:8px}
   .ar-noeud{padding-left:14px;font-weight:400}
   .ar-groupe .ar-groupe .lb-ligne{padding-left:22px}
+  .ar-groupe .ar-groupe .lb-export{padding-left:14px}
+  .lb-gauche .lb-export .note{padding:0 8px}
   .lb-ligne{min-height:28px;padding:0 8px 0 22px;box-shadow:none;gap:6px}
   .lb-l-t small{display:none}
   .lb-l-t b{font-weight:400}

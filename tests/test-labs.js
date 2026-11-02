@@ -49,4 +49,11 @@ GP.chants.map(chantDuCorpus).forEach(ch => {
     assert.ok(v.length >= sq.length, ch.titre);
   }
 });
+// Export pour l'entraînement : tout passe, sauf les mots reconnus en direct (pas de paroles hors de l'appareil)
+{
+  const ch = { id: 'm1', titre: 'Mon chant', ton: { tonic: 7, mode: 'maj' }, bpm: 70, mesure: 4, melodie: [[67, 1]], cases: [{ deg: 1, racine: 7, q: 'maj', basse: 7, t: 4, ton: { tonic: 7, mode: 'maj' }, mots: 'esprit de dieu' }], signature: { notes: [[67, 0, .9]], cases: [], duree: 1 } };
+  const p = GP.Labs.paquetExport([ch], new Date('2026-11-02T10:00:00Z'));
+  assert.strictEqual(p.format, 'goodplay-mes-chants'); assert.strictEqual(p.exporte, '2026-11-02T10:00:00.000Z');
+  assert.ok(!JSON.stringify(p).includes('esprit')); assert.deepStrictEqual(p.chants[0].signature, ch.signature); assert.strictEqual(ch.cases[0].mots, 'esprit de dieu');
+}
 console.log(`labs : ${GP.catalogue.length} entrées, ${LECONS.length} leçons, ${accords} accords en 12 tonalités, ${GP.chants.length} chants : ok`);

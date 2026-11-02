@@ -144,6 +144,8 @@ assert.strictEqual(unRetire(corpus, corpus, 'chaque chant retiré à tour de rô
   const rr = S.alea(GR + 5), n0 = melodie(60, 0, 'markov', rr), ton = { tonic: 0, mode: 'maj' };
   const cases = [0, 8, 16, 24].map((t, i) => { const deg = [1, 4, 5, 1][i], a = GP.accordDeDegre(ton, deg); return { deg, racine: a.racine, q: a.q, basse: a.basse, t, ton, ...(i === 2 ? { corrige: true } : {}) }; });
   const sig = GP.signatureLive(n0, cases, ton, 80); assert.ok(sig && sig.notes.length >= 50);
+  // La durée tenue part avec la note, en temps : elle sert au jeu d'entraînement (export de Labs)
+  assert.ok(Math.abs(sig.notes[0][2] - (n0[0].fin - n0[0].debut) * 80 / 60) < .01, 'durée tenue');
   const ch = { id: 'm1', titre: 'Mon chant', ton, bpm: 80, mesure: 4, melodie: null, cases: [], signature: sig };
   const r = new GP.Reconnaissance({ chants: corpus }); r.definirAppris([ch]);
   const res = joue(r, n0.map(n => ({ midi: n.midi + 3, debut: n.debut * 1.3, fin: n.fin * 1.3 })));

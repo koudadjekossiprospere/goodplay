@@ -152,6 +152,8 @@
     if (!Number.isInteger(P.ton) || P.ton < 0 || P.ton > 11) P.ton = null;
   }
   function sauver() { try { localStorage.setItem(CLE, JSON.stringify(P)); stockageOk = true; } catch (e) { stockageOk = false; annoncer('Ta progression ne peut pas être gardée sur cet appareil.', true); } }
+  /* Export de Mes chants pour le jeu d'entraînement (tests/donnees/source-goodplay.js) : mélodie entendue, grille, cases corrigées. Ni son ni paroles : les mots reconnus en direct sont retirés. */
+  const paquetExport = (chants, quand = new Date()) => ({ format: 'goodplay-mes-chants', version: 1, exporte: quand.toISOString(), chants: chants.map(c => ({ ...c, cases: (c.cases || []).map(({ mots, ...x }) => x) })) });
 
   /* ---------- Interface ---------- */
   let racine = null, gauche = null, travail = null, onglets = null, hote = null, toast = null, clavier = null, mq = null, minuteurToast = 0;
@@ -483,7 +485,7 @@
     const live = chantDeSession(session()), sel = R.ecran === 'chants' ? (R.sel || (pc() ? listeChants()[0].id : null)) : null, corpus = GP.chants.map(chantDuCorpus);
     const ligne = c => `<li class="lb-rangee"><button class="lb-ligne" data-act="chant" data-v="${esc(c.id)}"${c.id === sel ? ' aria-current="true"' : ''} title="${esc(c.titre)}"><span class="lb-l-t"><b>${esc(c.titre)}</b><small>${esc(GP.nomTonalite(c.ton, notation()))}, ${c.cases.length} cases${c.fiabilite === 'moyenne' ? ', grille à vérifier' : ''}</small></span>${P.versions[c.id] && Object.keys(P.versions[c.id]).length ? '<span class="lb-tag">Enrichi</span>' : ''}</button>${c.id[0] === 'm' ? `<button class="icone danger" data-act="suppr" data-v="${esc(c.id)}" aria-label="Supprimer ${esc(c.titre)}">${ic('trash')}</button>` : ''}</li>`;
     return (live ? noeud({ k: 'c-live', def: true, nom: 'En cours dans le Live', corps: () => `<ul>${ligne(live)}</ul>` }) : '') +
-      noeud({ k: 'c-miens', def: true, nom: 'Mes chants', nb: P.chants.length, corps: () => P.chants.length ? `<ul>${P.chants.map(ligne).join('')}</ul>` : `<p class="note lb-chapo">Rien pour l'instant. Une grille du Live s'enregistre ici sous le nom que tu choisis.</p>` }) +
+      noeud({ k: 'c-miens', def: true, nom: 'Mes chants', nb: P.chants.length, corps: () => P.chants.length ? `<ul>${P.chants.map(ligne).join('')}</ul><div class="lb-export"><button class="lien" data-act="exporter">${ic('download')}<span>Exporter</span></button><p class="note">Un fichier pour entraîner goodplay : ta mélodie et tes grilles, sans le son ni les paroles.</p></div>` : `<p class="note lb-chapo">Rien pour l'instant. Une grille du Live s'enregistre ici sous le nom que tu choisis.</p>` }) +
       noeud({ k: 'c-dp', def: !pc() || corpus.some(c => c.id === sel), nom: 'Domaine public', nb: corpus.length, corps: () => `<ul>${corpus.map(ligne).join('')}</ul>` });
   }
   function ouvrirChant(id) {
@@ -603,6 +605,13 @@
     catalogue: () => aller('catalogue'),
     chants: () => { if (pc()) ouvrirObjet('chants', listeChants()[0].id); else aller('chants'); },
     plier: (v, b) => { PL[v] = b.getAttribute('aria-expanded') !== 'true'; gardeFocus(rendreGauche); },
+    exporter: () => {
+      const quand = new Date(), nom = `goodplay-mes-chants-${quand.toISOString().slice(0, 10)}.json`, n = P.chants.length;
+      const url = URL.createObjectURL(new Blob([JSON.stringify(paquetExport(P.chants, quand))], { type: 'application/json' })), a = document.createElement('a');
+      a.href = url; a.download = nom; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      annoncer(`${n} ${n > 1 ? 'chants exportés' : 'chant exporté'} dans ${nom}.`);
+    },
     'ob-apercu': () => { R.ecran = 'accueil'; R.sel = null; R.pile = 'g'; rendre(); },
     'ob-ouvrir': v => { const o = O[+v]; if (o) ouvrirObjet(o.ecran, o.sel); },
     'ob-fermer': v => {
@@ -753,5 +762,5 @@
     rendre();
   }
 
-  GP.Labs = { monter, mesChants, ajouterChant, repeindre: () => { if (racine) rendre(); }, LECONS, construire, cadre, versionChant, propositions, chantDuCorpus, chantDeSession, epeler };
+  GP.Labs = { monter, mesChants, ajouterChant, paquetExport, repeindre: () => { if (racine) rendre(); }, LECONS, construire, cadre, versionChant, propositions, chantDuCorpus, chantDeSession, epeler };
 })();

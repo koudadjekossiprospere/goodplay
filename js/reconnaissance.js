@@ -78,14 +78,15 @@
   }
   const caseA = (e, t) => { let k = 0; while (k + 1 < e.cases.length && e.cases[k + 1].t0 <= t) k++; return k; };
 
-  /* Ce qui part dans Mes chants : la mélodie chantée et ses cases, en temps musicaux. `notes` et `cases` sont ceux du Live, en secondes. */
+  /* Ce qui part dans Mes chants : la mélodie chantée et ses cases, en temps musicaux. `notes` et `cases` sont ceux du Live, en secondes.
+     Note : [midi, début, durée tenue] ; la reconnaissance ne lit que les deux premiers, la durée sert au jeu d'entraînement (export de Labs). */
   function signatureLive(notes, cases, ton, bpm) {
     const ns = notes.filter(n => n.fin - n.debut >= P.noteMin).slice(0, 240); if (!ns.length || !cases.length) return null;
     const t0 = ns[0].debut, tps = s => +((s - t0) * bpm / 60).toFixed(2), duree = tps(ns[ns.length - 1].fin);
     const cs = cases.filter(c => tps(c.t) < duree).map(c => ({ deg: c.deg, q: c.q, rel: mod(c.racine - c.ton.tonic), relBasse: mod((c.basse ?? c.racine) - c.ton.tonic), dec: mod(c.ton.tonic - ton.tonic), mode: c.ton.mode, t0: Math.max(0, tps(c.t)), ...(c.corrige ? { corrige: true } : {}) }));
     if (!cs.length) return null;
     cs[0].t0 = 0;
-    return { notes: ns.map(n => [n.midi, tps(n.debut)]), cases: cs, duree };
+    return { notes: ns.map(n => [n.midi, tps(n.debut), +((n.fin - n.debut) * bpm / 60).toFixed(2)]), cases: cs, duree };
   }
 
   const titreNormal = t => t.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/\(.*?\)/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
