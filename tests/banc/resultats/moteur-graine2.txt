@@ -1,0 +1,97 @@
+Graine 2. Voix synthétique sur les 15 chants du corpus, deux couplets.
+Prototype : {}
+
+simple, studio  (15 chants, porte ouverte 82 %, trames voisées moteur actuel 81 %)
+  actuel    ton:   6.0 s, juste  47 %, relatif   7 %, temps juste  58 %, fausses mod   4 (3/15 chants), corrections 0 | accords: couverture  33 %, sur le temps  16 %, à 300 ms  15 %, à 1 s  18 %, latence méd  0.80 s p90  2.28 s, ratés  55 %, reprises sur le temps  17 %
+  proto     ton:  15.9 s, juste  80 %, relatif   0 %, temps juste  93 %, fausses mod   0 (0/15 chants), corrections 2 | accords: couverture  63 %, sur le temps  32 %, à 300 ms  43 %, à 1 s  58 %, latence méd  0.14 s p90  1.24 s, ratés  26 %, reprises sur le temps  38 %
+  proto-mém ton:  15.9 s, juste  80 %, relatif   0 %, temps juste  93 %, fausses mod   0 (0/15 chants), corrections 2 | accords: couverture  63 %, sur le temps  18 %, à 300 ms  32 %, à 1 s  62 %, latence méd  0.34 s p90  1.32 s, ratés  26 %, reprises sur le temps  19 %
+
+simple, salle  (15 chants, porte ouverte 79 %, trames voisées moteur actuel 72 %)
+  actuel    ton:   6.0 s, juste  53 %, relatif   0 %, temps juste  57 %, fausses mod   3 (2/15 chants), corrections 0 | accords: couverture  30 %, sur le temps  13 %, à 300 ms  11 %, à 1 s  15 %, latence méd  0.82 s p90  2.20 s, ratés  60 %, reprises sur le temps  15 %
+  proto     ton:  10.9 s, juste  87 %, relatif   7 %, temps juste  90 %, fausses mod   0 (0/15 chants), corrections 1 | accords: couverture  53 %, sur le temps  21 %, à 300 ms  32 %, à 1 s  52 %, latence méd  0.28 s p90  1.62 s, ratés  32 %, reprises sur le temps  24 %
+  proto-mém ton:  10.9 s, juste  87 %, relatif   7 %, temps juste  90 %, fausses mod   0 (0/15 chants), corrections 1 | accords: couverture  56 %, sur le temps  17 %, à 300 ms  26 %, à 1 s  54 %, latence méd  0.38 s p90  1.62 s, ratés  33 %, reprises sur le temps  16 %
+
+vocalises 9e 11e, studio  (15 chants, porte ouverte 83 %, trames voisées moteur actuel 80 %)
+  actuel    ton:   5.8 s, juste  40 %, relatif  20 %, temps juste  46 %, fausses mod   8 (6/15 chants), corrections 0 | accords: couverture  27 %, sur le temps  16 %, à 300 ms  15 %, à 1 s  16 %, latence méd  0.32 s p90  2.42 s, ratés  63 %, reprises sur le temps  17 %
+  proto     ton:  12.8 s, juste  73 %, relatif  13 %, temps juste  88 %, fausses mod   0 (0/15 chants), corrections 2 | accords: couverture  42 %, sur le temps  23 %, à 300 ms  24 %, à 1 s  35 %, latence méd  0.30 s p90  1.60 s, ratés  37 %, reprises sur le temps  25 %
+  proto-mém ton:  12.8 s, juste  73 %, relatif  13 %, temps juste  88 %, fausses mod   0 (0/15 chants), corrections 2 | accords: couverture  45 %, sur le temps  19 %, à 300 ms  22 %, à 1 s  39 %, latence méd  0.42 s p90  1.76 s, ratés  39 %, reprises sur le temps  19 %
+
+vocalises 9e 11e, salle  (15 chants, porte ouverte 81 %, trames voisées moteur actuel 62 %)
+  actuel    ton:   7.0 s, juste  27 %, relatif  13 %, temps juste  37 %, fausses mod   4 (4/15 chants), corrections 0 | accords: couverture  26 %, sur le temps  18 %, à 300 ms  17 %, à 1 s  16 %, latence méd  0.34 s p90  2.68 s, ratés  63 %, reprises sur le temps  18 %
+  proto     ton:  12.9 s, juste  93 %, relatif   7 %, temps juste  91 %, fausses mod   0 (0/15 chants), corrections 0 | accords: couverture  45 %, sur le temps  23 %, à 300 ms  27 %, à 1 s  37 %, latence méd  0.34 s p90  1.58 s, ratés  32 %, reprises sur le temps  27 %
+  proto-mém ton:  12.9 s, juste  93 %, relatif   7 %, temps juste  91 %, fausses mod   0 (0/15 chants), corrections 0 | accords: couverture  43 %, sur le temps  18 %, à 300 ms  22 %, à 1 s  38 %, latence méd  0.40 s p90  1.60 s, ratés  40 %, reprises sur le temps  19 %
+
+vocalises et notes bleues, salle  (15 chants, porte ouverte 79 %, trames voisées moteur actuel 62 %)
+  actuel    ton:   7.6 s, juste  33 %, relatif   7 %, temps juste  57 %, fausses mod  12 (10/15 chants), corrections 0 | accords: couverture  26 %, sur le temps  17 %, à 300 ms  16 %, à 1 s  16 %, latence méd  0.52 s p90  2.46 s, ratés  62 %, reprises sur le temps  17 %
+  proto     ton:  13.0 s, juste  87 %, relatif   7 %, temps juste  98 %, fausses mod   0 (0/15 chants), corrections 2 | accords: couverture  42 %, sur le temps  22 %, à 300 ms  26 %, à 1 s  39 %, latence méd  0.38 s p90  1.48 s, ratés  31 %, reprises sur le temps  20 %
+  proto-mém ton:  13.0 s, juste  87 %, relatif   7 %, temps juste  98 %, fausses mod   0 (0/15 chants), corrections 2 | accords: couverture  43 %, sur le temps  22 %, à 300 ms  27 %, à 1 s  40 %, latence méd  0.38 s p90  1.62 s, ratés  33 %, reprises sur le temps  18 %
+
+simple, 4 couplets, salle  (15 chants, porte ouverte 78 %, trames voisées moteur actuel 71 %)
+  actuel    ton:   5.6 s, juste  40 %, relatif  20 %, temps juste  68 %, fausses mod  13 (8/15 chants), corrections 0 | accords: couverture  35 %, sur le temps  18 %, à 300 ms  17 %, à 1 s  20 %, latence méd  0.70 s p90  2.42 s, ratés  54 %, reprises sur le temps  19 %
+  proto     ton:  11.5 s, juste  93 %, relatif   0 %, temps juste  97 %, fausses mod   0 (0/15 chants), corrections 2 | accords: couverture  59 %, sur le temps  26 %, à 300 ms  36 %, à 1 s  53 %, latence méd  0.20 s p90  1.36 s, ratés  28 %, reprises sur le temps  28 %
+  proto-mém ton:  11.5 s, juste  93 %, relatif   0 %, temps juste  97 %, fausses mod   0 (0/15 chants), corrections 2 | accords: couverture  60 %, sur le temps  17 %, à 300 ms  26 %, à 1 s  57 %, latence méd  0.40 s p90  1.46 s, ratés  31 %, reprises sur le temps  17 %
+
+simple, rubato +-8 %  (15 chants, porte ouverte 78 %, trames voisées moteur actuel 72 %)
+  actuel    ton:   6.6 s, juste  67 %, relatif   7 %, temps juste  76 %, fausses mod   8 (6/15 chants), corrections 0 | accords: couverture  34 %, sur le temps  16 %, à 300 ms  16 %, à 1 s  18 %, latence méd  0.90 s p90  2.28 s, ratés  54 %, reprises sur le temps  17 %
+  proto     ton:  10.8 s, juste  80 %, relatif   7 %, temps juste  84 %, fausses mod   0 (0/15 chants), corrections 1 | accords: couverture  55 %, sur le temps  24 %, à 300 ms  30 %, à 1 s  51 %, latence méd  0.30 s p90  1.56 s, ratés  34 %, reprises sur le temps  26 %
+  proto-mém ton:  10.8 s, juste  80 %, relatif   7 %, temps juste  84 %, fausses mod   0 (0/15 chants), corrections 1 | accords: couverture  55 %, sur le temps  17 %, à 300 ms  25 %, à 1 s  52 %, latence méd  0.38 s p90  1.66 s, ratés  36 %, reprises sur le temps  16 %
+
+simple, accordage +25 c  (15 chants, porte ouverte 82 %, trames voisées moteur actuel 81 %)
+  actuel    ton:   6.0 s, juste  47 %, relatif   7 %, temps juste  58 %, fausses mod   4 (3/15 chants), corrections 0 | accords: couverture  33 %, sur le temps  16 %, à 300 ms  15 %, à 1 s  18 %, latence méd  0.78 s p90  2.22 s, ratés  55 %, reprises sur le temps  16 %
+  proto     ton:  15.7 s, juste  80 %, relatif   0 %, temps juste  93 %, fausses mod   0 (0/15 chants), corrections 2 | accords: couverture  63 %, sur le temps  32 %, à 300 ms  43 %, à 1 s  58 %, latence méd  0.14 s p90  1.24 s, ratés  27 %, reprises sur le temps  39 %
+  proto-mém ton:  15.7 s, juste  80 %, relatif   0 %, temps juste  93 %, fausses mod   0 (0/15 chants), corrections 2 | accords: couverture  62 %, sur le temps  18 %, à 300 ms  32 %, à 1 s  61 %, latence méd  0.36 s p90  1.32 s, ratés  26 %, reprises sur le temps  19 %
+
+simple, accordage +40 c  (15 chants, porte ouverte 82 %, trames voisées moteur actuel 81 %)
+  actuel    ton:   5.1 s, juste  67 %, relatif   7 %, temps juste  66 %, fausses mod   6 (6/15 chants), corrections 0 | accords: couverture  34 %, sur le temps  14 %, à 300 ms  15 %, à 1 s  19 %, latence méd  0.70 s p90  2.22 s, ratés  56 %, reprises sur le temps  13 %
+  proto     ton:  15.7 s, juste  80 %, relatif   0 %, temps juste  92 %, fausses mod   0 (0/15 chants), corrections 2 | accords: couverture  62 %, sur le temps  33 %, à 300 ms  43 %, à 1 s  57 %, latence méd  0.12 s p90  1.24 s, ratés  27 %, reprises sur le temps  39 %
+  proto-mém ton:  15.7 s, juste  80 %, relatif   0 %, temps juste  92 %, fausses mod   0 (0/15 chants), corrections 2 | accords: couverture  62 %, sur le temps  19 %, à 300 ms  32 %, à 1 s  61 %, latence méd  0.34 s p90  1.60 s, ratés  26 %, reprises sur le temps  19 %
+
+simple, +40 c et 1 c/s  (15 chants, porte ouverte 82 %, trames voisées moteur actuel 81 %)
+  actuel    ton:   5.8 s, juste  53 %, relatif   7 %, temps juste  15 %, fausses mod  26 (15/15 chants), corrections 0 | accords: couverture   6 %, sur le temps   5 %, à 300 ms   4 %, à 1 s   6 %, latence méd  0.00 s p90  1.54 s, ratés  91 %, reprises sur le temps   0 %
+  proto     ton:  15.7 s, juste  80 %, relatif   0 %, temps juste  92 %, fausses mod   0 (0/15 chants), corrections 2 | accords: couverture  62 %, sur le temps  32 %, à 300 ms  43 %, à 1 s  57 %, latence méd  0.14 s p90  1.32 s, ratés  26 %, reprises sur le temps  39 %
+  proto-mém ton:  15.7 s, juste  80 %, relatif   0 %, temps juste  92 %, fausses mod   0 (0/15 chants), corrections 2 | accords: couverture  62 %, sur le temps  18 %, à 300 ms  32 %, à 1 s  62 %, latence méd  0.34 s p90  1.32 s, ratés  26 %, reprises sur le temps  19 %
+
+vocalises, +40 c et 1 c/s, salle  (15 chants, porte ouverte 81 %, trames voisées moteur actuel 62 %)
+  actuel    ton:   7.9 s, juste  33 %, relatif  33 %, temps juste   9 %, fausses mod  20 (15/15 chants), corrections 0 | accords: couverture   5 %, sur le temps   5 %, à 300 ms   5 %, à 1 s   4 %, latence méd  0.00 s p90  0.40 s, ratés  93 %, reprises sur le temps   2 %
+  proto     ton:  12.7 s, juste  80 %, relatif  13 %, temps juste  82 %, fausses mod   0 (0/15 chants), corrections 1 | accords: couverture  37 %, sur le temps  17 %, à 300 ms  17 %, à 1 s  31 %, latence méd  0.42 s p90  1.90 s, ratés  45 %, reprises sur le temps  18 %
+  proto-mém ton:  12.7 s, juste  80 %, relatif  13 %, temps juste  82 %, fausses mod   0 (0/15 chants), corrections 1 | accords: couverture  39 %, sur le temps  18 %, à 300 ms  19 %, à 1 s  32 %, latence méd  0.38 s p90  1.66 s, ratés  48 %, reprises sur le temps  19 %
+
+choeur 5 voix, salle  (15 chants, porte ouverte 84 %, trames voisées moteur actuel 76 %)
+  actuel    ton:   6.3 s, juste  53 %, relatif  13 %, temps juste  56 %, fausses mod   4 (3/15 chants), corrections 0 | accords: couverture  32 %, sur le temps  16 %, à 300 ms  14 %, à 1 s  18 %, latence méd  0.64 s p90  2.34 s, ratés  58 %, reprises sur le temps  18 %
+  proto     ton:   9.4 s, juste  87 %, relatif  13 %, temps juste  94 %, fausses mod   0 (0/15 chants), corrections 1 | accords: couverture  57 %, sur le temps  22 %, à 300 ms  32 %, à 1 s  52 %, latence méd  0.30 s p90  1.70 s, ratés  30 %, reprises sur le temps  23 %
+  proto-mém ton:   9.4 s, juste  87 %, relatif  13 %, temps juste  94 %, fausses mod   0 (0/15 chants), corrections 1 | accords: couverture  59 %, sur le temps  16 %, à 300 ms  23 %, à 1 s  55 %, latence méd  0.40 s p90  1.74 s, ratés  32 %, reprises sur le temps  15 %
+
+choeur 5 voix, vocalises, -35 c, salle  (15 chants, porte ouverte 86 %, trames voisées moteur actuel 61 %)
+  actuel    ton:   7.3 s, juste  53 %, relatif   7 %, temps juste  53 %, fausses mod  11 (8/15 chants), corrections 0 | accords: couverture  28 %, sur le temps  16 %, à 300 ms  15 %, à 1 s  15 %, latence méd  0.80 s p90  2.46 s, ratés  62 %, reprises sur le temps  15 %
+  proto     ton:  10.9 s, juste  73 %, relatif   7 %, temps juste  89 %, fausses mod   0 (0/15 chants), corrections 3 | accords: couverture  38 %, sur le temps  20 %, à 300 ms  22 %, à 1 s  35 %, latence méd  0.40 s p90  1.80 s, ratés  39 %, reprises sur le temps  23 %
+  proto-mém ton:  10.9 s, juste  73 %, relatif   7 %, temps juste  89 %, fausses mod   0 (0/15 chants), corrections 3 | accords: couverture  40 %, sur le temps  19 %, à 300 ms  20 %, à 1 s  37 %, latence méd  0.46 s p90  1.72 s, ratés  41 %, reprises sur le temps  20 %
+
+piano +6 dB sur les bons accords  (15 chants, porte ouverte 93 %, trames voisées moteur actuel 50 %)
+  actuel    ton:  10.1 s, juste  73 %, relatif   0 %, temps juste  75 %, fausses mod   4 (2/15 chants), corrections 0 | accords: couverture  42 %, sur le temps  15 %, à 300 ms  16 %, à 1 s  29 %, latence méd  0.90 s p90  2.26 s, ratés  41 %, reprises sur le temps  15 %
+  proto     ton:  18.5 s, juste  47 %, relatif   0 %, temps juste  62 %, fausses mod   0 (0/15 chants), corrections 4 | accords: couverture  52 %, sur le temps  30 %, à 300 ms  39 %, à 1 s  44 %, latence méd  0.06 s p90  2.30 s, ratés  47 %, reprises sur le temps  32 %
+  proto-mém ton:  18.5 s, juste  47 %, relatif   0 %, temps juste  62 %, fausses mod   0 (0/15 chants), corrections 4 | accords: couverture  53 %, sur le temps  27 %, à 300 ms  37 %, à 1 s  44 %, latence méd  0.08 s p90  2.26 s, ratés  49 %, reprises sur le temps  27 %
+
+annonces vocales entendues par le micro  (15 chants, porte ouverte 85 %, trames voisées moteur actuel 72 %)
+  actuel    ton:   6.3 s, juste  60 %, relatif   7 %, temps juste  66 %, fausses mod   7 (5/15 chants), corrections 0 | accords: couverture  36 %, sur le temps  14 %, à 300 ms  15 %, à 1 s  17 %, latence méd  1.08 s p90  2.00 s, ratés  54 %, reprises sur le temps  13 %
+  proto     ton:  15.9 s, juste  80 %, relatif   0 %, temps juste  83 %, fausses mod   0 (0/15 chants), corrections 5 | accords: couverture  56 %, sur le temps  24 %, à 300 ms  33 %, à 1 s  52 %, latence méd  0.30 s p90  1.30 s, ratés  31 %, reprises sur le temps  25 %
+  proto-mém ton:  15.9 s, juste  80 %, relatif   0 %, temps juste  83 %, fausses mod   0 (0/15 chants), corrections 5 | accords: couverture  56 %, sur le temps  19 %, à 300 ms  29 %, à 1 s  53 %, latence méd  0.34 s p90  1.52 s, ratés  31 %, reprises sur le temps  18 %
+
+niveau .02 (porte par défaut .0175)  (15 chants, porte ouverte 53 %, trames voisées moteur actuel 52 %)
+  actuel    ton:  10.1 s, juste  47 %, relatif   7 %, temps juste  58 %, fausses mod   6 (5/15 chants), corrections 0 | accords: couverture  31 %, sur le temps  13 %, à 300 ms  13 %, à 1 s  20 %, latence méd  0.36 s p90  1.98 s, ratés  65 %, reprises sur le temps  15 %
+  proto     ton:  15.9 s, juste  73 %, relatif   0 %, temps juste  85 %, fausses mod   0 (0/15 chants), corrections 2 | accords: couverture  58 %, sur le temps  30 %, à 300 ms  41 %, à 1 s  53 %, latence méd  0.14 s p90  0.96 s, ratés  33 %, reprises sur le temps  35 %
+  proto-mém ton:  15.9 s, juste  73 %, relatif   0 %, temps juste  85 %, fausses mod   0 (0/15 chants), corrections 2 | accords: couverture  58 %, sur le temps  18 %, à 300 ms  30 %, à 1 s  58 %, latence méd  0.34 s p90  1.00 s, ratés  32 %, reprises sur le temps  18 %
+
+modulation +2 demi-tons, salle  (15 chants, porte ouverte 78 %, trames voisées moteur actuel 72 %)
+  actuel    ton:   6.3 s, juste  47 %, relatif   7 %, temps juste  44 %, fausses mod  24 (12/15 chants), corrections 0 | accords: couverture  27 %, sur le temps  12 %, à 300 ms  11 %, à 1 s  15 %, latence méd  0.88 s p90  2.14 s, ratés  62 %, reprises sur le temps  12 % | vraies mod trouvées 7/15, délai méd 18.0 s
+  proto     ton:  10.1 s, juste  87 %, relatif  13 %, temps juste  81 %, fausses mod   0 (0/15 chants), corrections 1 | accords: couverture  51 %, sur le temps  21 %, à 300 ms  28 %, à 1 s  48 %, latence méd  0.30 s p90  1.52 s, ratés  37 %, reprises sur le temps  20 % | vraies mod trouvées 13/15, délai méd 13.1 s
+  proto-mém ton:  10.1 s, juste  87 %, relatif  13 %, temps juste  81 %, fausses mod   0 (0/15 chants), corrections 1 | accords: couverture  50 %, sur le temps  17 %, à 300 ms  24 %, à 1 s  48 %, latence méd  0.36 s p90  1.58 s, ratés  40 %, reprises sur le temps  16 % | vraies mod trouvées 13/15, délai méd 13.1 s
+
+modulation +1 demi-ton, salle  (15 chants, porte ouverte 79 %, trames voisées moteur actuel 73 %)
+  actuel    ton:   6.3 s, juste  47 %, relatif   7 %, temps juste  45 %, fausses mod  22 (13/15 chants), corrections 0 | accords: couverture  26 %, sur le temps  13 %, à 300 ms  12 %, à 1 s  15 %, latence méd  0.78 s p90  2.14 s, ratés  64 %, reprises sur le temps  14 % | vraies mod trouvées 7/15, délai méd 28.3 s
+  proto     ton:  10.1 s, juste  87 %, relatif  13 %, temps juste  79 %, fausses mod   2 (2/15 chants), corrections 2 | accords: couverture  49 %, sur le temps  19 %, à 300 ms  26 %, à 1 s  46 %, latence méd  0.32 s p90  1.58 s, ratés  39 %, reprises sur le temps  18 % | vraies mod trouvées 12/15, délai méd 13.3 s
+  proto-mém ton:  10.1 s, juste  87 %, relatif  13 %, temps juste  79 %, fausses mod   2 (2/15 chants), corrections 2 | accords: couverture  49 %, sur le temps  16 %, à 300 ms  22 %, à 1 s  46 %, latence méd  0.38 s p90  1.70 s, ratés  42 %, reprises sur le temps  14 % | vraies mod trouvées 12/15, délai méd 13.3 s
+
+modulation +5 demi-tons, salle  (15 chants, porte ouverte 78 %, trames voisées moteur actuel 72 %)
+  actuel    ton:   6.3 s, juste  53 %, relatif   7 %, temps juste  41 %, fausses mod  16 (9/15 chants), corrections 0 | accords: couverture  29 %, sur le temps  14 %, à 300 ms  13 %, à 1 s  16 %, latence méd  0.76 s p90  2.08 s, ratés  61 %, reprises sur le temps  15 % | vraies mod trouvées 4/15, délai méd 30.3 s
+  proto     ton:  10.1 s, juste  87 %, relatif  13 %, temps juste  66 %, fausses mod   0 (0/15 chants), corrections 1 | accords: couverture  52 %, sur le temps  20 %, à 300 ms  29 %, à 1 s  46 %, latence méd  0.28 s p90  1.60 s, ratés  37 %, reprises sur le temps  20 % | vraies mod trouvées 6/15, délai méd 15.8 s
+  proto-mém ton:  10.1 s, juste  87 %, relatif  13 %, temps juste  66 %, fausses mod   0 (0/15 chants), corrections 1 | accords: couverture  52 %, sur le temps  16 %, à 300 ms  24 %, à 1 s  47 %, latence méd  0.36 s p90  1.74 s, ratés  39 %, reprises sur le temps  15 % | vraies mod trouvées 6/15, délai méd 15.8 s

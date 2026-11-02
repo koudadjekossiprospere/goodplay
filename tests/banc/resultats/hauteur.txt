@@ -1,0 +1,146 @@
+
+== A. Porte RMS actuelle : seuil = 0.004 + (1 - sens) * 0.03, RMS calculé sur 2048 échantillons ==
+(bruit 20 dB sous la voix ; sens 0.55 par défaut donne un seuil de 0.0175)
+RMS voix | sens 0 (seuil 0.0340)     | sens 0.55 (seuil 0.0175)  | sens 0.8 (seuil 0.0100)   | sens 1 (seuil 0.0040)       pourcentage de trames voisées qui passent la porte et sont détectées
+0.002    |   0.0 % ouvert,   0.0 % détecté|   0.0 % ouvert,   0.0 % détecté|   0.0 % ouvert,   0.0 % détecté|   0.0 % ouvert,   0.0 % détecté
+0.003    |   0.0 % ouvert,   0.0 % détecté|   0.0 % ouvert,   0.0 % détecté|   0.0 % ouvert,   0.0 % détecté|  13.2 % ouvert,  13.2 % détecté
+0.005    |   0.0 % ouvert,   0.0 % détecté|   0.0 % ouvert,   0.0 % détecté|   0.0 % ouvert,   0.0 % détecté|  70.8 % ouvert,  70.8 % détecté
+0.0075   |   0.0 % ouvert,   0.0 % détecté|   0.0 % ouvert,   0.0 % détecté|  13.2 % ouvert,  13.2 % détecté|  95.1 % ouvert,  95.1 % détecté
+0.01     |   0.0 % ouvert,   0.0 % détecté|   1.4 % ouvert,   1.4 % détecté|  28.4 % ouvert,  28.4 % détecté| 100.0 % ouvert, 100.0 % détecté
+0.015    |   0.0 % ouvert,   0.0 % détecté|  22.1 % ouvert,  22.1 % détecté|  80.0 % ouvert,  80.0 % détecté| 100.0 % ouvert, 100.0 % détecté
+0.02     |   3.5 % ouvert,   3.5 % détecté|  64.5 % ouvert,  64.5 % détecté|  95.6 % ouvert,  95.6 % détecté| 100.0 % ouvert, 100.0 % détecté
+0.03     |  23.3 % ouvert,  23.3 % détecté|  86.6 % ouvert,  86.6 % détecté| 100.0 % ouvert, 100.0 % détecté| 100.0 % ouvert, 100.0 % détecté
+0.05     |  72.5 % ouvert,  72.5 % détecté| 100.0 % ouvert, 100.0 % détecté| 100.0 % ouvert, 100.0 % détecté| 100.0 % ouvert, 100.0 % détecté
+
+== A2. Porte adaptative : trames voisées qui passent, et trames de silence qui passent, MPM clarté .7 derrière ==
+  RMS 0.002  bruit -20 dB : voisées ouvertes  76.4 %, note juste  70.0 % ; silence ouvert   0.4 %, fausse note dans le silence   0.0 %
+  RMS 0.002  bruit -10 dB : voisées ouvertes  64.6 %, note juste  58.9 % ; silence ouvert   1.5 %, fausse note dans le silence   0.0 %
+  RMS 0.005  bruit -20 dB : voisées ouvertes  76.4 %, note juste  70.0 % ; silence ouvert   0.4 %, fausse note dans le silence   0.0 %
+  RMS 0.005  bruit -10 dB : voisées ouvertes  64.6 %, note juste  58.9 % ; silence ouvert   1.5 %, fausse note dans le silence   0.0 %
+  RMS 0.01   bruit -20 dB : voisées ouvertes  76.4 %, note juste  70.0 % ; silence ouvert   0.4 %, fausse note dans le silence   0.0 %
+  RMS 0.03   bruit -20 dB : voisées ouvertes  76.4 %, note juste  70.0 % ; silence ouvert   0.4 %, fausse note dans le silence   0.0 %
+
+== B. Détecteurs par scène (trames voisées hors transitions, porte RMS retirée) ==
+
+studio, 40 dB, sans réverbération
+  YIN actuel 48 kHz, seuil .15  voisé 100.0 %  juste 100.0 %  octave   0.0 %  autre   0.0 %  faux dans silence   0.0 %
+  YIN 16 kHz, seuil .15         voisé 100.0 %  juste 100.0 %  octave   0.0 %  autre   0.0 %  faux dans silence   0.0 %
+  YIN 16 kHz, seuil .30         voisé 100.0 %  juste  90.6 %  octave   2.4 %  autre   7.0 %  faux dans silence   0.0 %
+  MPM 16 kHz, k .9, clarté .6   voisé 100.0 %  juste 100.0 %  octave   0.0 %  autre   0.0 %  faux dans silence   0.0 %
+  MPM 16 kHz, k .9, clarté .7   voisé 100.0 %  juste 100.0 %  octave   0.0 %  autre   0.0 %  faux dans silence   0.0 %
+  YIN 16 kHz, .15, repli < .4   voisé 100.0 %  juste 100.0 %  octave   0.0 %  autre   0.0 %  faux dans silence   0.0 %
+  MPM 16 kHz, k .9, clarté .8   voisé 100.0 %  juste 100.0 %  octave   0.0 %  autre   0.0 %  faux dans silence   0.0 %
+  MPM 48 kHz, k .9, clarté .8   voisé 100.0 %  juste 100.0 %  octave   0.0 %  autre   0.0 %  faux dans silence   0.0 %
+
+salle, bruit 20 dB, RT60 1 s, direct = réverbéré
+  YIN actuel 48 kHz, seuil .15  voisé  94.8 %  juste  89.5 %  octave   4.4 %  autre   0.9 %  faux dans silence   1.5 %
+  YIN 16 kHz, seuil .15         voisé  94.8 %  juste  89.8 %  octave   3.9 %  autre   1.0 %  faux dans silence   1.5 %
+  YIN 16 kHz, seuil .30         voisé  99.1 %  juste  83.7 %  octave  10.4 %  autre   5.1 %  faux dans silence   4.4 %
+  MPM 16 kHz, k .9, clarté .6   voisé  99.9 %  juste  95.4 %  octave   3.0 %  autre   1.4 %  faux dans silence   9.6 %
+  MPM 16 kHz, k .9, clarté .7   voisé  99.1 %  juste  95.0 %  octave   2.9 %  autre   1.2 %  faux dans silence   5.2 %
+  YIN 16 kHz, .15, repli < .4   voisé  99.8 %  juste  92.1 %  octave   5.7 %  autre   2.1 %  faux dans silence   6.7 %
+  MPM 16 kHz, k .9, clarté .8   voisé  97.5 %  juste  94.1 %  octave   2.5 %  autre   0.8 %  faux dans silence   2.2 %
+  MPM 48 kHz, k .9, clarté .8   voisé  97.6 %  juste  94.2 %  octave   2.7 %  autre   0.7 %  faux dans silence   1.5 %
+
+église à 3 m, bruit 12 dB, RT60 1.8 s, réverbéré +6 dB
+  YIN actuel 48 kHz, seuil .15  voisé  68.2 %  juste  61.8 %  octave   4.7 %  autre   1.7 %  faux dans silence   1.5 %
+  YIN 16 kHz, seuil .15         voisé  67.9 %  juste  62.1 %  octave   4.3 %  autre   1.4 %  faux dans silence   0.7 %
+  YIN 16 kHz, seuil .30         voisé  91.9 %  juste  73.4 %  octave  11.2 %  autre   7.3 %  faux dans silence   7.4 %
+  MPM 16 kHz, k .9, clarté .6   voisé  98.1 %  juste  84.0 %  octave   6.9 %  autre   7.2 %  faux dans silence  18.5 %
+  MPM 16 kHz, k .9, clarté .7   voisé  93.7 %  juste  82.4 %  octave   5.8 %  autre   5.5 %  faux dans silence  12.6 %
+  YIN 16 kHz, .15, repli < .4   voisé  97.5 %  juste  78.8 %  octave  11.5 %  autre   7.1 %  faux dans silence  14.1 %
+  MPM 16 kHz, k .9, clarté .8   voisé  81.4 %  juste  75.6 %  octave   3.3 %  autre   2.5 %  faux dans silence   3.7 %
+  MPM 48 kHz, k .9, clarté .8   voisé  81.9 %  juste  76.0 %  octave   3.4 %  autre   2.5 %  faux dans silence   2.2 %
+
+choeur 5 voix unisson, écart 12 c
+  YIN actuel 48 kHz, seuil .15  voisé  99.1 %  juste  98.1 %  octave   0.6 %  autre   0.4 %  faux dans silence   0.0 %
+  YIN 16 kHz, seuil .15         voisé  99.3 %  juste  98.7 %  octave   0.4 %  autre   0.2 %  faux dans silence   0.0 %
+  YIN 16 kHz, seuil .30         voisé  99.8 %  juste  96.1 %  octave   3.1 %  autre   0.6 %  faux dans silence   0.0 %
+  MPM 16 kHz, k .9, clarté .6   voisé 100.0 %  juste  99.7 %  octave   0.1 %  autre   0.2 %  faux dans silence   0.0 %
+  MPM 16 kHz, k .9, clarté .7   voisé  99.9 %  juste  99.7 %  octave   0.1 %  autre   0.1 %  faux dans silence   0.0 %
+  YIN 16 kHz, .15, repli < .4   voisé  99.9 %  juste  99.2 %  octave   0.4 %  autre   0.4 %  faux dans silence   0.0 %
+  MPM 16 kHz, k .9, clarté .8   voisé  99.8 %  juste  99.5 %  octave   0.1 %  autre   0.1 %  faux dans silence   0.0 %
+  MPM 48 kHz, k .9, clarté .8   voisé  99.8 %  juste  99.5 %  octave   0.1 %  autre   0.1 %  faux dans silence   0.0 %
+
+choeur 5 voix en salle
+  YIN actuel 48 kHz, seuil .15  voisé  86.0 %  juste  81.1 %  octave   3.3 %  autre   1.5 %  faux dans silence   5.2 %
+  YIN 16 kHz, seuil .15         voisé  85.9 %  juste  81.2 %  octave   3.3 %  autre   1.4 %  faux dans silence   3.7 %
+  YIN 16 kHz, seuil .30         voisé  96.5 %  juste  85.6 %  octave   6.2 %  autre   4.6 %  faux dans silence  17.8 %
+  MPM 16 kHz, k .9, clarté .6   voisé  98.6 %  juste  90.6 %  octave   3.6 %  autre   4.4 %  faux dans silence  21.5 %
+  MPM 16 kHz, k .9, clarté .7   voisé  96.4 %  juste  89.7 %  octave   3.2 %  autre   3.4 %  faux dans silence  16.3 %
+  YIN 16 kHz, .15, repli < .4   voisé  98.8 %  juste  87.3 %  octave   6.2 %  autre   5.3 %  faux dans silence  21.5 %
+  MPM 16 kHz, k .9, clarté .8   voisé  90.9 %  juste  86.4 %  octave   2.6 %  autre   1.8 %  faux dans silence   9.6 %
+  MPM 48 kHz, k .9, clarté .8   voisé  91.1 %  juste  86.6 %  octave   2.5 %  autre   1.9 %  faux dans silence   8.9 %
+
+deux parties en tierces
+  YIN actuel 48 kHz, seuil .15  voisé  43.4 %  juste   8.8 %  octave  33.0 %  autre   1.6 %  faux dans silence   0.0 %
+  YIN 16 kHz, seuil .15         voisé  41.7 %  juste   8.3 %  octave  32.1 %  autre   1.3 %  faux dans silence   0.0 %
+  YIN 16 kHz, seuil .30         voisé  72.6 %  juste  26.8 %  octave  31.3 %  autre  14.4 %  faux dans silence   0.0 %
+  MPM 16 kHz, k .9, clarté .6   voisé  85.9 %  juste  22.8 %  octave  50.2 %  autre  12.9 %  faux dans silence   0.0 %
+  MPM 16 kHz, k .9, clarté .7   voisé  69.9 %  juste  16.8 %  octave  46.4 %  autre   6.7 %  faux dans silence   0.0 %
+  YIN 16 kHz, .15, repli < .4   voisé  87.9 %  juste  16.0 %  octave  60.0 %  autre  12.0 %  faux dans silence   0.0 %
+  MPM 16 kHz, k .9, clarté .8   voisé  50.3 %  juste  10.2 %  octave  38.1 %  autre   2.0 %  faux dans silence   0.0 %
+  MPM 48 kHz, k .9, clarté .8   voisé  50.5 %  juste  10.1 %  octave  38.3 %  autre   2.1 %  faux dans silence   0.0 %
+
+piano au même niveau que la voix
+  YIN actuel 48 kHz, seuil .15  voisé  67.8 %  juste  23.1 %  octave  28.1 %  autre  16.7 %  faux dans silence  23.0 %
+  YIN 16 kHz, seuil .15         voisé  66.8 %  juste  22.6 %  octave  27.6 %  autre  16.6 %  faux dans silence  22.2 %
+  YIN 16 kHz, seuil .30         voisé  82.9 %  juste  37.2 %  octave  26.9 %  autre  18.8 %  faux dans silence  23.0 %
+  MPM 16 kHz, k .9, clarté .6   voisé  88.3 %  juste  29.1 %  octave  34.2 %  autre  25.0 %  faux dans silence  23.0 %
+  MPM 16 kHz, k .9, clarté .7   voisé  82.1 %  juste  26.9 %  octave  33.1 %  autre  22.2 %  faux dans silence  23.0 %
+  YIN 16 kHz, .15, repli < .4   voisé  89.2 %  juste  25.9 %  octave  38.6 %  autre  24.8 %  faux dans silence  23.0 %
+  MPM 16 kHz, k .9, clarté .8   voisé  73.0 %  juste  23.1 %  octave  31.3 %  autre  18.6 %  faux dans silence  22.2 %
+  MPM 48 kHz, k .9, clarté .8   voisé  73.4 %  juste  23.5 %  octave  31.2 %  autre  18.7 %  faux dans silence  22.2 %
+
+piano 6 dB au dessus de la voix
+  YIN actuel 48 kHz, seuil .15  voisé  62.9 %  juste   8.7 %  octave  30.2 %  autre  24.0 %  faux dans silence  23.0 %
+  YIN 16 kHz, seuil .15         voisé  62.8 %  juste   8.6 %  octave  30.4 %  autre  23.8 %  faux dans silence  23.0 %
+  YIN 16 kHz, seuil .30         voisé  79.9 %  juste  16.7 %  octave  35.0 %  autre  28.2 %  faux dans silence  23.0 %
+  MPM 16 kHz, k .9, clarté .6   voisé  85.9 %  juste  11.3 %  octave  38.7 %  autre  35.9 %  faux dans silence  23.0 %
+  MPM 16 kHz, k .9, clarté .7   voisé  79.4 %  juste   9.8 %  octave  38.2 %  autre  31.4 %  faux dans silence  23.0 %
+  YIN 16 kHz, .15, repli < .4   voisé  86.1 %  juste  10.3 %  octave  40.6 %  autre  35.2 %  faux dans silence  23.7 %
+  MPM 16 kHz, k .9, clarté .8   voisé  68.8 %  juste   8.2 %  octave  33.8 %  autre  26.7 %  faux dans silence  23.0 %
+  MPM 48 kHz, k .9, clarté .8   voisé  69.0 %  juste   8.3 %  octave  33.9 %  autre  26.8 %  faux dans silence  23.0 %
+
+piano 12 dB au dessus de la voix
+  YIN actuel 48 kHz, seuil .15  voisé  64.8 %  juste   3.5 %  octave  30.0 %  autre  31.3 %  faux dans silence  23.7 %
+  YIN 16 kHz, seuil .15         voisé  64.7 %  juste   3.4 %  octave  30.0 %  autre  31.2 %  faux dans silence  23.0 %
+  YIN 16 kHz, seuil .30         voisé  83.8 %  juste   5.5 %  octave  38.7 %  autre  39.6 %  faux dans silence  23.7 %
+  MPM 16 kHz, k .9, clarté .6   voisé  87.1 %  juste   3.9 %  octave  39.9 %  autre  43.4 %  faux dans silence  23.7 %
+  MPM 16 kHz, k .9, clarté .7   voisé  83.9 %  juste   3.5 %  octave  39.7 %  autre  40.7 %  faux dans silence  23.7 %
+  YIN 16 kHz, .15, repli < .4   voisé  87.3 %  juste   4.1 %  octave  40.1 %  autre  43.1 %  faux dans silence  23.7 %
+  MPM 16 kHz, k .9, clarté .8   voisé  70.2 %  juste   3.1 %  octave  33.2 %  autre  33.9 %  faux dans silence  23.0 %
+  MPM 48 kHz, k .9, clarté .8   voisé  70.4 %  juste   3.2 %  octave  33.1 %  autre  34.1 %  faux dans silence  23.0 %
+
+piano +6 dB en salle
+  YIN actuel 48 kHz, seuil .15  voisé  56.7 %  juste   5.7 %  octave  27.4 %  autre  23.6 %  faux dans silence  25.2 %
+  YIN 16 kHz, seuil .15         voisé  56.4 %  juste   5.8 %  octave  27.1 %  autre  23.5 %  faux dans silence  24.4 %
+  YIN 16 kHz, seuil .30         voisé  78.8 %  juste  11.9 %  octave  34.0 %  autre  32.9 %  faux dans silence  31.1 %
+  MPM 16 kHz, k .9, clarté .6   voisé  85.5 %  juste  10.8 %  octave  37.5 %  autre  37.3 %  faux dans silence  34.1 %
+  MPM 16 kHz, k .9, clarté .7   voisé  78.6 %  juste   8.4 %  octave  36.4 %  autre  33.8 %  faux dans silence  30.4 %
+  YIN 16 kHz, .15, repli < .4   voisé  85.7 %  juste   8.3 %  octave  39.3 %  autre  38.0 %  faux dans silence  36.3 %
+  MPM 16 kHz, k .9, clarté .8   voisé  64.3 %  juste   6.9 %  octave  30.5 %  autre  26.9 %  faux dans silence  26.7 %
+  MPM 48 kHz, k .9, clarté .8   voisé  64.4 %  juste   6.9 %  octave  30.7 %  autre  26.8 %  faux dans silence  25.9 %
+
+== C. Justesse en cents sur note tenue sans vibrato, médiane de l'erreur absolue ==
+  YIN actuel 48 kHz   45:0.01  52:0.01  57:0.02  64:0.02  69:0.08  76:0.13  81:0.09
+  YIN 16 kHz          45:0.03  52:0.11  57:0.05  64:0.01  69:0.75  76:1.81  81:2.84
+  MPM 16 kHz          45:0.01  52:0.03  57:0.14  64:0.13  69:0.30  76:0.60  81:0.45
+
+== D. Temps de calcul par trame sur ce PC (pas un téléphone), 2000 trames ==
+  échauffement                                1.450 ms par trame
+  YIN actuel 48 kHz (W 1024, lag 685)         1.344 ms par trame
+  YIN 16 kHz (W 450, lag 228)                 0.206 ms par trame
+  MPM 16 kHz (N 683, lag 228)                 0.358 ms par trame
+  MPM 48 kHz (N 2048, lag 685)                3.049 ms par trame
+  décimation par 3, par seconde de son        1.619 ms
+  (680471 échantillons rendus)
+
+== E. Effet d'un accordage décalé sur la note arrondie : YIN actuel, voix avec vibrato ±30 c ==
+     0 c, 0 c/s : note juste 100.0 %, autre note   0.0 %,    0.0 bascules pour 1000 trames à l'intérieur d'une même note
+    20 c, 0 c/s : note juste  99.1 %, autre note   0.9 %,   17.7 bascules pour 1000 trames à l'intérieur d'une même note
+    30 c, 0 c/s : note juste  86.8 %, autre note  13.2 %,  213.1 bascules pour 1000 trames à l'intérieur d'une même note
+    40 c, 0 c/s : note juste  76.9 %, autre note  23.1 %,  263.0 bascules pour 1000 trames à l'intérieur d'une même note
+    45 c, 0 c/s : note juste  70.1 %, autre note  29.9 %,  293.7 bascules pour 1000 trames à l'intérieur d'une même note
+   -40 c, 0 c/s : note juste  76.8 %, autre note  23.2 %,  264.6 bascules pour 1000 trames à l'intérieur d'une même note
+    40 c, 1 c/s : note juste  32.9 %, autre note  67.1 %,  242.4 bascules pour 1000 trames à l'intérieur d'une même note

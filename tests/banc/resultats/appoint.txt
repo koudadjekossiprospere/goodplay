@@ -1,0 +1,23 @@
+== A. Accordage estimé par moyenne circulaire glissante : erreur absolue en cents, médiane et 90e centile sur 15 chants ==
+  simple, accordage +25 c                    2 s: 0.6/2.3  4 s: 0.4/1.5  6 s: 0.4/1.5  10 s: 0.4/0.9  20 s: 0.2/0.5  40 s: 0.4/0.6
+  simple, accordage +40 c                    2 s: 0.7/2.4  4 s: 0.6/1.9  6 s: 0.5/1.9  10 s: 0.3/1.0  20 s: 0.2/0.7  40 s: 0.3/0.6
+  simple, +40 c et 1 c/s                     2 s: 1.4/4.3  4 s: 1.6/4.3  6 s: 3.2/4.2  10 s: 4.7/7.3  20 s: 5.4/9.2  40 s: 5.6/6.3
+  vocalises, +40 c et 1 c/s, salle           2 s: 1.7/3.8  4 s: 1.8/4.1  6 s: 2.8/5.1  10 s: 4.7/5.9  20 s: 7.3/9.9  40 s: 5.9/8.7
+  choeur 5 voix, vocalises, -35 c, salle     2 s: 3.0/8.1  4 s: 3.6/7.9  6 s: 3.0/8.3  10 s: 2.9/8.3  20 s: 2.4/9.6  40 s: 2.5/11.1
+
+== B. Tempo estimé depuis les attaques de notes (changements de hauteur), 15 chants ==
+  simple, studio               bon tempo à 4 % près (à l'octave ou au ternaire près) : à 8 s 14/15, à 15 s 15/15, à 30 s 15/15 ; écart du temps prédit à l'attaque d'accord suivante : médiane 63 ms, 90e centile 97 ms
+  vocalises 9e 11e, salle      bon tempo à 4 % près (à l'octave ou au ternaire près) : à 8 s 2/15, à 15 s 3/15, à 30 s 4/15 ; écart du temps prédit à l'attaque d'accord suivante : médiane 150 ms, 90e centile 252 ms
+  simple, rubato +-8 %         bon tempo à 4 % près (à l'octave ou au ternaire près) : à 8 s 7/15, à 15 s 2/15, à 30 s 4/15 ; écart du temps prédit à l'attaque d'accord suivante : médiane 164 ms, 90e centile 277 ms
+
+== C. Basse réelle : piano (basse + triade) près du micro, fenêtre de Hann de 256 ms sur 2 kHz, coupe-bas simulé du téléphone ==
+  voix de femme, coupe-bas aucun Hz, piano   0 dB : fondamentale juste  92 %, latence médiane 150 ms, changements manqués 0 %
+  voix de femme, coupe-bas 100   Hz, piano   0 dB : fondamentale juste  91 %, latence médiane 150 ms, changements manqués 0 %
+  voix de femme, coupe-bas 150   Hz, piano   0 dB : fondamentale juste  88 %, latence médiane 150 ms, changements manqués 2 %
+  voix d'homme, coupe-bas 100   Hz, piano   0 dB : fondamentale juste  74 %, latence médiane 150 ms, changements manqués 2 %
+  voix d'homme, coupe-bas 150   Hz, piano   0 dB : fondamentale juste  70 %, latence médiane 150 ms, changements manqués 2 %
+  voix de femme, coupe-bas 100   Hz, piano  -6 dB : fondamentale juste  81 %, latence médiane 150 ms, changements manqués 5 %
+  voix de femme, coupe-bas 100   Hz, piano   6 dB : fondamentale juste  97 %, latence médiane 150 ms, changements manqués 0 %
+  voix d'homme, coupe-bas 100   Hz, piano   6 dB : fondamentale juste  88 %, latence médiane 150 ms, changements manqués 0 %
+  voix d'homme, coupe-bas 150   Hz, piano  -6 dB : fondamentale juste  54 %, latence médiane 200 ms, changements manqués 14 %
+  coût : 0.091 ms par trame sur ce PC

@@ -1,0 +1,159 @@
+
+==== RÉGLAGE, chants pairs, graine 1 (8 chants) ====
+                                            sses ton % verrou 1er ok corr couv 1re p repr finale lat ms p90 ms T+300 manq   mod délai
+simple, studio                                 0   100    4.9    100    0   65    63   68     69     60    980    57   26            
+simple, studio [sansMem]                       0   100    4.9    100    0   66    63   68     70    100   1540    54   29            
+simple, studio [correction]                    0   100    4.9    100    0   69    63   74     76     60    820    61   18            
+simple, studio [tape]                          0   100    4.9    100    0   65    63   68     69     60    980    57   26            
+simple, studio [actuel]                        3    68    6.8     63    0   30    28   32      0    560   1840    16   60            
+simple, salle                                  0   100    4.6    100    0   65    63   66     69    100   1420    55   24            
+simple, salle [sansMem]                        0   100    4.6    100    0   66    65   68     70    140   1100    54   25            
+simple, salle [correction]                     0   100    4.6    100    0   69    63   74     76    120   1000    61   18            
+simple, salle [tape]                           0   100    4.6    100    0   65    63   66     69    100   1420    55   24            
+simple, salle [actuel]                         3    64    6.5     63    0   31    30   31      0    720   2140    16   56            
+vocalises, studio                              0    85    4.7     63    3   46    44   47     58    100   1520    36   32            
+vocalises, salle                               0    83    4.9     50    3   43    42   45     51    180   1560    31   30            
+vocalises, salle [correction]                  0    83    4.9     50    3   45    42   49     60    180   1540    32   27            
+vocalises et notes bleues, salle               0    81    4.9     75    2   41    45   38     45    240   1380    26   42            
+simple, 4 couplets, salle                      0    96    5.1     75    2   63    56   65     70      0   1120    54   27            
+rubato 8 %, salle                              0    73    4.7     75    1   57    59   56     60    100   1160    48   33            
+rubato 8 %, salle [tape]                       0    73    4.7     75    1   57    59   56     60    100   1160    48   33            
+voix grave, studio                             0   100    4.7    100    0   66    65   67     71      0   1280    59   25            
+accordage +40 c                                0    94    4.9     88    1   61    57   65     69     40   1120    52   31            
++40 c et 1 c/s                                 0    94    4.9     88    1   61    57   64     69     40   1000    52   31            
+vocalises, +40 c et 1 c/s, salle               0    92    4.9     75    1   47    48   46     51    180   1400    35   28            
+choeur 5 voix, salle                           0    94    4.6     88    1   61    55   66     70     80   1480    52   28            
+choeur, vocalises, -35 c, salle                0    54    4.9     38    3   29    27   31     35    180   1140    22   52            
+piano 0 dB [sansContre]                        0    55    7.9     25    5   42    40   43     45      0   1960    34   55            
+piano 0 dB                                     0    60    9.1     38    5   38    34   41     39      0   2280    24   66            
+piano 0 dB [piano]                             0    60    9.1     38    6   39    35   42     39      0   2220    24   64            
+piano +6 dB [sansContre]                       0    55   10.1     50    2   44    41   46     43      0   2200    38   53            
+piano +6 dB                                    0    63   11.5     38    4   41    41   42     38      0   2140    32   63            
+piano +6 dB [piano]                            0    71   11.5     38    5   44    42   46     41      0   2140    33   61            
+piano +6 dB [basse]                            0    63   11.6     38    4   74    75   74     59    240    360    72   15            
+piano +12 dB [sansContre]                      0    47   10.1     50    1   40    39   40     41      0    100    36   56            
+piano +12 dB                                   0    73   10.7     50    3   45    42   47     39      0   2960    35   61            
+piano +12 dB [piano]                           0    73   10.7     50    3   45    44   46     38      0     80    35   61            
+piano +6 dB, voix grave [sansContre]           0    54   11.0     13    6   40    31   47     51      0   2500    34   51            
+piano +6 dB, voix grave                        0    58   11.0     13    6   40    31   46     48      0   3080    29   58            
+piano +6 dB, voix grave [piano]                0    54   11.0     13    6   38    30   44     48      0   3160    27   61            
+annonces vocales                               0   100    4.9    100    0   64    63   64     66    100    960    52   25            
+RMS .002                                       0   100    4.9    100    0   65    63   67     69     60    980    56   26            
+RMS .005                                       0   100    4.9    100    0   65    63   67     69     60    980    57   26            
+RMS .01                                        0   100    4.9    100    0   65    63   67     69     60    980    57   26            
+RMS .03                                        0   100    4.9    100    0   65    63   67     69     60    980    57   26            
+modulation +2, salle                           0    77    4.6     88    0   49    56   46     60     80   1480    39   43   6/8  20.2
+modulation +1, salle                           0    78    4.6     88    1   49    56   46     58     80   1340    37   45   6/8  18.6
+modulation +5, salle                           0    62    4.6     88    0   54    56   53     61    120   1640    40   37   1/8  14.9
+
+Fausses modulations, toutes scènes : 0 sur 200 rendus
+  maj : ton juste 89 %, couverture 60 %, grille finale 65 %
+  min : ton juste 80 %, couverture 36 %, grille finale 40 %
+Reprises, simple, studio
+  sans mémoire                 1re passe 63 %, reprise 68 %, juste 50 ms avant le temps 14 %, T+300 57 %, grille finale 70 %
+  mémoire                      1re passe 63 %, reprise 68 %, juste 50 ms avant le temps 46 %, T+300 63 %, grille finale 69 %
+  mémoire et grille corrigée   1re passe 63 %, reprise 74 %, juste 50 ms avant le temps 53 %, T+300 72 %, grille finale 76 %  (39 cases corrigées)
+  tempo tapé                   1re passe 63 %, reprise 68 %, juste 50 ms avant le temps 46 %, T+300 63 %, grille finale 69 %, latence 60 ms ; écart du temps à l'accord suivant 110 ms contre 70 ms sans taper ; erreur de tempo 0.8 %
+  ancien moteur                ton 68 %, couverture 30 %, latence 560 ms, T+300 16 %, fausses 3
+  tempo juste à 8 s : 100 % des chants ; corrections a posteriori : 13
+Reprises, simple, salle
+  sans mémoire                 1re passe 65 %, reprise 68 %, juste 50 ms avant le temps 15 %, T+300 57 %, grille finale 70 %
+  mémoire                      1re passe 63 %, reprise 66 %, juste 50 ms avant le temps 44 %, T+300 60 %, grille finale 69 %
+  mémoire et grille corrigée   1re passe 63 %, reprise 74 %, juste 50 ms avant le temps 46 %, T+300 72 %, grille finale 76 %  (35 cases corrigées)
+  tempo tapé                   1re passe 63 %, reprise 66 %, juste 50 ms avant le temps 44 %, T+300 60 %, grille finale 69 %, latence 100 ms ; écart du temps à l'accord suivant 170 ms contre 123 ms sans taper ; erreur de tempo 0.8 %
+  ancien moteur                ton 64 %, couverture 31 %, latence 720 ms, T+300 16 %, fausses 3
+  tempo juste à 8 s : 50 % des chants ; corrections a posteriori : 8
+Reprises, vocalises, salle
+  mémoire                      1re passe 42 %, reprise 45 %, juste 50 ms avant le temps 22 %, T+300 33 %, grille finale 51 %
+  mémoire et grille corrigée   1re passe 42 %, reprise 49 %, juste 50 ms avant le temps 25 %, T+300 35 %, grille finale 60 %  (53 cases corrigées)
+  tempo juste à 8 s : 25 % des chants ; corrections a posteriori : 11
+Piano voisin : sans contre-mesure / canal de basse et clarté / plus notes suggérées
+  piano 0 dB               ton 55 / 60 / 60 %, couverture 42 / 38 / 39 %, verrou 8 / 9 / 9 s, fausses 0 / 0 / 0
+  piano +6 dB              ton 55 / 63 / 71 %, couverture 44 / 41 / 44 %, verrou 10 / 12 / 12 s, fausses 0 / 0 / 0
+  piano +12 dB             ton 47 / 73 / 73 %, couverture 40 / 45 / 45 %, verrou 10 / 11 / 11 s, fausses 0 / 0 / 0
+  piano +6 dB, voix grave  ton 54 / 58 / 54 %, couverture 40 / 40 / 38 %, verrou 11 / 11 / 11 s, fausses 0 / 0 / 0
+Basse réelle (piano +6 dB) : couverture 74 %, latence 240 ms, ton juste 63 %
+
+==== CONTRÔLE, chants impairs, graine 2 (7 chants) ====
+                                            sses ton % verrou 1er ok corr couv 1re p repr finale lat ms p90 ms T+300 manq   mod délai
+simple, studio                                 0    92    4.8     71    2   67    62   71     76     40    380    59   27            
+simple, studio [sansMem]                       0    92    4.8     71    2   72    66   77     76    100    600    65   23            
+simple, studio [correction]                    0    92    4.8     71    2   69    61   76     81     60    600    60   22            
+simple, studio [tape]                          0    92    4.8     71    2   67    62   71     76     40    380    59   27            
+simple, studio [actuel]                        1    59    6.0     43    0   34    32   35      0   1200   2340    11   51            
+simple, salle                                  0    92    4.8     71    2   65    58   71     76    120    620    56   24            
+simple, salle [sansMem]                        0    92    4.8     71    2   68    62   73     76    160    740    55   23            
+simple, salle [correction]                     0    92    4.8     71    2   66    58   73     78    120    740    56   23            
+simple, salle [tape]                           0    92    4.8     71    2   65    58   71     76    120    620    56   24            
+simple, salle [actuel]                         1    60    6.0     57    0   33    28   37      0   1200   2200     9   54            
+vocalises, studio                              0   100    4.8    100    0   52    56   48     60    100   1180    44   21            
+vocalises, salle                               0    94    4.8     86    1   49    50   48     56    140   1300    37   26            
+vocalises, salle [correction]                  0    94    4.8     86    1   51    50   53     63    140   1280    37   23            
+vocalises et notes bleues, salle               0    97    4.2     86    1   50    48   51     56    140   1480    41   21            
+simple, 4 couplets, salle                      0    97    4.8     86    1   67    61   69     73     20    460    60   24            
+rubato 8 %, salle                              0    92    5.0     71    2   61    54   68     75    120    660    56   27            
+rubato 8 %, salle [tape]                       0    92    5.0     71    2   61    54   68     75    120    660    56   27            
+voix grave, studio                             0    92    4.8     71    2   67    62   71     76     40    380    59   27            
+accordage +40 c                                0    92    4.8     71    2   67    62   71     76     40    380    59   27            
++40 c et 1 c/s                                 0    92    4.8     71    2   67    61   71     76     40    380    59   27            
+vocalises, +40 c et 1 c/s, salle               0    73    5.0     43    4   38    38   38     46    180   1340    29   42            
+choeur 5 voix, salle                           0    95    4.8     86    1   66    60   72     74    120    600    60   25            
+choeur, vocalises, -35 c, salle                0    64    5.1     57    1   30    28   32     37    160   1140    32   41            
+piano 0 dB [sansContre]                        0    91    8.4     71    1   58    56   59     57     80   1740    38   36            
+piano 0 dB                                     0    89    9.8     57    2   52    49   54     47    660   1980    30   36            
+piano 0 dB [piano]                             0    87    9.8     57    2   49    43   53     47    820   2220    26   39            
+piano +6 dB [sansContre]                       0    83    8.8     57    3   53    43   61     59      0   2220    38   49            
+piano +6 dB                                    0    78    8.8     57    3   44    34   51     46     80   3020    30   56            
+piano +6 dB [piano]                            0    78    8.8     57    4   43    36   48     48     60   3020    28   59            
+piano +6 dB [basse]                            0    78    8.9     57    3   67    61   71     62    260    620    53   14            
+piano +12 dB [sansContre]                      0    78    8.8     43    5   46    36   53     53      0   3060    32   56            
+piano +12 dB                                   0    75    8.8     43    4   39    30   47     42      0   3400    28   63            
+piano +12 dB [piano]                           0    62    8.8     43    4   38    29   45     41      0   3360    26   66            
+piano +6 dB, voix grave [sansContre]           0    83    8.8     57    3   54    44   61     60     60   2220    38   49            
+piano +6 dB, voix grave                        0    78    8.8     57    3   47    39   54     50     80   2900    33   55            
+piano +6 dB, voix grave [piano]                0    78    8.8     57    4   46    40   51     51      0   2900    31   57            
+annonces vocales                               0    92    4.8     71    2   65    60   70     74    100    620    56   28            
+RMS .002                                       0    92    4.8     71    2   67    62   71     76     40    380    60   26            
+RMS .005                                       0    92    4.8     71    2   67    62   71     76     40    380    60   26            
+RMS .01                                        0    92    4.8     71    2   67    62   71     76     40    380    60   26            
+RMS .03                                        0    92    4.8     71    2   67    62   71     76     40    380    60   26            
+modulation +2, salle                           0    75    3.9     86    2   56    62   54     69    120    600    50   35   7/7  21.9
+modulation +1, salle                           0    73    3.9     86    2   54    60   50     69    120    740    46   39   7/7  22.1
+modulation +5, salle                           0    67    3.9     86    2   62    60   62     66    120   1300    53   29   4/7  27.6
+
+Fausses modulations, toutes scènes : 0 sur 175 rendus
+  maj : ton juste 87 %, couverture 59 %, grille finale 68 %
+  min : ton juste 94 %, couverture 54 %, grille finale 59 %
+Reprises, simple, studio
+  sans mémoire                 1re passe 66 %, reprise 77 %, juste 50 ms avant le temps 10 %, T+300 70 %, grille finale 76 %
+  mémoire                      1re passe 62 %, reprise 71 %, juste 50 ms avant le temps 53 %, T+300 64 %, grille finale 76 %
+  mémoire et grille corrigée   1re passe 61 %, reprise 76 %, juste 50 ms avant le temps 55 %, T+300 66 %, grille finale 81 %  (19 cases corrigées)
+  tempo tapé                   1re passe 62 %, reprise 71 %, juste 50 ms avant le temps 53 %, T+300 64 %, grille finale 76 %, latence 40 ms ; écart du temps à l'accord suivant 107 ms contre 57 ms sans taper ; erreur de tempo 0.9 %
+  ancien moteur                ton 59 %, couverture 34 %, latence 1200 ms, T+300 11 %, fausses 1
+  tempo juste à 8 s : 86 % des chants ; corrections a posteriori : 10
+Reprises, simple, salle
+  sans mémoire                 1re passe 62 %, reprise 73 %, juste 50 ms avant le temps 10 %, T+300 61 %, grille finale 76 %
+  mémoire                      1re passe 58 %, reprise 71 %, juste 50 ms avant le temps 34 %, T+300 64 %, grille finale 76 %
+  mémoire et grille corrigée   1re passe 58 %, reprise 73 %, juste 50 ms avant le temps 32 %, T+300 63 %, grille finale 78 %  (18 cases corrigées)
+  tempo tapé                   1re passe 58 %, reprise 71 %, juste 50 ms avant le temps 34 %, T+300 64 %, grille finale 76 %, latence 120 ms ; écart du temps à l'accord suivant 152 ms contre 115 ms sans taper ; erreur de tempo 0.9 %
+  ancien moteur                ton 60 %, couverture 33 %, latence 1200 ms, T+300 9 %, fausses 1
+  tempo juste à 8 s : 57 % des chants ; corrections a posteriori : 6
+Reprises, vocalises, salle
+  mémoire                      1re passe 50 %, reprise 48 %, juste 50 ms avant le temps 23 %, T+300 42 %, grille finale 56 %
+  mémoire et grille corrigée   1re passe 50 %, reprise 53 %, juste 50 ms avant le temps 28 %, T+300 42 %, grille finale 63 %  (42 cases corrigées)
+  tempo juste à 8 s : 0 % des chants ; corrections a posteriori : 7
+Piano voisin : sans contre-mesure / canal de basse et clarté / plus notes suggérées
+  piano 0 dB               ton 91 / 89 / 87 %, couverture 58 / 52 / 49 %, verrou 8 / 10 / 10 s, fausses 0 / 0 / 0
+  piano +6 dB              ton 83 / 78 / 78 %, couverture 53 / 44 / 43 %, verrou 9 / 9 / 9 s, fausses 0 / 0 / 0
+  piano +12 dB             ton 78 / 75 / 62 %, couverture 46 / 39 / 38 %, verrou 9 / 9 / 9 s, fausses 0 / 0 / 0
+  piano +6 dB, voix grave  ton 83 / 78 / 78 %, couverture 54 / 47 / 46 %, verrou 9 / 9 / 9 s, fausses 0 / 0 / 0
+Basse réelle (piano +6 dB) : couverture 67 %, latence 260 ms, ton juste 78 %
+
+==== CRITÈRES sur le contrôle ====
+  PASS  0 fausse modulation : 0
+  PASS  tonalité juste >= 90 % du temps en studio : 92.2 %
+  PASS  latence médiane <= 150 ms : 40 ms
+  PASS  couverture >= 60 % en studio, première passe : 61.5 %
+  PASS  couverture reprise > première passe : 71.2 contre 61.5 %
+
+Durée : 157 s, 375 rendus, depuis les trames en cache. Voix synthétique : valeurs absolues optimistes.

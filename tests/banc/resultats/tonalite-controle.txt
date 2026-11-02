@@ -1,0 +1,6 @@
+CONTRÔLE, impairs, graines 2, 21 rendus, 3 jeux, 0 s. Temps en s réelles depuis la 1re note ; med et p90 ; 1er = % premiers verrous justes ; corr = changements visibles par chant ; ton = % juste depuis le verrou ; ton0 = depuis la 1re note ; fm = fausses modulations.
+  studio                           | salle                            | vocal.                          
+   med   p90  1er  corr  ton ton0 fm |  med   p90  1er  corr  ton ton0 fm |  med   p90  1er  corr  ton ton0 fm
+   9.1   9.7  100  0.00  100   89  0 |  9.2  10.0   86  0.14   97   86  0 | 11.0  12.7   86  0.14   99   86  0  {"attenteMin":8,"limiteTon":1000000000}
+   6.2   9.5  100  0.00  100   92  0 |  6.2   9.5  100  0.00  100   93  0 |  5.4   6.7   86  0.14   94   89  0  {"limiteTon":1000000000}
+   4.8   5.6   71  0.29   92   87  0 |  4.8   5.6   71  0.29   92   87  0 |  4.8   5.4   86  0.14   94   89  0  {}

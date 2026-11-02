@@ -8,316 +8,16 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="goodplay">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#161d33" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#212121" media="(prefers-color-scheme: dark)">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>goodplay</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
-<style>
-/* Code couleur : orange = basse et main gauche ; bleu = accord et main droite. Les deux viennent du logo. */
-:root{
-  --brand-blue:#1b74c2; --brand-orange:#f2a65a; --brand-ink:#141a2b; --brand-white:#ffffff;
-  --primary:var(--brand-orange); --primary-hover:#f6b877; --primary-active:#e8974a; --on-primary:var(--brand-ink);
-  --lh-fill:var(--brand-orange); --rh-fill:#57aaf0; --on-fill:var(--brand-ink); --finger-bg:#ffffff; --finger-ink:var(--brand-ink);
-  --bg:#f1f5fa; --panel:#ffffff; --panel-2:#e9f0f8; --panel-3:#dbe6f2; --line:#d0dbe8; --ink:var(--brand-ink); --muted:#515c74;
-  --deg:#c9690a; --lh:#a35500; --rh:#1565ad; --live:#187a42; --danger:#b3261e; --dot:#e08a2e;
-  --key-w:#ffffff; --key-b:#232a42; --key-edge:#c0ccdb; --key-label:#515c74;
-  --scrim:rgba(20,26,43,.5); --shadow:0 12px 32px rgba(20,26,43,.18);
-  --f-display:"Fredoka","Avenir Next",system-ui,sans-serif;
-  --f-body:"Atkinson Hyperlegible",system-ui,-apple-system,sans-serif;
-  --r-s:8px; --r-m:12px; --r-l:20px; --r-full:999px;
-  --t-fast:120ms; --t-med:200ms; --ease:cubic-bezier(.2,.7,.2,1);
-  --lvl:0; color-scheme:light;
-}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#0d1324; --panel:#161d33; --panel-2:#202945; --panel-3:#2b3556; --line:#2c3654; --ink:#f3f6fb; --muted:#a9b4ca;
-  --deg:#f2a65a; --lh:#f2a65a; --rh:#84c4ff; --live:#62d68f; --danger:#ff9d92; --dot:#f2a65a;
-  --key-w:#2a3350; --key-b:#090d1a; --key-edge:#3d4869; --key-label:#a9b4ca;
-  --scrim:rgba(4,7,16,.65); --shadow:0 12px 32px rgba(0,0,0,.5); color-scheme:dark }}
-:root[data-theme="dark"]{
-  --bg:#0d1324; --panel:#161d33; --panel-2:#202945; --panel-3:#2b3556; --line:#2c3654; --ink:#f3f6fb; --muted:#a9b4ca;
-  --deg:#f2a65a; --lh:#f2a65a; --rh:#84c4ff; --live:#62d68f; --danger:#ff9d92; --dot:#f2a65a;
-  --key-w:#2a3350; --key-b:#090d1a; --key-edge:#3d4869; --key-label:#a9b4ca;
-  --scrim:rgba(4,7,16,.65); --shadow:0 12px 32px rgba(0,0,0,.5); color-scheme:dark }
-
-*{box-sizing:border-box}
-[hidden]{display:none!important}
-html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.45 var(--f-body)}
-h1,h2,p,figure{margin:0}
-button,input{font:inherit;color:inherit}
-button,label.btn{-webkit-tap-highlight-color:transparent}
-:focus-visible{outline:3px solid var(--rh);outline-offset:2px}
-.icon{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.logo{display:block;height:28px;width:auto;aspect-ratio:1680/395}
-.eyebrow{font-size:.8125rem;font-weight:700;color:var(--muted)}
-
-/* Boutons */
-.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:8px 16px;border:1px solid var(--line);border-radius:var(--r-full);background:transparent;color:var(--ink);font-weight:700;cursor:pointer;text-align:center;transition:background-color var(--t-fast) var(--ease),transform var(--t-fast) var(--ease)}
-.btn:hover{background:var(--panel-2)}
-.btn:active{background:var(--panel-3);transform:scale(.98)}
-.btn:disabled{opacity:.5;pointer-events:none}
-.btn[aria-busy="true"]{opacity:.7;cursor:progress}
-.btn.primary{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
-.btn.primary:hover{background:var(--primary-hover);border-color:var(--primary-hover)}
-.btn.primary:active{background:var(--primary-active);border-color:var(--primary-active)}
-.btn input{position:absolute;width:1px;height:1px;opacity:0}
-label.btn:focus-within{outline:3px solid var(--rh);outline-offset:2px}
-kbd{display:none;font:700 .75rem var(--f-body);padding:2px 8px;border-radius:var(--r-s);background:color-mix(in srgb,currentColor 14%,transparent)}
-.mini span{display:none}
-.mini{display:inline-flex;align-items:center;justify-content:center;gap:4px;min-width:44px;min-height:44px;padding:4px 8px;border:0;border-radius:var(--r-s);background:transparent;color:var(--muted);font-size:.875rem;font-weight:700;cursor:pointer;transition:background-color var(--t-fast) var(--ease),color var(--t-fast) var(--ease)}
-.mini .icon{width:16px;height:16px}
-.mini:hover{background:var(--panel-2);color:var(--ink)}
-.mini:active{background:var(--panel-3)}
-.mini.danger{color:var(--danger)}
-.mini.danger:hover{color:var(--danger)}
-
-/* Choix segmentés */
-.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;padding:4px;background:var(--panel-2);border-radius:var(--r-m)}
-.seg button{min-height:36px;padding:4px 8px;border:0;border-radius:var(--r-s);background:transparent;color:var(--muted);font-size:.875rem;font-weight:700;cursor:pointer;transition:background-color var(--t-fast) var(--ease),color var(--t-fast) var(--ease)}
-.seg button:hover{color:var(--ink);background:var(--panel-3)}
-.seg button:active{background:var(--line)}
-.seg button[aria-pressed="true"]{background:var(--panel);color:var(--ink);box-shadow:0 0 0 1px var(--line)}
-
-/* Accueil */
-.welcome{min-height:100dvh;background:var(--brand-blue);color:var(--brand-white);padding:max(24px,env(safe-area-inset-top)) max(20px,env(safe-area-inset-right)) max(24px,env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left));--dot:var(--brand-orange)}
-.w-inner{min-height:calc(100dvh - 48px);display:flex;flex-direction:column;gap:24px;max-width:1200px;margin:0 auto}
-.welcome .logo{height:36px;align-self:flex-start}
-.welcome h1{font:600 clamp(2.5rem,12vw,3.25rem)/1.05 var(--f-display);letter-spacing:-.01em;text-wrap:balance}
-.welcome p{margin-top:12px;font-size:1.125rem;max-width:44ch}
-.w-actions{display:flex;flex-direction:column;gap:12px;margin-top:auto}
-.btn.big{min-height:64px;font:600 1.375rem var(--f-display)}
-.btn.big .icon{width:24px;height:24px}
-.w-second{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.welcome .btn:not(.primary){border-color:rgba(255,255,255,.7);color:var(--brand-white);font-size:.9375rem;line-height:1.2}
-.welcome .btn:not(.primary):hover{background:rgba(255,255,255,.16)}
-.welcome .btn:not(.primary):active{background:rgba(255,255,255,.26)}
-.welcome :focus-visible,.welcome label.btn:focus-within{outline-color:var(--brand-white)}
-.w-preview{--key-w:#ffffff;--key-b:#232a42;--key-edge:#c0ccdb;--key-label:#515c74;background:var(--brand-white);color:var(--brand-ink);border-radius:var(--r-l);padding:16px;display:grid;grid-template-columns:auto 1fr;gap:4px 16px;align-items:center}
-.w-preview .pdeg{font:700 6rem/.9 var(--f-display);color:#c9690a}
-.w-preview .pname{font:600 2rem/1.1 var(--f-display)}
-.w-preview .psub{color:#515c74;font-size:.9375rem}
-.w-preview svg.kb{grid-area:auto;grid-column:1/-1;margin-top:8px}
-@media (max-height:700px){.w-preview{display:none}}
-
-/* Application : la base est le téléphone */
-.app{height:100vh;height:100dvh;display:grid;grid-template-rows:auto minmax(0,1fr) auto;overflow:hidden}
-body[data-view="welcome"] .app,body:not([data-view="welcome"]) .welcome{display:none}
-.bar{position:relative;display:flex;align-items:center;gap:12px;min-height:60px;padding:max(8px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) 8px max(12px,env(safe-area-inset-left));background:var(--panel)}
-.bar::after{content:"";position:absolute;left:0;bottom:0;height:3px;width:100%;background:var(--live);transform-origin:left;transform:scaleX(var(--lvl));transition:transform 80ms linear}
-.bar .logo{height:24px;flex:none}
-.keypill{display:flex;align-items:center;gap:8px;min-width:0;min-height:44px;margin-left:auto;padding:4px 12px;border:0;border-radius:var(--r-m);background:var(--panel-2);text-align:left;cursor:pointer;transition:background-color var(--t-fast) var(--ease)}
-.keypill:hover{background:var(--panel-3)}
-.keypill small{display:block;font-size:.75rem;line-height:1.2;color:var(--muted);font-weight:700}
-.keypill b{display:block;font:600 1rem/1.2 var(--f-display);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.keypill .tp{color:var(--rh)}
-.keypill.flash{animation:flash 480ms var(--ease)}
-.dotlive{width:10px;height:10px;border-radius:50%;background:var(--panel-3);flex:none}
-body[data-running] .dotlive{background:var(--live)}
-.iconbtn{display:inline-grid;place-items:center;width:44px;height:44px;flex:none;border:0;border-radius:var(--r-m);background:transparent;color:var(--ink);cursor:pointer;transition:background-color var(--t-fast) var(--ease)}
-.iconbtn:hover{background:var(--panel-2)}
-.iconbtn:active{background:var(--panel-3)}
-
-.dock{display:flex;gap:8px;padding:8px max(12px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));background:var(--panel)}
-.dock .btn{flex:1;min-width:0}
-.dock .btn.primary{flex:2}
-.dock .when-run{white-space:nowrap}
-.btn.stop{border-color:var(--ink)}
-body[data-running] .when-idle,body:not([data-running]) .when-run{display:none!important}
-
-.cockpit{min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding:8px 12px;padding-left:max(12px,env(safe-area-inset-left));padding-right:max(12px,env(safe-area-inset-right))}
-.panel{background:var(--panel);border-radius:var(--r-l);padding:12px 16px}
-
-/* Scène : le chiffre mène */
-.stage{flex:none;display:flex;flex-direction:column;gap:8px}
-.stage.flash{animation:flash 480ms var(--ease)}
-@keyframes flash{from{background-color:color-mix(in srgb,var(--brand-orange) 32%,var(--panel))}to{background-color:var(--panel)}}
-.now{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:16px;align-items:center}
-.deg{font:700 clamp(6rem,30vw,8.5rem)/.9 var(--f-display);color:var(--deg);min-width:.62em;text-align:center;font-variant-numeric:tabular-nums}
-.deg.pop{animation:pop 240ms var(--ease)}
-@keyframes pop{from{transform:scale(.88)}to{transform:scale(1)}}
-.deg.wait{width:.72em;height:.72em;min-width:0;display:grid;place-items:center}
-.deg.wait::before{content:"";width:.7em;height:.7em;border-radius:50%;background:color-mix(in srgb,var(--deg) 22%,transparent);box-shadow:inset 0 0 0 4px var(--deg);transform:scale(calc(.55 + var(--lvl)*.45));transition:transform 80ms linear}
-.deg.idle::before{box-shadow:inset 0 0 0 4px var(--line);background:transparent;transform:scale(.55)}
-.chordname{font:600 clamp(1.875rem,9vw,2.75rem)/1.05 var(--f-display);overflow-wrap:break-word}
-.chordname em{display:block;font-style:normal;color:var(--rh);font-size:.68em;margin-top:2px}
-.chordsub{color:var(--muted);font-size:.9375rem;margin-top:4px}
-.chordsub b{color:var(--lh)}
-.after{display:flex;flex-wrap:wrap;gap:8px}
-.afteritem{display:inline-flex;align-items:baseline;gap:8px;min-height:44px;padding:8px 12px;border:0;border-radius:var(--r-m);background:var(--panel-2);color:var(--ink)}
-button.afteritem{cursor:pointer;transition:background-color var(--t-fast) var(--ease)}
-button.afteritem:hover{background:var(--panel-3)}
-button.afteritem[aria-pressed="true"]{box-shadow:inset 0 0 0 2px var(--rh)}
-.afteritem b{font:600 1.25rem/1 var(--f-display)}
-.afteritem b i{font-style:normal;color:var(--lh)}
-.afteritem small{font-size:.8125rem;color:var(--muted)}
-.lyric{color:var(--muted);font-style:italic;font-size:.9375rem;overflow-wrap:anywhere}
-.lyric:empty{display:none}
-.voicenote{font:600 1.5rem/1.2 var(--f-display)}
-.stage.voiceonly .now,.stage.voiceonly .after{display:none}
-
-/* Clavier */
-.kbp{flex:none;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"title level" "svg svg" "hands hands";gap:8px 12px;align-items:center}
-.kbtitle{grid-area:title;display:flex;align-items:center;flex-wrap:wrap;gap:4px 8px;min-width:0}
-.level{grid-area:level}
-.level button{min-width:44px}
-.hands{grid-area:hands;display:flex;flex-wrap:wrap;gap:4px 16px;font-size:.9375rem}
-.hands span{display:inline-flex;align-items:center;gap:8px}
-.hands i{width:12px;height:12px;border-radius:4px;flex:none}
-.hands small{color:var(--muted);font-size:.8125rem}
-svg.kb{grid-area:svg;display:block;width:100%;height:auto}
-.kb text{font-family:var(--f-body)}
-.linkbtn{min-height:32px;padding:4px 8px;border:0;border-radius:var(--r-s);background:var(--panel-2);color:var(--rh);font-size:.8125rem;font-weight:700;cursor:pointer}
-.linkbtn:hover{background:var(--panel-3)}
-
-/* Grille et mélodie */
-.side{flex:1 0 200px;min-height:200px;display:flex;flex-direction:column;gap:8px}
-.side[data-show="grid"] #melCard,.side[data-show="mel"] #gridCard{display:none}
-.gridp,.melp{flex:1;min-height:0;display:flex;flex-direction:column;gap:8px}
-.ghead{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.ghead h2{font:600 1.25rem/1.2 var(--f-display)}
-.structure{color:var(--muted);font-weight:700;font-size:.875rem;letter-spacing:.08em;margin:0}
-.gactions{display:flex;gap:4px;margin-left:auto}
-#gridlines{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;display:flex;flex-direction:column;gap:16px;padding:2px}
-.gridempty{margin:auto;max-width:36ch;text-align:center;color:var(--muted)}
-.song{display:flex;flex-direction:column;gap:8px}
-.songh{display:flex;gap:4px 8px;flex-wrap:wrap;align-items:baseline;font:600 1rem var(--f-display)}
-.songh small{font:700 .8125rem var(--f-body);color:var(--muted)}
-.songh small.tp{color:var(--rh)}
-.modmark{display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--line);border-radius:var(--r-m);background:var(--panel-2);font-weight:700;font-size:.9375rem}
-.modmark .icon{color:var(--rh)}
-.phrase{display:grid;grid-template-columns:28px minmax(0,1fr);gap:8px;align-items:start}
-.sec{width:28px;height:28px;margin-top:8px;display:grid;place-items:center;border-radius:var(--r-s);background:var(--panel-2);font:600 .9375rem var(--f-display)}
-.cells{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch;min-width:0}
-.cell{display:flex;flex-direction:column;align-items:flex-start;min-width:72px;max-width:160px;padding:8px 12px;border:0;border-radius:var(--r-m);background:var(--panel-2);text-align:left;cursor:pointer;transition:background-color var(--t-fast) var(--ease)}
-.cell:hover{background:var(--panel-3)}
-.cell:active{background:var(--line)}
-.cell[aria-pressed="true"]{box-shadow:inset 0 0 0 2px var(--rh)}
-.cell .d{font:700 1.625rem/1 var(--f-display);color:var(--deg)}
-.cell .n{font-weight:700;font-size:.9375rem}
-.cell .e{font-weight:700;font-size:.8125rem;color:var(--rh)}
-.cell .w{font-size:.8125rem;color:var(--muted);font-style:italic;overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2}
-.cell.now{background:var(--brand-orange);color:var(--on-fill)}
-.cell.now .d,.cell.now .n,.cell.now .e,.cell.now .w{color:var(--on-fill)}
-.cell.now:hover{background:var(--primary-hover)}
-.pass{align-self:center;font-size:.8125rem;font-weight:700;color:var(--rh);white-space:nowrap}
-.copyout{margin:0;max-height:40%;overflow:auto;padding:8px 12px;border-radius:var(--r-m);background:var(--panel-2);white-space:pre-wrap;user-select:all;font-size:.875rem}
-.melhead{display:flex;align-items:center;gap:8px;min-width:0}
-.chips{flex:1;min-width:0;display:flex;justify-content:flex-end;gap:4px;overflow:hidden}
-.chip{flex:none;font-size:.8125rem;padding:2px 8px;border-radius:var(--r-s);background:var(--panel-2)}
-.chip:last-child{background:var(--panel-3);font-weight:700}
-.pitchnow{flex:none;min-width:40px;text-align:right;font-weight:700;font-size:.875rem;font-variant-numeric:tabular-nums}
-canvas#mel{flex:1;min-height:64px;width:100%;display:block}
-
-/* Message */
-.msg{position:fixed;z-index:20;left:12px;right:12px;bottom:calc(84px + env(safe-area-inset-bottom));display:flex;align-items:center;gap:12px;max-width:560px;margin:0 auto;padding:8px 8px 8px 16px;border-radius:var(--r-m);background:var(--panel);color:var(--ink);border:1px solid var(--line);box-shadow:var(--shadow)}
-body[data-view="welcome"] .msg{bottom:auto;top:16px}
-.msg-text{flex:1;min-width:0;padding-block:4px}
-.msg .icon.alert{color:var(--danger)}
-
-/* Réglages */
-dialog{color:var(--ink);background:var(--panel);border:0;padding:0;width:100%;max-width:none;margin:auto 0 0;max-height:88dvh;border-radius:var(--r-l) var(--r-l) 0 0;box-shadow:var(--shadow)}
-dialog::backdrop{background:var(--scrim)}
-.sethead{position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;padding:8px 8px 8px 20px;background:var(--panel)}
-.sethead h2{font:600 1.5rem var(--f-display)}
-.set{display:flex;flex-direction:column;gap:20px;padding:4px 20px calc(24px + env(safe-area-inset-bottom))}
-.field{display:flex;flex-direction:column;gap:8px}
-.field>span,.field>label{font-weight:700}
-.field small,.switch small{color:var(--muted);font-weight:400;font-size:.875rem}
-.notes{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
-.notes button{min-height:44px;padding:0;border:0;border-radius:var(--r-s);background:var(--panel-2);color:var(--ink);font-size:.875rem;font-weight:700;cursor:pointer;transition:background-color var(--t-fast) var(--ease)}
-.notes button:hover{background:var(--panel-3)}
-.notes button[aria-pressed="true"]{background:var(--brand-orange);color:var(--on-fill)}
-.switch{display:flex;align-items:center;justify-content:space-between;gap:16px;cursor:pointer}
-.switch input{width:24px;height:24px;flex:none;accent-color:var(--rh);cursor:pointer}
-input[type=range]{width:100%;min-height:24px;accent-color:var(--rh);cursor:pointer}
-details{border-top:1px solid var(--line);padding-top:12px}
-summary{display:flex;align-items:center;justify-content:space-between;min-height:44px;font-weight:700;cursor:pointer;list-style:none}
-summary::-webkit-details-marker{display:none}
-summary .icon{transition:transform var(--t-med) var(--ease)}
-details[open] summary .icon{transform:rotate(180deg)}
-details .set{padding:8px 0 0}
-
-/* Petit téléphone : la scène se compacte pour laisser la place à la grille */
-@media (max-width:1023px) and (max-height:740px) and (orientation:portrait){
-  .stage{flex-flow:row wrap;align-items:center;justify-content:space-between}
-  .deg{font-size:5.5rem}
-  .chordname{font-size:1.75rem}
-  .chordsub,.lyric,.hands small{display:none}
-}
-/* Téléphone à l'horizontale */
-@media (orientation:landscape) and (max-height:520px){
-  .app{grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto minmax(0,1fr);grid-template-areas:"bar dock" "cockpit cockpit"}
-  .bar{grid-area:bar}.dock{grid-area:dock;padding:8px 12px}.dock .btn{flex:none}.cockpit{grid-area:cockpit;display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);align-items:start}
-  .stage{grid-row:span 2}.side{min-height:220px}
-  .msg{bottom:12px}
-}
-
-/* PC : tout tient sur un écran, lisible depuis le clavier */
-@media (min-width:1024px){
-  kbd{display:inline-block}
-  .mini span{display:inline}
-  .mini{min-height:36px}
-  .welcome{padding:32px 48px}
-  .w-inner{min-height:calc(100dvh - 64px);display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);grid-template-rows:auto 1fr auto;column-gap:64px;row-gap:32px;align-items:center}
-  .welcome .logo{grid-column:1/-1;height:44px}
-  .w-copy{align-self:end}
-  .welcome h1{font-size:clamp(3.5rem,6vw,5.5rem)}
-  .welcome p{font-size:1.25rem;margin-top:16px}
-  .w-actions{align-self:start;margin:0;max-width:520px}
-  .w-preview{grid-column:2;grid-row:2/4;align-self:center;padding:32px;gap:8px 32px}
-  .w-preview .pdeg{font-size:11rem}
-  .w-preview .pname{font-size:3.5rem}
-  .w-preview .psub{font-size:1.125rem}
-  .w-preview svg.kb{margin-top:16px;max-height:none}
-
-  .app{grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto minmax(0,1fr);grid-template-areas:"bar dock" "cockpit cockpit"}
-  .bar{grid-area:bar;padding:12px 8px 12px 20px;min-height:72px;gap:20px}
-  .bar .logo{height:32px}
-  .keypill{margin-left:0;padding:8px 16px}
-  .keypill b{font-size:1.25rem}
-  .keypill small{font-size:.8125rem}
-  .bar .iconbtn{margin-left:auto}
-  .dock{grid-area:dock;padding:12px 20px 12px 0;align-items:center}
-  .dock .btn{flex:none;padding-inline:20px}
-  .cockpit{grid-area:cockpit;display:grid;overflow:hidden;gap:12px;padding:12px;grid-template-columns:minmax(0,5fr) minmax(0,7fr);grid-template-rows:minmax(0,1fr) auto;grid-template-areas:"stage side" "kb kb"}
-  .panel{padding:16px 24px}
-  .stage{grid-area:stage;min-height:0;justify-content:space-between;gap:12px;overflow:hidden}
-  .now{flex:1;min-height:0;column-gap:24px}
-  .deg{font-size:clamp(9rem,28vh,22rem)}
-  .chordname{font-size:clamp(2.75rem,8vh,5.5rem)}
-  .chordsub{font-size:1.125rem;margin-top:8px}
-  .afteritem{padding:12px 16px}
-  .afteritem .eyebrow{font-size:.9375rem}
-  .afteritem b{font-size:clamp(1.5rem,4vh,2.25rem)}
-  .lyric{font-size:1.125rem}
-  .voicenote{font-size:2.25rem;margin:auto 0}
-  .side{grid-area:side;min-height:0;flex:none}
-  .gridp{flex:1}
-  .cell{min-width:88px}
-  .cell .d{font-size:1.875rem}
-  .cell .n{font-size:1rem}
-  .kbp{grid-area:kb;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"title hands level" "svg svg svg";gap:12px 24px}
-  .kbp .eyebrow{font-size:1rem}
-  .hands{justify-content:center;font-size:1.125rem;gap:4px 32px}
-  .hands small{font-size:.9375rem}
-  .level button{min-width:80px;font-size:.9375rem}
-  svg.kb{max-height:30vh}
-  .msg{left:50%;right:auto;width:560px;bottom:auto;top:84px;transform:translateX(-50%)}
-  dialog{margin:0 0 0 auto;width:440px;height:100dvh;max-height:none;border-radius:var(--r-l) 0 0 var(--r-l)}
-}
-/* Grand écran : la grille et la mélodie tiennent ensemble. Petit portable : la grille reste prioritaire. */
-@media (min-width:1024px) and (min-height:801px){
-  .side[data-show="grid"] #melCard,.side[data-show="mel"] #gridCard{display:flex}
-  .swap{display:none}
-  .melp{flex:none;height:clamp(104px,16vh,168px)}
-}
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
-</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/app.css">
 </head>
-<body data-view="welcome">
+<body data-onglet="live" data-panneau="grille">
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <!-- Logo redessiné d'après la maquette. Le fichier officiel, s'il existe en SVG, se remplace ici. -->
@@ -332,670 +32,314 @@ details .set{padding:8px 0 0}
     <g fill="none" stroke="currentColor" stroke-width="72" stroke-linecap="round">
       <path d="M221 250V300C221 355 182 383 150 383C130 383 118 375 105 367"/><path d="M1530 160L1615 290"/><path d="M1686 160L1578 388"/>
     </g>
-    <path fill="var(--dot)" fill-rule="evenodd" d="M493 230a107 107 0 1 0 214 0a107 107 0 1 0-214 0ZM532 195q0-8 8-8H563V243H572V280q0 8-8 8H540q-8 0-8-8ZM588 187H614V243H620V280q0 8-8 8H590q-8 0-8-8V243H588ZM640 187H662q8 0 8 8V280q0 8-8 8H638q-8 0-8-8V243H640Z"/>
+    <path fill="var(--accent)" fill-rule="evenodd" d="M493 230a107 107 0 1 0 214 0a107 107 0 1 0-214 0ZM532 195q0-8 8-8H563V243H572V280q0 8-8 8H540q-8 0-8-8ZM588 187H614V243H620V280q0 8-8 8H590q-8 0-8-8V243H588ZM640 187H662q8 0 8 8V280q0 8-8 8H638q-8 0-8-8V243H640Z"/>
   </symbol>
   <symbol id="i-mic" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></symbol>
-  <symbol id="i-stop" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/></symbol>
   <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol>
-  <symbol id="i-play" viewBox="0 0 24 24"><path d="M6 3l14 9-14 9Z"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4l12 8-12 8Z"/></symbol>
   <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
   <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M21 4h-7M10 4H3M21 12h-9M8 12H3M21 20h-5M12 20H3M14 2v4M8 10v4M16 18v4"/></symbol>
   <symbol id="i-copy" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
   <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></symbol>
   <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
   <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></symbol>
   <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
-  <symbol id="i-up" viewBox="0 0 24 24"><path d="m5 12 7-7 7 7M12 19V5"/></symbol>
+  <symbol id="i-fleche" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-haut" viewBox="0 0 24 24"><path d="m5 12 7-7 7 7M12 19V5"/></symbol>
+  <symbol id="i-bas" viewBox="0 0 24 24"><path d="m5 12 7 7 7-7M12 5v14"/></symbol>
   <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></symbol>
-  <symbol id="i-grid" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></symbol>
+  <symbol id="i-grille" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></symbol>
+  <symbol id="i-piano" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 13v7M16 13v7M12 13v7M6 4v9h4V4M14 4v9h4V4"/></symbol>
+  <symbol id="i-labs" viewBox="0 0 24 24"><path d="M10 2v7.5L4.5 18A2.5 2.5 0 0 0 6.6 22h10.8a2.5 2.5 0 0 0 2.1-4L14 9.5V2"/><path d="M8.5 2h7M7 16h10"/></symbol>
+  <symbol id="i-haut-parleur" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></symbol>
+  <symbol id="i-oeil" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-main" viewBox="0 0 24 24"><path d="M18 11V6a2 2 0 0 0-4 0M14 10V4a2 2 0 0 0-4 0v2M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 0 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.9-6-2.4L2.4 16a2 2 0 0 1 2.8-2.8L7 15"/></symbol>
+  <symbol id="i-boucle" viewBox="0 0 24 24"><path d="m17 2 4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h15M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-sure" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></symbol>
+  <symbol id="i-probable" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20Z" fill="currentColor"/></symbol>
+  <symbol id="i-hypothese" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-dasharray="3 3.3"/><path d="M9.5 9.5a2.5 2.5 0 0 1 4.8 1c0 1.7-2.3 2-2.3 3.5M12 17h.01"/></symbol>
+  <symbol id="i-cadenas" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-ecoute" viewBox="0 0 24 24"><path d="M3 12h2l2-6 4 13 3-9 2 4h5"/></symbol>
+  <symbol id="i-panneau" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></symbol>
+  <symbol id="i-recherche" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-idee" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5A5 5 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6M10 22h4"/></symbol>
 </svg>
 
-<section class="welcome" id="welcome">
-  <div class="w-inner">
-    <svg class="logo" role="img" aria-label="goodplay"><use href="#logo"/></svg>
-    <div class="w-copy">
-      <h1>Chante. Je te souffle la basse.</h1>
-      <p>goodplay écoute la voix, trouve la tonalité en quelques secondes, puis t'indique quoi jouer au piano.</p>
-    </div>
-    <figure class="w-preview" aria-hidden="true">
-      <div class="pdeg">4</div>
-      <div><div class="pname">Do</div><div class="psub">Exemple : en Sol majeur, à la basse, joue le 4.</div></div>
-      <svg class="kb" id="wkb"></svg>
-    </figure>
-    <div class="w-actions">
-      <button class="btn primary big act-mic"><svg class="icon"><use href="#i-mic"/></svg>Écouter<kbd>Espace</kbd></button>
-      <div class="w-second">
-        <label class="btn"><span>Analyser un enregistrement</span><input class="file-in" type="file" accept="audio/*,.m4a,.mp3,.wav,.aac"></label>
-        <button class="btn act-demo">Voir la démo</button>
-      </div>
-    </div>
-  </div>
-</section>
-
 <div class="app" id="app">
-  <header class="bar">
+  <header class="barre">
+    <button class="icone" id="arbreBasculer" aria-label="Masquer le panneau de gauche" aria-pressed="true" title="Masquer ou montrer le panneau de gauche"><svg class="ic"><use href="#i-panneau"/></svg></button>
     <svg class="logo" role="img" aria-label="goodplay"><use href="#logo"/></svg>
-    <button class="keypill" id="keyBtn" aria-live="polite" aria-label="Tonalité, ouvrir les réglages"><span class="dotlive"></span><span><small>Tonalité</small><b id="keyname">J'écoute…</b><small class="tp" id="tpline" hidden></small></span></button>
-    <button class="iconbtn" id="openSet" aria-label="Réglages" title="Réglages"><svg class="icon"><use href="#i-sliders"/></svg></button>
+    <span class="espace" id="espaceNom">Session vide</span>
+    <div class="barre-fin">
+      <button class="tonbtn" id="barreTon" aria-haspopup="dialog" aria-expanded="false" aria-controls="popTon">
+        <svg class="ic" id="barreIc"><use href="#i-ecoute"/></svg><small>Chant</small><b id="barreTonNom">Pas encore écouté</b><svg class="ic chev"><use href="#i-chevron"/></svg>
+      </button>
+      <button class="tonbtn barre-jeu" id="barreJeu" aria-haspopup="dialog" aria-expanded="false" aria-controls="popTon"><small>Tu joues en</small><b id="barreJeuNom">Comme le chant</b></button>
+      <div class="vu vu-haut" role="img" aria-label="Niveau du micro"><span class="vu-rail"><i class="vuBarre"></i></span></div>
+      <button class="icone act-reglages" aria-label="Réglages" title="Réglages"><svg class="ic"><use href="#i-sliders"/></svg></button>
+    </div>
   </header>
 
-  <main class="cockpit">
-    <section class="panel stage" id="stage" aria-label="Accord à jouer">
-      <div class="now">
-        <div class="deg" id="deg"></div>
-        <div>
-          <div class="chordname" id="cname"></div>
-          <div class="chordsub" id="csub"></div>
+  <nav class="rail" aria-label="Espaces">
+    <button class="vue" data-onglet="live" aria-pressed="true"><svg class="ic"><use href="#i-piano"/></svg><span>Live</span></button>
+    <button class="vue" data-onglet="labs" aria-pressed="false"><svg class="ic"><use href="#i-labs"/></svg><span>Labs</span></button>
+    <button class="vue-r act-reglages"><svg class="ic"><use href="#i-sliders"/></svg><span>Réglages</span></button>
+  </nav>
+
+  <main class="scene" id="scene">
+    <aside class="arbre" aria-label="Contenu de la session">
+      <div class="arbre-tete">Session</div>
+      <div class="arbre-corps" id="arbreCorps"></div>
+    </aside>
+
+    <div class="travail">
+      <div class="onglets">
+        <div class="f-onglets" role="tablist" aria-label="Affichage">
+          <button role="tab" data-panneau="grille" aria-selected="true" id="tabGrille" aria-controls="grille">Grille</button>
+          <button role="tab" data-panneau="melodie" aria-selected="false" id="tabMelodie" aria-controls="melodie">Grille mélodique</button>
+          <button role="tab" data-panneau="enrichir" aria-selected="false" id="tabEnrichir" aria-controls="enrichirP">Enrichir<i class="point-signal" aria-hidden="true"></i></button>
         </div>
+        <p class="structure" id="structure"></p>
+        <div class="seg profondeur" role="group" aria-label="Profondeur des accords">
+          <button data-v="squelette" title="La basse et l'accord de base">Squelette</button>
+          <button data-v="enrichi" title="Ajoute une couleur à chaque accord">Enrichi</button>
+        </div>
+        <button class="icone" id="copier" aria-label="Copier la grille" title="Copier la grille"><svg class="ic"><use href="#i-copy"/></svg></button>
+        <button class="icone danger" id="effacer" aria-label="Effacer la grille" title="Effacer la grille"><svg class="ic"><use href="#i-trash"/></svg></button>
       </div>
-      <div class="after" id="after">
-        <span class="afteritem"><span class="eyebrow">Ensuite</span><b id="next"></b><small id="nextwhy"></small></span>
-        <button class="afteritem" id="passBtn" aria-pressed="false" title="Voir le doigté de l'accord de passage"><span class="eyebrow">Passage</span><b id="pass"></b></button>
-      </div>
-      <div class="lyric" id="lyric"></div>
-      <div class="voicenote" id="voicenote" hidden>Écoute : l'accord t'est annoncé à l'oreille.</div>
-    </section>
 
-    <section class="panel kbp" aria-label="Doigté">
-      <div class="kbtitle"><span class="eyebrow" id="kbtitle">Doigté</span><button class="linkbtn" id="liveBtn" hidden>Retour au direct</button></div>
-      <div class="seg level" data-set="level" role="group" aria-label="Richesse des accords">
-        <button data-v="0" title="Accords de trois sons : la base pour débuter.">Base</button>
-        <button data-v="1" title="Ajoute la 7e et la quinte à la main gauche.">7e</button>
-        <button data-v="2" title="Ajoute les 9es et un accord de passage entre les cases.">9e</button>
-      </div>
-      <div class="hands" id="hands"></div>
-      <svg class="kb" id="kb" role="img" aria-label="Clavier avec les touches à jouer"></svg>
-    </section>
-
-    <div class="side" id="side" data-show="grid">
-      <section class="panel gridp" id="gridCard" aria-label="Grille de la chanson">
-        <div class="ghead">
-          <h2>Grille</h2><p class="structure" id="structure"></p>
-          <div class="gactions">
-            <button class="mini swap" id="toMel" aria-label="Voir la mélodie" title="Voir la mélodie"><svg class="icon"><use href="#i-music"/></svg></button>
-            <button class="mini" id="copyGrid" aria-label="Copier la grille" title="Copier la grille"><svg class="icon"><use href="#i-copy"/></svg><span>Copier</span></button>
-            <button class="mini danger" id="clearGrid" aria-label="Effacer la grille" title="Effacer la grille"><svg class="icon"><use href="#i-trash"/></svg><span>Effacer</span></button>
+      <div class="commande" aria-label="Commandes">
+        <div class="cmd-champ">
+          <button class="seg-ton" id="tonBtn" aria-haspopup="dialog" aria-expanded="false" aria-controls="popTon">
+            <svg class="ic" id="tonIc"><use href="#i-ecoute"/></svg><small>Chant</small><b id="tonNom">Pas encore écouté</b><span class="ton-etat" id="tonEtat"></span><svg class="ic chev"><use href="#i-chevron"/></svg>
+          </button>
+          <div class="jeu" role="group" aria-label="Tonalité dans laquelle tu joues">
+            <button class="pas" id="jeuMoins" aria-label="Jouer un demi-ton plus bas" title="Un demi-ton plus bas"><svg class="ic"><use href="#i-minus"/></svg></button>
+            <button class="jeu-val" id="jeuBtn" aria-haspopup="dialog" aria-expanded="false" aria-controls="popTon"><small>Tu joues en</small><b id="jeuNom">Comme le chant</b><output class="tp" id="tpVal" aria-live="polite"></output></button>
+            <button class="pas" id="jeuPlus" aria-label="Jouer un demi-ton plus haut" title="Un demi-ton plus haut"><svg class="ic"><use href="#i-plus"/></svg></button>
+          </div>
+          <div class="tempo">
+            <span class="bpm"><b class="bpmV">--</b><small>bpm</small><i class="battue" id="battue"></i></span>
+            <button class="taper taper-cmd">Taper</button>
           </div>
         </div>
-        <div id="gridlines"></div>
-        <p class="copyout" id="copyOut" hidden></p>
-      </section>
-      <section class="panel melp" id="melCard" aria-label="Ligne mélodique">
-        <div class="melhead"><span class="eyebrow">Mélodie</span><div class="chips" id="chips"></div><span class="pitchnow" id="pitchnow"></span><button class="mini swap" id="toGrid" aria-label="Voir la grille" title="Voir la grille"><svg class="icon"><use href="#i-grid"/></svg></button></div>
-        <canvas id="mel"></canvas>
+        <div class="cmd-sec">
+          <button class="btn direct-seul act-nouveau"><svg class="ic"><use href="#i-plus"/></svg><span>Nouveau chant</span></button>
+          <label class="btn repos"><svg class="ic"><use href="#i-upload"/></svg><span>Analyser<span class="long"> un enregistrement</span></span><input class="act-fichier" type="file" accept="audio/*,.m4a,.mp3,.wav,.aac"></label>
+          <button class="btn repos act-demo"><svg class="ic"><use href="#i-play"/></svg><span>Démo</span></button>
+          <button class="btn tel-seul act-accord" disabled aria-label="Écouter l'accord"><svg class="ic"><use href="#i-haut-parleur"/></svg></button>
+          <button class="btn tel-seul act-mains" aria-pressed="true" aria-label="Montrer les mains"><svg class="ic"><use href="#i-main"/></svg></button>
+        </div>
+        <button class="btn principal envoi act-micro repos"><svg class="ic"><use href="#i-mic"/></svg><span>Écouter</span></button>
+        <button class="btn principal envoi arret act-arret direct-seul"><svg class="ic"><use href="#i-stop"/></svg><span>Arrêter</span></button>
+      </div>
+
+      <div class="corps">
+        <section class="maintenant" id="pupitre" aria-label="Accord à jouer">
+          <div class="reco-bande" id="recoBande" role="status" hidden><p id="recoTxt"></p><button class="lien" id="recoSauve" aria-haspopup="dialog" hidden></button><button class="lien" id="recoNon" hidden>Ce n'est pas ce chant</button></div>
+          <button class="tp-bande" id="tpBande" aria-haspopup="dialog" aria-controls="popTon" hidden></button>
+          <div class="ton-choix" id="tonChoix" role="group" aria-label="Choisis la tonalité" hidden></div>
+          <div class="duo">
+            <div class="now">
+              <span class="etiq-z">Maintenant<span class="prop" id="nowProp" title="Je devine les accords : le chant n'est pas reconnu" hidden>proposition</span></span>
+              <button class="now-btn" id="nowBtn" aria-label="Écouter l'accord" disabled>
+                <span class="chiffre" id="nowDeg"></span>
+                <span class="accord" id="nowNom"></span>
+                <span class="now-basse" id="nowBasse"></span>
+              </button>
+              <div class="now-choix" id="nowChoix" role="group" aria-label="Choisis l'accord" hidden></div>
+            </div>
+            <div class="ensuite vide-en" id="ensuite">
+              <span class="etiq-z">Ensuite<span class="badge" id="nextBadge" hidden></span></span>
+              <span class="en-corps" id="nextCorps"><span class="chiffre2" id="nextDeg"></span><span class="accord2" id="nextNom"></span></span>
+              <span class="en-attente" id="nextAttente"></span>
+              <span class="jauge" id="nextJauge" hidden><i id="nextJaugeI"></i></span>
+            </div>
+          </div>
+          <div class="sous-ligne">
+            <p class="sous" id="nowSous"></p>
+            <div class="pasca" id="pasCa" hidden></div>
+          </div>
+          <div class="aide" id="aide" role="status" hidden><svg class="ic"><use href="#i-alert"/></svg><span><b id="aideT"></b> <span id="aideD"></span></span></div>
+          <aside class="enrichir-tel" aria-label="Idée pour enrichir"><svg class="ic"><use href="#i-idee"/></svg><div class="suggs" id="suggsTel"></div></aside>
+        </section>
+
+        <section class="feuille" id="feuille" aria-label="Grille de la chanson">
+          <div class="f-corps">
+            <div class="grille" id="grille" role="tabpanel" aria-labelledby="tabGrille" tabindex="-1">
+              <div class="vide" id="grilleVide"><svg class="ic"><use href="#i-grille"/></svg><b>La grille s'écrit ici</b><span>Une case par accord, une ligne par phrase. Clique une case pour la corriger.</span><span>Pour le micro : pose le téléphone près du chantre, loin du piano.</span><button class="btn act-demo vide-action"><svg class="ic"><use href="#i-play"/></svg>Voir la démo</button></div>
+            </div>
+            <div class="melodie" id="melodie" role="tabpanel" aria-labelledby="tabMelodie" tabindex="-1" hidden>
+              <div class="vide" id="melodieVide"><svg class="ic"><use href="#i-music"/></svg><b>La mélodie s'écrit ici</b><span>Chaque note chantée, avec son nom, sous les accords, dès que tu chantes.</span></div>
+            </div>
+            <div class="enrichir-p" id="enrichirP" role="tabpanel" aria-labelledby="tabEnrichir" tabindex="-1" hidden>
+              <div class="en-tete">
+                <h2>Suggestions de l'accord en cours et du suivant</h2>
+                <button class="choix" id="styleBtn" aria-haspopup="listbox" aria-expanded="false"><small>Style</small><span id="styleNom">Gospel</span><svg class="ic"><use href="#i-chevron"/></svg></button>
+              </div>
+              <div class="suggs" id="suggs"></div>
+            </div>
+            <button class="direct" id="retourDirect" hidden><svg class="ic"><use href="#i-bas"/></svg>Revenir au direct</button>
+          </div>
+          <textarea class="copie" id="copieTexte" readonly hidden aria-label="Texte de la grille à copier"></textarea>
+        </section>
+      </div>
+
+      <div class="sep" role="separator" aria-orientation="horizontal" aria-label="Hauteur du clavier" tabindex="0"></div>
+
+      <section class="kbzone" aria-label="Clavier et mains">
+        <div class="kb-tete">
+          <div class="kb-actions">
+            <button class="btn act-accord" disabled><svg class="ic"><use href="#i-haut-parleur"/></svg><span>Accord</span></button>
+            <button class="btn act-mains" aria-pressed="true"><svg class="ic"><use href="#i-main"/></svg><span>Mains</span></button>
+          </div>
+          <div class="apercu" id="apercu" hidden><span id="apercuNom"></span><button class="lien" id="apercuFin">Retour au direct</button></div>
+          <p class="kb-etat" id="kbEtat"></p>
+        </div>
+        <div class="kb-corps"><div class="clavier" id="clavier"></div></div>
       </section>
     </div>
   </main>
 
-  <div class="dock">
-    <button class="btn primary when-idle act-mic" id="micBtn"><svg class="icon"><use href="#i-mic"/></svg>Écouter<kbd>Espace</kbd></button>
-    <label class="btn when-idle"><svg class="icon"><use href="#i-upload"/></svg><span>Fichier</span><input class="file-in" type="file" accept="audio/*,.m4a,.mp3,.wav,.aac"></label>
-    <button class="btn when-idle act-demo"><svg class="icon"><use href="#i-play"/></svg>Démo</button>
-    <button class="btn when-run" id="newSong"><svg class="icon"><use href="#i-plus"/></svg>Nouveau chant</button>
-    <button class="btn stop when-run" id="stopBtn"><svg class="icon"><use href="#i-stop"/></svg>Arrêter<kbd>Espace</kbd></button>
+  <section class="labs" id="labs" hidden><div id="labsMontage"></div></section>
+
+  <footer class="statut">
+    <span class="st-bloc st-live vu vu-bas" role="img" aria-label="Niveau du micro"><svg class="ic"><use href="#i-mic"/></svg><span class="vu-rail"><i class="vuBarre"></i></span></span>
+    <span class="st-bloc" id="stEtat" role="status">Au repos</span>
+    <span class="st-bloc st-live" id="stLat" title="Temps entre le début de note retenu par le moteur et l'accord affiché, médiane des derniers accords">Latence --</span>
+    <button class="st-nota" id="stNota" title="Changer les noms des notes"></button>
+    <span class="st-racc" aria-label="Raccourcis clavier">
+      <span><kbd>Espace</kbd><i>Écouter</i></span>
+      <span class="st-live"><kbd>N</kbd><i>Nouveau</i></span>
+      <span class="st-live"><kbd>T</kbd><i>Taper</i></span>
+      <span class="st-live"><kbd>A</kbd><i>Accord</i></span>
+      <span class="st-live"><kbd>M</kbd><i>Mains</i></span>
+      <span class="st-live"><kbd>1</kbd><kbd>2</kbd><i>Trancher</i></span>
+    </span>
+  </footer>
+
+  <nav class="tabbar" aria-label="Navigation">
+    <button class="tab" data-onglet="live" aria-pressed="true"><svg class="ic"><use href="#i-piano"/></svg>Live</button>
+    <button class="tab" data-onglet="grille" aria-pressed="false"><svg class="ic"><use href="#i-grille"/></svg>Grille</button>
+    <button class="fab" id="fab"><svg class="ic"><use id="fabIc" href="#i-mic"/></svg><span id="fabTxt">Écouter</span></button>
+    <button class="tab" data-onglet="melodie" aria-pressed="false"><svg class="ic"><use href="#i-music"/></svg>Mélodie</button>
+    <button class="tab" data-onglet="labs" aria-pressed="false"><svg class="ic"><use href="#i-labs"/></svg>Labs</button>
+  </nav>
+</div>
+
+<div class="annonce" id="annonce" role="status" hidden>
+  <svg class="ic" id="annonceIc"><use id="annonceUse" href="#i-haut"/></svg>
+  <div class="annonce-t" id="annonceT"></div>
+  <button class="lien" id="annonceAnnuler" hidden>Annuler</button>
+  <button class="icone petite" id="annonceFermer" aria-label="Fermer le message"><svg class="ic"><use href="#i-x"/></svg></button>
+</div>
+
+<!-- Enregistrer un chant -->
+<div class="pop pop-nom" id="popNom" role="dialog" aria-label="Enregistrer dans Mes chants" hidden>
+  <div class="pop-tete"><h2>Enregistrer dans Mes chants</h2><button class="icone" data-fermer aria-label="Fermer"><svg class="ic"><use href="#i-x"/></svg></button></div>
+  <form class="nom-form" id="nomForm" novalidate>
+    <label class="nom-champ"><span>Nom du chant</span><input id="nomChant" maxlength="60" autocomplete="off"></label>
+    <button class="btn principal" type="submit">Enregistrer</button>
+    <p class="nom-err" id="nomErr" role="alert" hidden></p>
+    <p class="note">Ta grille et la mélodie entendue restent sur cet appareil. Je reconnaîtrai ce chant la prochaine fois, même dans une autre tonalité.</p>
+  </form>
+</div>
+
+<!-- Tonalité et Transpose -->
+<div class="pop pop-ton" id="popTon" role="dialog" aria-label="Tonalité et Transpose" hidden>
+  <div class="pop-tete"><h2>Tonalité et Transpose</h2><button class="icone" data-fermer aria-label="Fermer"><svg class="ic"><use href="#i-x"/></svg></button></div>
+  <div class="ton-cols">
+    <div class="ton-col">
+      <h3>Le chant</h3>
+      <p class="etat" id="popEtat"></p>
+      <div class="seg" id="tonMode" role="group" aria-label="Choix de la tonalité du chant"><button data-v="auto">Automatique</button><button data-v="manuel">Je la choisis</button></div>
+      <div class="ton-manuel" id="tonManuel" hidden>
+        <div class="notes" id="tonNotes" role="group" aria-label="Note de la tonalité"></div>
+        <div class="seg" id="tonQualite" role="group" aria-label="Mode"><button data-v="maj">Majeur</button><button data-v="min">Mineur</button></div>
+      </div>
+      <button class="btn" id="redetecter"><svg class="ic"><use href="#i-boucle"/></svg>Re-détecter</button>
+      <p class="note">Re-détecter repart à zéro, sur un nouveau bloc de grille.</p>
+    </div>
+    <div class="ton-col">
+      <h3>Tu joues en</h3>
+      <p class="etat" id="popJeu"></p>
+      <div class="notes" id="jeuNotes" role="group" aria-label="Tonalité dans laquelle tu joues"></div>
+      <div class="ligne-pas">
+        <button class="btn" id="popMoins"><svg class="ic"><use href="#i-minus"/></svg>Demi-ton</button>
+        <button class="btn" id="popPlus"><svg class="ic"><use href="#i-plus"/></svg>Demi-ton</button>
+      </div>
+      <button class="btn" id="popComme">Comme le chant</button>
+      <div class="tempo-tel"><span class="bpm"><b class="bpmV">--</b><small>bpm</small></span><button class="btn taper">Taper le tempo</button></div>
+      <div class="actions-tel"><button class="btn direct-seul act-nouveau"><svg class="ic"><use href="#i-plus"/></svg>Nouveau chant</button><button class="btn act-mains" aria-pressed="true"><svg class="ic"><use href="#i-main"/></svg><span>Mains</span></button></div>
+    </div>
   </div>
 </div>
 
-<div class="msg" id="msg" role="status" hidden>
-  <svg class="icon alert" id="msgIcon" hidden><use href="#i-alert"/></svg>
-  <div class="msg-text" id="msgText"></div>
-  <button class="linkbtn" id="msgUndo" hidden>Annuler</button>
-  <button class="iconbtn" id="msgClose" aria-label="Fermer le message"><svg class="icon"><use href="#i-x"/></svg></button>
+<!-- Une case de la grille -->
+<div class="pop pop-case" id="popCase" role="dialog" aria-labelledby="caseTitre" hidden>
+  <div class="pop-tete">
+    <h2 id="caseTitre"></h2>
+    <button class="icone" data-fermer aria-label="Fermer"><svg class="ic"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="case-corps">
+    <h3>C'est plutôt</h3>
+    <div class="case-alts" id="caseAlts"></div>
+    <div class="case-autres" id="caseAutres"></div>
+    <div class="case-clavier" id="caseClavier"></div>
+    <button class="btn principal" id="caseEcouter"><svg class="ic"><use href="#i-haut-parleur"/></svg>Écouter cet accord</button>
+  </div>
 </div>
 
-<dialog id="settings" aria-labelledby="setTitle">
-  <div class="sethead"><h2 id="setTitle">Réglages</h2><button class="iconbtn" id="closeSet" aria-label="Fermer les réglages"><svg class="icon"><use href="#i-x"/></svg></button></div>
-  <div class="set">
-    <div class="field"><span>Tonalité</span>
-      <div class="seg" id="keyAuto" role="group" aria-label="Choix de la tonalité"><button data-v="auto">Automatique</button><button data-v="manual">Je la choisis</button></div>
-      <div class="field" id="keyManual" hidden>
-        <div class="notes" id="keyNotes" role="group" aria-label="Note de la tonalité"></div>
-        <div class="seg" id="keyQual" role="group" aria-label="Mode"><button data-v="maj">Majeur</button><button data-v="min">Mineur</button></div>
-      </div>
-      <button class="btn" id="redetect">Réécouter pour trouver la tonalité</button>
-    </div>
-    <div class="field"><span>Bouton Transpose du clavier</span>
-      <div class="seg" data-set="playKey" role="group" aria-label="Transpose"><button data-v="off">Vraie tonalité</button><button data-v="easy">Jouer en Do</button></div>
-      <small>« Jouer en Do » affiche tout en Do majeur (ou La mineur) et t'indique le réglage du bouton Transpose. Tu es prévenu si la tonalité change.</small></div>
-    <div class="field"><span>Sortie</span>
-      <div class="seg" data-set="output" role="group" aria-label="Sortie"><button data-v="both">Écran + voix</button><button data-v="voice">Voix seule</button><button data-v="screen">Écran seul</button></div>
+<div class="pop pop-liste" id="popMenu" role="listbox" aria-label="Choix" tabindex="-1" hidden></div>
+
+<!-- Réglages -->
+<dialog id="reglages" aria-labelledby="regTitre">
+  <div class="reg-tete"><h2 id="regTitre">Réglages</h2><button class="icone" id="fermerReglages" aria-label="Fermer les réglages"><svg class="ic"><use href="#i-x"/></svg></button></div>
+  <div class="reg">
+    <div class="champ"><span class="champ-t">Thème</span>
+      <div class="seg" data-reg="theme" role="group" aria-label="Thème"><button data-v="auto">Auto</button><button data-v="light">Clair</button><button data-v="dark">Sombre</button></div></div>
+    <div class="champ"><span class="champ-t">Noms des notes</span>
+      <div class="seg" data-reg="notation" role="group" aria-label="Noms des notes"><button data-v="fr">Do Ré Mi</button><button data-v="en">C D E</button></div></div>
+    <div class="champ"><span class="champ-t">Main gauche</span>
+      <div class="seg" data-reg="niveauMg" role="group" aria-label="Main gauche"><button data-v="0">Basse</button><button data-v="1">Octave</button><button data-v="2">Avec quinte</button></div></div>
+
+    <div class="champ"><label class="interrupteur"><span><b>Un bassiste joue avec toi</b><small>Lit aussi la basse réelle dans le son. À activer seulement si un autre musicien joue la basse. S'applique à partir d'une grille vide.</small></span><input type="checkbox" role="switch" id="basseReelle"><i></i></label></div>
+    <div class="champ"><label class="interrupteur"><span><b>Suivre les changements de tonalité</b><small>Bascule seul quand la personne qui mène change de ton.</small></span><input type="checkbox" role="switch" id="modulationAuto"><i></i></label></div>
+    <div class="champ"><label class="champ-t" for="silence">Nouveau chant après un silence de <span id="silenceV"></span></label><input type="range" id="silence" min="8" max="60" step="1"></div>
+
+    <div class="champ"><span class="champ-t">Voix</span>
+      <div class="seg" data-reg="sortie" role="group" aria-label="Sortie"><button data-v="both">Écran et voix</button><button data-v="voice">Voix seule</button><button data-v="screen">Écran seul</button></div>
       <small>La voix seule convient aux lunettes sans écran.</small></div>
-    <div class="field"><span>La voix annonce</span>
-      <div class="seg" data-set="announce" role="group" aria-label="La voix annonce"><button data-v="deg">Degré</button><button data-v="note">Note</button><button data-v="both">Les deux</button></div></div>
-    <div class="field"><span>Noms des notes</span>
-      <div class="seg" data-set="notation" role="group" aria-label="Noms des notes"><button data-v="fr">Do Ré Mi</button><button data-v="en">C D E</button></div></div>
-    <div class="field"><span>Thème</span>
-      <div class="seg" data-set="theme" role="group" aria-label="Thème"><button data-v="auto">Auto</button><button data-v="light">Clair</button><button data-v="dark">Sombre</button></div></div>
-    <label class="switch" for="showMel"><span><b>Afficher la mélodie</b></span><input type="checkbox" id="showMel"></label>
-    <details>
-      <summary>Réglages fins<svg class="icon"><use href="#i-chevron"/></svg></summary>
-      <div class="set">
-        <label class="switch" for="autoMod"><span><b>Suivre les changements de tonalité</b><br><small>Bascule seul si la personne qui mène monte ou change de ton.</small></span><input type="checkbox" id="autoMod"></label>
-        <div class="field"><label for="newGap">Nouveau chant après un silence de <span id="newGapV"></span></label>
-          <input type="range" id="newGap" min="8" max="60" step="1"></div>
-        <div class="field"><label for="chordLen">Durée minimale d'un accord : <span id="chordLenV"></span></label>
-          <input type="range" id="chordLen" min="0.8" max="3" step="0.1"><small>Plus court pour les chants rapides, plus long pour les chants lents.</small></div>
-        <div class="field"><label for="sens">Sensibilité du micro</label><input type="range" id="sens" min="0" max="1" step="0.05"></div>
-        <label class="switch" for="lyricsOn"><span><b>Paroles (expérimental)</b><br><small>Reconnaissance vocale du chant, quand le navigateur la permet.</small></span><input type="checkbox" id="lyricsOn"></label>
-        <div class="field"><label for="demoVol">Volume de la démo</label><input type="range" id="demoVol" min="0" max="1" step="0.05"></div>
-      </div>
+    <div class="champ"><span class="champ-t">La voix annonce</span>
+      <div class="seg" data-reg="annonce" role="group" aria-label="La voix annonce"><button data-v="deg">Degré</button><button data-v="note">Note</button><button data-v="both">Les deux</button></div></div>
+    <div class="champ" id="champVoixTel" hidden><label class="interrupteur"><span><b>Activer la voix sur ce téléphone</b><small>Désactivée par défaut : sur iPhone, la voix peut couper le micro pendant l'écoute.</small></span><input type="checkbox" role="switch" id="voixTel"><i></i></label></div>
+
+    <div class="champ"><label class="interrupteur"><span><b>Paroles (expérimental)</b><small>Reconnaissance vocale du chant, quand le navigateur la permet.</small></span><input type="checkbox" role="switch" id="paroles"><i></i></label></div>
+    <div class="champ"><label class="champ-t" for="volDemo">Volume de la démo</label><input type="range" id="volDemo" min="0" max="1" step=".05"><small>La démo : Amazing Grace par Vera Hall, Dock Reed, Jesse Allison, Alabama, 1937, voix seules, domaine public selon Wikimedia Commons.</small></div>
+
+    <details class="diag" id="diag">
+      <summary>Diagnostic<svg class="ic"><use href="#i-chevron"/></svg></summary>
+      <p class="note">Si le micro se comporte mal sur ton téléphone, copie ce texte et envoie-le.</p>
+      <pre id="diagTexte" tabindex="0"></pre>
+      <button class="btn" id="diagCopier"><svg class="ic"><use href="#i-copy"/></svg>Copier le diagnostic</button>
     </details>
   </div>
 </dialog>
 
-<script>
-(function(){
-const $=s=>document.querySelector(s);
-const $$=s=>document.querySelectorAll(s);
-const store={get(k,d){try{const v=localStorage.getItem('souffleur_'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},
-             set(k,v){try{localStorage.setItem('souffleur_'+k,JSON.stringify(v))}catch(e){}}};
-const S=Object.assign({output:'both',announce:'both',level:0,notation:'fr',chordLen:1.6,sens:0.55,keyMode:'auto',lyrics:false,demoVol:0.35,playKey:'off',showMelody:true,autoMod:true,newGap:15,theme:'auto'},store.get('settings',{}));
-const save=()=>store.set('settings',S);
-const wide=matchMedia('(min-width:1024px)');
-
-/* ---------- Théorie ---------- */
-const FR_S=['Do','Do♯','Ré','Ré♯','Mi','Fa','Fa♯','Sol','Sol♯','La','La♯','Si'],FR_F=['Do','Ré♭','Ré','Mi♭','Mi','Fa','Sol♭','Sol','La♭','La','Si♭','Si'];
-const EN_S=['C','C♯','D','D♯','E','F','F♯','G','G♯','A','A♯','B'],EN_F=['C','D♭','D','E♭','E','F','G♭','G','A♭','A','B♭','B'];
-const mod=n=>((n%12)+12)%12;
-const flats=k=>!!k&&(k.mode==='maj'?[5,10,3,8,1,6]:[2,7,0,5,10,3]).includes(k.tonic);
-const nn=(pc,k)=>{const f=flats(k);return (S.notation==='fr'?(f?FR_F:FR_S):(f?EN_F:EN_S))[mod(pc)]};
-const keyName=k=>nn(k.tonic,k)+(S.notation==='fr'?(k.mode==='maj'?' majeur':' mineur'):(k.mode==='maj'?' major':' minor'));
-const sameKey=(a,b)=>a&&b&&a.tonic===b.tonic&&a.mode===b.mode;
-const relative=(a,b)=>a&&b&&a.mode!==b.mode&&mod(a.tonic+(a.mode==='maj'?9:3))===b.tonic;
-const ROMAN=['','I','II','III','IV','V','VI','VII'],WORD=['','un','deux','trois','quatre','cinq','six','sept'];
-const Q={maj:[0,4,7],min:[0,3,7],maj7:[0,4,7,11],m7:[0,3,7,10],'7':[0,4,7,10],maj9:[0,4,7,11,14],m9:[0,3,7,10,14],'9':[0,4,7,10,14],'7sus4':[0,5,7,10],dim7:[0,3,6,9]};
-const SUF={maj:'',min:'m',maj7:'7M',m7:'m7','7':'7',maj9:'9M',m9:'m9','9':'9','7sus4':'7sus4',dim7:'°7'};
-const MAJ_STEP=[0,0,2,4,5,7,9,11],MIN_STEP={1:0,3:3,4:5,5:7,6:8,7:10};
-function cands(k){
-  if(k.mode==='maj')return [[1,'maj',1],[2,'min',.45],[3,'min',.2],[4,'maj',.9],[5,'maj',.9],[6,'min',.6]].map(([d,q,p])=>({deg:d,root:mod(k.tonic+MAJ_STEP[d]),q,prior:p}));
-  return [[1,'min',1],[3,'maj',.4],[4,'min',.8],[5,'maj',.85],[6,'maj',.6],[7,'maj',.45]].map(([d,q,p])=>({deg:d,root:mod(k.tonic+MIN_STEP[d]),q,prior:p}));
-}
-const ENR={maj:[{},{1:'maj7',2:'m7',3:'m7',4:'maj7',5:'7',6:'m7'},{1:'maj9',2:'m9',3:'m7',4:'maj9',5:'9',6:'m9'}],
-           min:[{},{1:'m7',3:'maj7',4:'m7',5:'7',6:'maj7',7:'7'},{1:'m9',3:'maj9',4:'m9',5:'7',6:'maj9',7:'9'}]};
-const enrich=(c,k,lvl)=>(ENR[k.mode][lvl??S.level]||{})[c.deg]||c.q;
-const FLOW={'5>1':.08,'4>5':.04,'4>1':.04,'2>5':.07,'6>4':.04,'1>4':.03,'1>5':.03,'6>2':.03,'3>6':.04,'7>3':.04};
-const DEFAULT_NEXT={maj:{1:4,2:5,3:6,4:5,5:1,6:4},min:{1:4,3:6,4:5,5:1,6:7,7:3}};
-const KMAJ=[6.35,2.23,3.48,2.33,4.38,4.09,2.52,5.19,2.39,3.66,2.29,2.88],KMIN=[6.33,2.68,3.52,5.38,2.60,3.53,2.54,4.75,3.98,2.69,3.34,3.17];
-function corr(a,b){let ma=0,mb=0;for(let i=0;i<12;i++){ma+=a[i];mb+=b[i]}ma/=12;mb/=12;let s=0,sa=0,sb=0;for(let i=0;i<12;i++){const x=a[i]-ma,y=b[i]-mb;s+=x*y;sa+=x*x;sb+=y*y}return sa&&sb?s/Math.sqrt(sa*sb):0}
-function keyCorr(h,k){const r=h.map((_,i)=>h[(i+k.tonic)%12]);return corr(r,k.mode==='maj'?KMAJ:KMIN)}
-function rankKeys(h){const o=[];for(let t=0;t<12;t++)for(const m of ['maj','min'])o.push({tonic:t,mode:m,r:keyCorr(h,{tonic:t,mode:m})});return o.sort((a,b)=>b.r-a.r)}
-
-/* Transpose : on affiche dans la tonalité jouée (Do ou La m) ; real = joué + shift */
-function view(k){
-  if(!k)return {pk:null,sh:0};
-  if(S.playKey!=='easy')return {pk:k,sh:0};
-  const pk={tonic:k.mode==='maj'?0:9,mode:k.mode};let sh=mod(k.tonic-pk.tonic);if(sh>6)sh-=12;return {pk,sh};
-}
-const label=(root,q,k)=>{const v=view(k);return nn(mod(root-v.sh),v.pk)+SUF[q]};
-const bassName=(root,k)=>{const v=view(k);return nn(mod(root-v.sh),v.pk)};
-const tpText=k=>{const v=view(k);return 'Transpose '+(v.sh>0?'+':'')+v.sh};
-const tpSpoken=k=>{const v=view(k);return v.sh===0?'pas de transposition':'transpose '+(v.sh>0?'plus ':'moins ')+Math.abs(v.sh)};
-
-/* ---------- État ---------- */
-let ctx=null,analyser=null,srcNodes=[],micStream=null,timer=null,running=false,mode=null,recog=null,wakeLock=null;
-let key=null,keyHist=new Array(12).fill(0),voiced=0;
-let events=[],curNote=null,pend=null,lastCloseT=-1,lastCloseSilence=false,winStart=null,lastVoiceT=0,songPending=false;
-let chord=null,grid=[],trans={},prevRH=null,lastPitchT=0,previewPass=false,pendingBreak=false,selCell=null,modCand=null;
-const buf=new Float32Array(2048);
-
-/* ---------- Détection de hauteur (YIN) ---------- */
-function yin(x,sr){
-  const W=1024,minT=Math.floor(sr/1000),maxT=Math.min(Math.floor(sr/70),x.length-W-1),d=new Float32Array(maxT+1);
-  for(let t=1;t<=maxT;t++){let s=0;for(let i=0;i<W;i++){const v=x[i]-x[i+t];s+=v*v}d[t]=s}
-  let run=0;d[0]=1;for(let t=1;t<=maxT;t++){run+=d[t];d[t]=run?d[t]*t/run:1}
-  let tau=-1;for(let t=minT;t<=maxT;t++){if(d[t]<0.15){while(t+1<=maxT&&d[t+1]<d[t])t++;tau=t;break}}
-  if(tau<0)return null;
-  let bt=tau;if(tau>1&&tau<maxT){const a=d[tau-1],b=d[tau],c=d[tau+1],den=a+c-2*b;if(den)bt=tau+.5*(a-c)/den}
-  return {f:sr/bt,conf:1-d[tau]};
-}
-
-/* ---------- Boucle d'analyse ---------- */
-function tick(){
-  if(!analyser)return;
-  const t=ctx.currentTime;
-  analyser.getFloatTimeDomainData(buf);
-  let rms=0;for(let i=0;i<buf.length;i++)rms+=buf[i]*buf[i];rms=Math.sqrt(rms/buf.length);
-  setLevel(Math.min(1,rms*6));
-  const thr=0.004+(1-S.sens)*0.03;
-  let midi=null;
-  if(rms>thr){const p=yin(buf,ctx.sampleRate);if(p&&p.conf>.8&&p.f>70&&p.f<1100)midi=69+12*Math.log2(p.f/440)}
-  if(midi!=null){
-    if(songPending){songPending=false;newSong(t,true)}
-    lastVoiceT=t;lastPitchT=t;const v=view(key);$('#pitchnow').textContent=nn(Math.round(midi)-v.sh,v.pk)+' '+(Math.floor((Math.round(midi)-v.sh)/12)-1);
-  }else if(t-lastPitchT>.4)$('#pitchnow').textContent='';
-  onPitch(midi,t);
-  if(key&&!songPending&&lastVoiceT&&t-lastVoiceT>S.newGap){songPending=true;showMsg('<b>Pause détectée.</b> Le prochain chant démarrera une nouvelle grille.')}
-  if(!key)tryLockKey(t);else maybeDecide(t);
-}
-function setLevel(v){document.documentElement.style.setProperty('--lvl',v.toFixed(2))}
-function onPitch(m,t){
-  if(m==null){pend=null;if(curNote&&t-curNote.last>.12){closeNote(curNote,true);curNote=null}return}
-  const r=Math.round(m);
-  if(curNote&&r===curNote.midi){curNote.last=t;pend=null;return}
-  if(pend&&pend.midi===r){pend.n++;if(pend.n>=2){if(curNote)closeNote(curNote,false);curNote={midi:r,start:pend.t,last:t};pend=null}}
-  else pend={midi:r,t,n:1};
-}
-function closeNote(n,bySilence){
-  const end=n.last+.04,dur=end-n.start;if(dur<.08)return;
-  const e={midi:n.midi,pc:mod(n.midi),start:n.start,end,fin:bySilence};events.push(e);if(events.length>600)events.splice(0,150);
-  keyHist[e.pc]+=dur*(bySilence?1.7:1);voiced+=dur;lastCloseT=end;lastCloseSilence=bySilence;
-  addChip(e);
-}
-function tryLockKey(t){
-  if(S.keyMode!=='auto'){const [tn,md]=S.keyMode.split('-');setKey({tonic:+tn,mode:md},t,false);return}
-  const distinct=keyHist.filter(v=>v>.05).length,rk=rankKeys(keyHist);
-  if(voiced>.5)$('#keyname').textContent='Peut-être '+keyName(rk[0]);
-  if(voiced>=4&&distinct>=4&&(rk[0].r-rk[1].r>=.04||voiced>=8))setKey({tonic:rk[0].tonic,mode:rk[0].mode},t,false);
-}
-function setKey(k,t,isMod){
-  const old=key;key={tonic:k.tonic,mode:k.mode};winStart=t;chord=null;prevRH=null;modCand=null;
-  if(isMod){grid.push({type:'key',key,from:old});trans={}}
-  else{const h=lastSong();if(h&&!h.key)h.key=key}
-  updateKeyPill();
-  flash($('#keyBtn'));
-  const tp=S.playKey==='easy'?', '+tpSpoken(key):'';
-  say((isMod?'Changement de tonalité, ':'Tonalité ')+spoken(keyName(key))+tp,true);
-  if(isMod)showMsg('<b>La tonalité a changé :</b> '+keyName(key)+(S.playKey==='easy'?'. Règle ton clavier sur <b>'+tpText(key)+'</b>':'')+'.');
-  renderAll();
-}
-function updateKeyPill(){
-  if(!key){$('#tpline').hidden=true;return}
-  $('#keyname').textContent=keyName(key);
-  const tl=$('#tpline');if(S.playKey==='easy'){tl.hidden=false;tl.textContent='Joue en '+keyName(view(key).pk)+', '+tpText(key)}else tl.hidden=true;
-}
-/* Écoute continue : la tonalité récente diverge-t-elle durablement ? */
-function checkModulation(t){
-  if(!S.autoMod||S.keyMode!=='auto')return;
-  const recent=new Array(12).fill(0);let v=0;
-  events.forEach(e=>{if(e.end>t-14){const d=e.end-Math.max(e.start,t-14);recent[e.pc]+=d*(e.fin?1.7:1);v+=d}});
-  if(v<5){modCand=null;return}
-  const rk=rankKeys(recent),top=rk[0],curR=keyCorr(recent,key);
-  if(sameKey(top,key)||relative(top,key)||top.r-curR<.15){modCand=null;return}
-  if(modCand&&sameKey(modCand.k,top)){if(t-modCand.since>=5)setKey(top,t,true)}
-  else modCand={k:{tonic:top.tonic,mode:top.mode},since:t};
-}
-function windowWeights(t0,t1){
-  const w=new Array(12).fill(0);let tot=0;
-  const list=events.filter(e=>e.end>t0);
-  if(curNote)list.push({pc:mod(curNote.midi),start:curNote.start,end:curNote.last+.04});
-  list.forEach((e,i)=>{const d=Math.max(0,Math.min(e.end,t1)-Math.max(e.start,t0));if(!d)return;
-    const bonus=(i===list.length-1?1.5:1)*(Math.abs(e.start-t0)<.15?1.25:1);w[e.pc]+=d*bonus;tot+=d*bonus});
-  return {w,tot};
-}
-function maybeDecide(t){
-  if(winStart==null)return;
-  const {w,tot}=windowWeights(winStart,t);
-  const phraseEnd=!curNote&&lastCloseSilence&&lastCloseT>winStart&&t-lastCloseT>.3&&tot>.4;
-  if((t-winStart>=S.chordLen&&tot>=.35)||phraseEnd){decide(w,tot,phraseEnd);winStart=t;checkModulation(t)}
-  else if(t-winStart>S.chordLen*3&&tot<.1)winStart=t;
-}
-function decide(w,tot,phraseEnd){
-  const sc=c=>{const tones=Q[c.q].map(i=>mod(c.root+i));let s=0;
-    for(let pc=0;pc<12;pc++){if(!w[pc])continue;const x=w[pc]/tot;s+=pc===c.root?x*1.25:tones.includes(pc)?x:-x*.7}
-    s+=c.prior*.18;
-    if(chord){if(chord.deg===c.deg)s+=.06;s+=Math.min((trans[chord.deg]||{})[c.deg]||0,4)*.03;s+=FLOW[chord.deg+'>'+c.deg]||0}
-    return s};
-  const scored=cands(key).map(c=>({c,s:sc(c)})).sort((a,b)=>b.s-a.s);
-  let best=scored[0];
-  if(chord&&best.c.deg!==chord.deg){const keep=scored.find(x=>x.c.deg===chord.deg);if(keep&&best.s-keep.s<.05)best=keep}
-  const nc=best.c;
-  if(!chord||nc.deg!==chord.deg){
-    if(chord){trans[chord.deg]=trans[chord.deg]||{};trans[chord.deg][nc.deg]=(trans[chord.deg][nc.deg]||0)+1}
-    chord=Object.assign({},nc);
-    grid.push({type:'chord',deg:nc.deg,root:nc.root,q:nc.q,key,words:'',brk:pendingBreak});pendingBreak=false;
-    announce();renderAll(true);
-  }
-  if(phraseEnd)pendingBreak=true;
-}
-function lastSong(){for(let i=grid.length-1;i>=0;i--)if(grid[i].type==='song')return grid[i];return null}
-function newSong(t,auto){
-  const n=grid.filter(g=>g.type==='song').length+1;grid.push({type:'song',key:null,n});
-  key=null;keyHist.fill(0);voiced=0;chord=null;trans={};prevRH=null;pendingBreak=false;modCand=null;winStart=null;selCell=null;
-  $('#keyname').textContent='J\'écoute…';$('#tpline').hidden=true;
-  if(S.keyMode!=='auto'&&t!=null)tryLockKey(t);
-  if(auto)showMsg('<b>Nouveau chant.</b> Je cherche sa tonalité…');
-  renderAll();
-}
-
-/* ---------- Prédiction & passage ---------- */
-function predictNext(c){
-  if(!c||!key)return null;const row=trans[c.deg]||{};let bd=null,bn=0;
-  for(const d in row)if(row[d]>bn){bn=row[d];bd=+d}
-  const learned=bn>=2,deg=learned?bd:DEFAULT_NEXT[key.mode][c.deg];
-  const nc=cands(key).find(x=>x.deg===deg);return nc?Object.assign({learned},nc):null;
-}
-function passing(c,n){
-  if(!c||!n||c.deg===n.deg)return null;
-  const root=mod(n.root+7);
-  if(root===c.root)return {root,q:c.deg===5?'7sus4':'7'};
-  return {root,q:'7'};
-}
-
-/* ---------- Voix ---------- */
-const spoken=s=>s.replace(/♯/g,S.notation==='fr'?' dièse':' sharp').replace(/♭/g,S.notation==='fr'?' bémol':' flat');
-function say(text,force){
-  if(S.output==='screen'||!('speechSynthesis' in window))return;
-  try{if(!force)speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='fr-FR';u.rate=1.15;
-    const v=speechSynthesis.getVoices().find(v=>v.lang&&v.lang.toLowerCase().startsWith('fr'));if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}
-}
-function announce(){
-  if(!chord)return;const name=spoken(bassName(chord.root,key))+(chord.q==='min'?' mineur':'');
-  say(S.announce==='deg'?WORD[chord.deg]:S.announce==='note'?name:WORD[chord.deg]+', '+name);
-}
-
-/* ---------- Clavier ---------- */
-const LO=48,HI=79,WHITE=[0,2,4,5,7,9,11];
-function voicing(root,q){
-  const iv=Q[q];let rh=iv.map(i=>mod(root+i));
-  if(iv.length>=4){rh=rh.slice(1);if(rh.length>=4)rh.splice(1,1)}
-  let best=null;
-  for(let r=0;r<rh.length;r++){
-    const seq=rh.slice(r).concat(rh.slice(0,r));let n=60+mod(seq[0]-60);const notes=[n];
-    for(let i=1;i<seq.length;i++){n=n+1+mod(seq[i]-n-1);notes.push(n)}
-    if(notes[notes.length-1]>HI)continue;
-    const cost=prevRH?notes.reduce((s,v,i)=>s+Math.abs(v-(prevRH[i]??prevRH[prevRH.length-1])),0):Math.abs(notes.reduce((a,b)=>a+b,0)/notes.length-66);
-    if(!best||cost<best.cost)best={notes,cost};
-  }
-  const rhN=best?best.notes:[];const lh=[48+mod(root-48)];
-  if(S.level>=1&&lh[0]+7<rhN[0])lh.push(lh[0]+7);
-  return {lh,rh:rhN};
-}
-const FINGERS_R={1:[1],2:[1,3],3:[1,3,5],4:[1,2,3,5],5:[1,2,3,4,5]},FINGERS_L={1:[5],2:[5,1],3:[5,2,1]};
-/* Sur PC le clavier est large et bas (grosses touches lisibles de loin) ; sur téléphone, plus haut et sans le nom des notes (trop étroit). */
-function kbInto(el,v,pk,big,H){
-  const mark={};v.lh.forEach((m,i)=>mark[m]={c:'var(--lh-fill)',f:FINGERS_L[v.lh.length][i]});v.rh.forEach((m,i)=>mark[m]={c:'var(--rh-fill)',f:FINGERS_R[v.rh.length][i]});
-  const ww=20,BH=H*.58,whites=[];for(let m=LO;m<=HI;m++)if(WHITE.includes(m%12))whites.push(m);
-  const finger=(x,y,r,fs,f)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="var(--finger-bg)"/><text x="${x}" y="${y+fs*.36}" font-size="${fs}" font-weight="700" text-anchor="middle" fill="var(--finger-ink)">${f}</text>`;
-  let s='';
-  whites.forEach((m,i)=>{const kk=mark[m],cx=i*ww+ww/2;
-    s+=`<rect x="${i*ww+.5}" y=".5" width="${ww-1}" height="${H-1}" rx="3" fill="${kk?kk.c:'var(--key-w)'}" stroke="var(--key-edge)" stroke-width=".6"/>`;
-    if(kk){s+=finger(cx,H-(big?10:11),big?7:8.4,big?9.5:11,kk.f);if(big)s+=`<text x="${cx}" y="${H-21}" font-size="6.2" font-weight="700" text-anchor="middle" fill="var(--on-fill)">${nn(m,pk)}</text>`}
-    else if(m%12===0)s+=`<text x="${cx}" y="${H-5}" font-size="${big?5.5:7.5}" text-anchor="middle" fill="var(--key-label)">${S.notation==='fr'?'Do':'C'}${Math.floor(m/12)-1}</text>`});
-  for(let m=LO;m<=HI;m++){if(WHITE.includes(m%12))continue;const i=whites.indexOf(m-1),x=(i+1)*ww-6,kk=mark[m];
-    s+=`<rect x="${x}" y=".5" width="12" height="${BH}" rx="2" fill="${kk?kk.c:'var(--key-b)'}" stroke="var(--key-edge)" stroke-width=".6"/>`;
-    if(kk){s+=finger(x+6,BH-(big?7:8),big?5.4:6,big?7.5:9,kk.f);if(big)s+=`<text x="${x+6}" y="${BH-14.5}" font-size="4.8" font-weight="700" text-anchor="middle" fill="var(--on-fill)">${nn(m,pk)}</text>`}}
-  el.setAttribute('viewBox',`0 0 ${whites.length*ww} ${H}`);el.innerHTML=s;
-}
-/* root est la vraie note ; on dessine dans la tonalité jouée */
-function drawKeys(root,q,k,commit,title){
-  const vw=view(k),pr=mod(root-vw.sh),v=voicing(pr,q);if(commit)prevRH=v.rh;
-  kbInto($('#kb'),v,vw.pk,wide.matches,wide.matches?66:116);
-  const nm=a=>a.map(m=>nn(m,vw.pk)).join(' ');
-  const gauche=nm(v.lh),droite=nm(v.rh);
-  $('#hands').innerHTML=`<span><i style="background:var(--lh-fill)"></i>Main gauche <b>${gauche}</b> <small>${v.lh.length>1?'doigts':'doigt'} ${FINGERS_L[v.lh.length].join('-')}</small></span><span><i style="background:var(--rh-fill)"></i>Main droite <b>${droite}</b> <small>doigts ${FINGERS_R[v.rh.length].join('-')}</small></span>`;
-  $('#kb').setAttribute('aria-label','Clavier. Main gauche : '+gauche+'. Main droite : '+droite+'.');
-  $('#kbtitle').textContent=title+' : '+nn(pr,vw.pk)+SUF[q]+(S.playKey==='easy'&&vw.sh?' ('+tpText(k)+')':'');
-}
-
-/* ---------- Rendu ---------- */
-function flash(el){el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash')}
-function renderAll(pop){
-  const inSession=running||grid.some(g=>g.type==='chord');
-  document.body.dataset.view=inSession?'session':'welcome';
-  if(running)document.body.dataset.running='';else delete document.body.dataset.running;
-  $('#melCard').hidden=!S.showMelody;$('#toMel').hidden=!S.showMelody;
-  if(!S.showMelody)$('#side').dataset.show='grid';
-  const stage=$('#stage'),voiceOnly=S.output==='voice';stage.classList.toggle('voiceonly',voiceOnly);$('#voicenote').hidden=!voiceOnly;
-  const d=$('#deg'),k=key;
-  $('#after').hidden=!chord;
-  if(!chord){
-    d.textContent='';d.className='deg wait'+(running?'':' idle');
-    $('#cname').textContent=!running?'À l\'arrêt':key?keyName(key):'J\'écoute';
-    $('#csub').textContent=!running?'Touche une case de la grille pour revoir son doigté.':key?'Le premier degré arrive à la fin de la phrase.':'Chante une phrase : je trouve la tonalité en quelques secondes.';
-  }else{
-    const c=chord,eq=enrich(c,k);
-    d.className='deg';d.textContent=c.deg;
-    if(pop){d.classList.remove('pop');void d.offsetWidth;d.classList.add('pop');flash(stage)}
-    $('#cname').innerHTML=esc(label(c.root,c.q,k))+(eq!==c.q?`<em>${esc(label(c.root,eq,k))}</em>`:'');
-    $('#csub').innerHTML=`Basse : <b>${bassName(c.root,k)}</b>, degré ${ROMAN[c.deg]}${c.q==='min'?' (mineur)':''}`;
-    const n=predictNext(c);
-    $('#next').innerHTML=n?`<i>${n.deg}</i> ${esc(label(n.root,enrich(n,k),k))}`:'';$('#nextwhy').textContent=n&&n.learned?'appris':'';
-    const p=S.level>=2?passing(c,n):null;
-    $('#passBtn').hidden=!p;if(p)$('#pass').textContent=label(p.root,p.q,k);
-    $('#passBtn').setAttribute('aria-pressed',previewPass&&p?'true':'false');
-    if(selCell==null){
-      if(previewPass&&p)drawKeys(p.root,p.q,k,false,'Passage');else drawKeys(c.root,eq,k,true,'Doigté');
-    }
-  }
-  if(selCell!=null&&grid[selCell]){const g=grid[selCell];drawKeys(g.root,enrich(g,g.key),g.key,false,'Case choisie')}
-  else if(!chord){kbInto($('#kb'),{lh:[],rh:[]},view(key).pk,wide.matches,wide.matches?66:116);$('#hands').innerHTML='<span><i style="background:var(--lh-fill)"></i>Main gauche</span><span><i style="background:var(--rh-fill)"></i>Main droite</span>';$('#kbtitle').textContent='Doigté';$('#kb').setAttribute('aria-label','Clavier. Les touches à jouer s\'allument ici.')}
-  $('#liveBtn').hidden=selCell==null&&!previewPass;
-  renderGrid();
-}
-const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-function dedupe(a){return a.filter((v,i)=>i===0||v!==a[i-1])}
-function lev(a,b){const d=Array.from({length:a.length+1},(_,i)=>[i]);for(let j=1;j<=b.length;j++)d[0][j]=j;
-  for(let i=1;i<=a.length;i++)for(let j=1;j<=b.length;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[a.length][b.length]}
-function buildSongs(){
-  const songs=[];let cur=null;
-  grid.forEach((it,idx)=>{
-    if(it.type==='song'||!cur){cur={head:it.type==='song'?it:{key:it.key,n:1},rows:[[]]};songs.push(cur);if(it.type==='song')return}
-    if(it.type==='key'){cur.rows.push({mark:it});cur.rows.push([]);return}
-    let row=cur.rows[cur.rows.length-1];if(it.brk&&row.length){row=[];cur.rows.push(row)}
-    row.push({idx,it});
-  });
-  songs.forEach(s=>{const seen=[];let next=0;
-    s.rows.forEach(r=>{if(!Array.isArray(r)||!r.length)return;const sig=dedupe(r.map(x=>x.it.deg));
-      const hit=seen.find(o=>lev(o.sig,sig)<=(Math.max(o.sig.length,sig.length)>=4?1:0));
-      if(hit)r.letter=hit.letter;else{r.letter=String.fromCharCode(65+next++);seen.push({sig,letter:r.letter})}});
-    s.structure=s.rows.filter(r=>Array.isArray(r)&&r.length).map(r=>r.letter).join(' ')});
-  return songs;
-}
-function renderGrid(){
-  const box=$('#gridlines');
-  const pinned=box.scrollHeight-box.scrollTop-box.clientHeight<64;
-  const chords=grid.filter(g=>g.type==='chord');
-  $('#copyGrid').hidden=$('#clearGrid').hidden=!chords.length;
-  if(!chords.length){box.innerHTML='<p class="gridempty">La grille se construit ici pendant qu\'on chante : un degré par changement d\'accord, une ligne par phrase. Les lignes qui se répètent reçoivent la même lettre.</p>';$('#structure').textContent='';return}
-  const songs=buildSongs();const lastIdx=grid.lastIndexOf(chords[chords.length-1]);
-  const nextChordAfter=i=>{for(let j=i+1;j<grid.length;j++){if(grid[j].type!=='chord')return null;return grid[j]}return null};
-  $('#structure').textContent=songs.length===1?songs[0].structure:'';
-  box.innerHTML=songs.map(s=>{
-    const k=s.head.key;
-    let h=`<div class="song"><div class="songh">${songs.length>1?'Chant '+(s.head.n||1)+' : ':''}${k?keyName(k):'Tonalité en cours…'}${k&&S.playKey==='easy'?`<small class="tp">joue en ${keyName(view(k).pk)}, ${tpText(k)}</small>`:''}${songs.length>1?`<small>${s.structure}</small>`:''}</div>`;
-    s.rows.forEach(r=>{
-      if(!Array.isArray(r)){h+=`<div class="modmark"><svg class="icon"><use href="#i-up"/></svg>Nouvelle tonalité : ${keyName(r.mark.key)}${S.playKey==='easy'?', '+tpText(r.mark.key):''}</div>`;return}
-      if(!r.length)return;
-      h+=`<div class="phrase"><span class="sec">${r.letter}</span><div class="cells">`;
-      r.forEach(({idx,it})=>{
-        const eq=enrich(it,it.key),cur=idx===lastIdx&&running;
-        h+=`<button class="cell${cur?' now':''}" data-i="${idx}" aria-pressed="${selCell===idx}"><span class="d">${it.deg}</span><span class="n">${esc(label(it.root,it.q,it.key))}</span>${S.level>=1&&eq!==it.q?`<span class="e">${esc(label(it.root,eq,it.key))}</span>`:''}${it.words?`<span class="w" title="${esc(it.words)}">${esc(it.words)}</span>`:''}</button>`;
-        if(S.level>=2){const nx=nextChordAfter(idx);const p=nx&&passing(it,nx);if(p)h+=`<span class="pass">→ ${esc(label(p.root,p.q,it.key))}</span>`}
-      });
-      h+='</div></div>';
-    });
-    return h+'</div>';
-  }).join('');
-  if(pinned)box.scrollTop=box.scrollHeight;
-}
-$('#gridlines').addEventListener('click',e=>{const b=e.target.closest('.cell');if(!b)return;const i=+b.dataset.i;selCell=selCell===i?null:i;previewPass=false;renderAll();
-  if(!e.detail){const again=$(`.cell[data-i="${i}"]`);if(again)again.focus()}});
-function addChip(e){const v=view(key);const el=document.createElement('span');el.className='chip';el.textContent=nn(e.midi-v.sh,v.pk);const box=$('#chips');box.appendChild(el);while(box.children.length>14)box.removeChild(box.firstChild)}
-function addWords(txt){
-  if(!txt)return;$('#lyric').textContent=txt;
-  for(let i=grid.length-1;i>=0;i--)if(grid[i].type==='chord'){grid[i].words=(grid[i].words?grid[i].words+' ':'')+txt.trim();break}
-  renderGrid();
-}
-
-/* ---------- Mélodie (canvas) ---------- */
-const cv=$('#mel'),cx2=cv.getContext('2d');
-function drawMel(){
-  requestAnimationFrame(drawMel);
-  if(!S.showMelody)return;
-  const dpr=window.devicePixelRatio||1,W=cv.clientWidth,H=cv.clientHeight;if(!W||!H)return;
-  if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(H*dpr)){cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr)}
-  cx2.setTransform(dpr,0,0,dpr,0,0);cx2.clearRect(0,0,W,H);
-  const cs=getComputedStyle(document.documentElement);
-  const line=cs.getPropertyValue('--line').trim(),ink=cs.getPropertyValue('--ink').trim(),mut=cs.getPropertyValue('--muted').trim();
-  const v=view(key),now=ctx?ctx.currentTime:0,span=8;
-  let list=events.filter(e=>e.end>now-span);if(curNote)list=list.concat([{midi:curNote.midi,start:curNote.start,end:curNote.last+.04,live:true}]);
-  list=list.map(e=>Object.assign({},e,{midi:e.midi-v.sh}));
-  const center=list.length?list.reduce((a,e)=>a+e.midi,0)/list.length:64;
-  const lo=Math.round(center)-9,hi=lo+18,y=m=>H-8-(m-lo)/(hi-lo)*(H-16);
-  const scale=v.pk?(v.pk.mode==='maj'?[0,2,4,5,7,9,11]:[0,2,3,5,7,8,10]).map(s=>mod(v.pk.tonic+s)):[0];
-  cx2.strokeStyle=line;cx2.lineWidth=1;cx2.fillStyle=mut;cx2.font='11px Atkinson Hyperlegible, sans-serif';
-  if(H>=96)for(let m=lo;m<=hi;m++)if(scale.includes(mod(m))){cx2.beginPath();cx2.moveTo(32,y(m));cx2.lineTo(W,y(m));cx2.stroke();cx2.fillText(nn(m,v.pk),2,y(m)+4)}
-  cx2.fillStyle=ink;
-  list.forEach(e=>{const x0=Math.max(32,32+(e.start-(now-span))/span*(W-32)),x1=32+(e.end-(now-span))/span*(W-32);
-    cx2.globalAlpha=e.live?1:.6;cx2.fillRect(x0,y(e.midi)-3,Math.max(3,x1-x0),6)});
-  cx2.globalAlpha=1;
-  if(!list.length){cx2.fillStyle=mut;cx2.font='14px Atkinson Hyperlegible, sans-serif';cx2.fillText(running?'Chante une phrase…':'La mélodie défilera ici',40,H/2+4)}
-}
-
-/* ---------- Démarrage / arrêt ---------- */
-async function keepAwake(){try{if(navigator.wakeLock&&running&&document.visibilityState==='visible')wakeLock=await navigator.wakeLock.request('screen')}catch(e){}}
-document.addEventListener('visibilitychange',keepAwake);
-async function begin(kind){
-  stop(true);
-  try{ctx=ctx||new (window.AudioContext||window.webkitAudioContext)();await ctx.resume()}catch(e){showMsg('<b>L\'audio ne démarre pas dans ce navigateur.</b> Essaie Chrome, Edge ou Safari.',{err:true});return false}
-  if('speechSynthesis' in window&&S.output!=='screen'){try{const u=new SpeechSynthesisUtterance(' ');u.volume=0;speechSynthesis.speak(u)}catch(e){}}
-  analyser=ctx.createAnalyser();analyser.fftSize=2048;
-  events=[];curNote=null;pend=null;selCell=null;previewPass=false;songPending=false;lastVoiceT=0;
-  while(grid.length&&grid[grid.length-1].type==='song')grid.pop();
-  $('#chips').innerHTML='';$('#lyric').textContent='';$('#copyOut').hidden=true;
-  mode=kind;running=true;newSong(ctx.currentTime,false);
-  timer=setInterval(tick,40);keepAwake();
-  return true;
-}
-function stop(silent){
-  const was=running;running=false;clearInterval(timer);timer=null;
-  srcNodes.forEach(n=>{try{n.stop&&n.stop()}catch(e){}try{n.disconnect()}catch(e){}});srcNodes=[];
-  if(micStream){micStream.getTracks().forEach(t=>t.stop());micStream=null}
-  if(recog){try{recog.onend=null;recog.stop()}catch(e){}recog=null}
-  demoTimeouts.forEach(clearTimeout);demoTimeouts=[];
-  if(wakeLock){try{wakeLock.release()}catch(e){}wakeLock=null}
-  if(curNote){closeNote(curNote,true);curNote=null}
-  analyser=null;setLevel(0);
-  if(was)renderAll();
-  if(!silent&&grid.some(g=>g.type==='chord'))showMsg('<b>Arrêté.</b> La grille reste affichée. Touche une case pour revoir son doigté.');
-}
-let msgT=null,msgUndoFn=null;
-function showMsg(h,o={}){
-  const m=$('#msg');clearTimeout(msgT);$('#msgText').innerHTML=h;$('#msgIcon').hidden=!o.err;
-  msgUndoFn=o.undo||null;$('#msgUndo').hidden=!o.undo;m.hidden=false;
-  if(!o.err)msgT=setTimeout(()=>{m.hidden=true},o.undo?8000:5000);
-}
-$('#msgClose').onclick=()=>{$('#msg').hidden=true};
-$('#msgUndo').onclick=()=>{if(msgUndoFn)msgUndoFn();$('#msg').hidden=true};
-function micBusy(b){$$('.act-mic').forEach(x=>{x.disabled=b;x.setAttribute('aria-busy',String(b))})}
-async function startMic(){
-  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){showMsg('<b>Micro indisponible ici.</b> Ouvre la page par son adresse web (https), ou analyse un enregistrement.',{err:true});return}
-  let stream;micBusy(true);
-  try{stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}})}
-  catch(e){micBusy(false);
-    showMsg(e&&e.name==='NotFoundError'?'<b>Aucun micro détecté.</b> Branche un micro, ou analyse un enregistrement.':'<b>Le micro est bloqué.</b> Autorise-le depuis la barre d\'adresse du navigateur (sur iPhone : « aA », Réglages du site web, Micro), puis réessaie.',{err:true});return}
-  micBusy(false);
-  if(!await begin('mic')){stream.getTracks().forEach(t=>t.stop());return}
-  micStream=stream;const src=ctx.createMediaStreamSource(stream);src.connect(analyser);srcNodes.push(src);
-  startLyrics();
-}
-$$('.act-mic').forEach(b=>b.onclick=startMic);
-$('#stopBtn').onclick=()=>stop(false);
-$$('.file-in').forEach(inp=>inp.onchange=async e=>{
-  const f=e.target.files&&e.target.files[0];e.target.value='';if(!f)return;
-  if(!await begin('file'))return;
-  showMsg('Lecture de <b>'+esc(f.name)+'</b>…');
-  try{const ab=await f.arrayBuffer();const audio=await new Promise((res,rej)=>{const p=ctx.decodeAudioData(ab,res,rej);if(p&&p.then)p.then(res,rej)});
-    const src=ctx.createBufferSource();src.buffer=audio;src.connect(analyser);src.connect(ctx.destination);src.start();srcNodes.push(src);
-    src.onended=()=>{if(mode==='file'&&running)stop(false)};
-    showMsg('<b>Analyse en cours</b> de « '+esc(f.name)+' » ('+Math.round(audio.duration)+' s).');
-  }catch(err){stop(true);showMsg('<b>Ce fichier ne se lit pas.</b> Essaie un .m4a de Mémos vocaux, un .mp3 ou un .wav.',{err:true})}
-});
-
-/* ---------- Démo : « Amazing Grace » (domaine public), en Sol puis monté en La ---------- */
-let demoTimeouts=[];
-const DEMO=[['D4',1,'A-'],['G4',2,'ma-'],['B4',.5,'zing'],['G4',.5,''],['B4',2,'grace,'],['A4',1,'how'],['G4',2,'sweet'],['E4',1,'the'],['D4',2,'sound'],['D4',1,'that'],
-  ['G4',2,'saved'],['B4',.5,'a'],['G4',.5,''],['B4',2,'wretch'],['A4',1,'like'],['D5',3,'me.'],[null,1.5,''],
-  ['B4',1,'I'],['D5',2,'once'],['B4',.5,'was'],['G4',.5,''],['B4',2,'lost,'],['A4',1,'but'],['G4',2,'now'],['E4',1,'am'],['D4',2,'found,'],['D4',1,'was'],
-  ['G4',2,'blind'],['B4',.5,'but'],['G4',.5,''],['B4',2,'now'],['A4',1,'I'],['G4',3,'see.'],[null,2,'']];
-const toMidi=s=>{const m=s.match(/^([A-G])(#|b)?(\d)$/);return 12*(+m[3]+1)+{C:0,D:2,E:4,F:5,G:7,A:9,B:11}[m[1]]+(m[2]==='#'?1:m[2]==='b'?-1:0)};
-$$('.act-demo').forEach(b=>b.onclick=async()=>{
-  if(!await begin('demo'))return;
-  showMsg('<b>Démo :</b> un chant connu, deux fois en Sol puis une fois monté en La.');
-  const bus=ctx.createGain(),out=ctx.createGain();out.gain.value=S.demoVol;bus.connect(analyser);bus.connect(out);out.connect(ctx.destination);srcNodes.push(bus,out);
-  const beat=60/88;let t=ctx.currentTime+.4;
-  [0,0,2].forEach(up=>DEMO.forEach(([n,b,syl])=>{const dur=b*beat;
-    if(n){const o=ctx.createOscillator(),g=ctx.createGain();o.type='triangle';o.frequency.value=440*Math.pow(2,(toMidi(n)+up-69)/12);
-      const vib=ctx.createOscillator(),vg=ctx.createGain();vib.frequency.value=5.2;vg.gain.value=1.6;vib.connect(vg);vg.connect(o.frequency);
-      g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.5,t+.04);g.gain.setValueAtTime(.5,t+dur-.1);g.gain.linearRampToValueAtTime(0,t+dur-.04);
-      o.connect(g);g.connect(bus);o.start(t);o.stop(t+dur);vib.start(t);vib.stop(t+dur);srcNodes.push(o,vib);
-      if(syl)demoTimeouts.push(setTimeout(()=>addWords(syl),Math.max(0,(t-ctx.currentTime)*1000+250)))}
-    t+=dur}));
-  demoTimeouts.push(setTimeout(()=>{if(mode==='demo'&&running)stop(false)},(t-ctx.currentTime+1)*1000));
-});
-
-/* ---------- Paroles (reconnaissance vocale, expérimental) ---------- */
-function startLyrics(){
-  if(!S.lyrics)return;const R=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!R){$('#lyric').textContent='Reconnaissance des paroles non disponible dans ce navigateur.';return}
-  try{recog=new R();recog.lang='fr-FR';recog.continuous=true;recog.interimResults=true;
-    recog.onresult=ev=>{for(let i=ev.resultIndex;i<ev.results.length;i++){const r=ev.results[i];if(r.isFinal)addWords(r[0].transcript);else $('#lyric').textContent=r[0].transcript}};
-    recog.onerror=()=>{$('#lyric').textContent='Paroles : la reconnaissance a été refusée ou interrompue.'};
-    recog.onend=()=>{if(running&&recog)try{recog.start()}catch(e){}};recog.start()}
-  catch(e){$('#lyric').textContent='Reconnaissance des paroles non disponible.'}
-}
-
-/* ---------- Réglages ---------- */
-const setDlg=$('#settings');
-$('#openSet').onclick=$('#keyBtn').onclick=()=>setDlg.showModal();
-$('#closeSet').onclick=()=>setDlg.close();
-setDlg.addEventListener('click',e=>{if(e.target===setDlg)setDlg.close()});
-function applyTheme(){if(S.theme==='auto')delete document.documentElement.dataset.theme;else document.documentElement.dataset.theme=S.theme}
-function press(box,val){box.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===String(val)?'true':'false'))}
-function syncSettings(){
-  $$('.seg[data-set]').forEach(seg=>press(seg,S[seg.dataset.set]));
-  applyTheme();
-  $('#chordLen').value=S.chordLen;$('#chordLenV').textContent=S.chordLen.toFixed(1)+' s';
-  $('#sens').value=S.sens;$('#lyricsOn').checked=!!S.lyrics;$('#demoVol').value=S.demoVol;$('#showMel').checked=!!S.showMelody;$('#autoMod').checked=!!S.autoMod;
-  $('#newGap').value=S.newGap;$('#newGapV').textContent=S.newGap+' s';
-  const auto=S.keyMode==='auto';press($('#keyAuto'),auto?'auto':'manual');$('#keyManual').hidden=auto;$('#redetect').hidden=!auto;
-  if(!auto){const [tn,md]=S.keyMode.split('-');press($('#keyQual'),md);
-    $('#keyNotes').innerHTML=Array.from({length:12},(_,t)=>`<button data-v="${t}" aria-pressed="${t===+tn}">${nn(t,{tonic:t,mode:md})}</button>`).join('')}
-}
-function setKeyMode(v){S.keyMode=v;save();syncSettings();if(running&&ctx){key=null;chord=null;if(S.keyMode!=='auto')tryLockKey(ctx.currentTime);else{$('#keyname').textContent='J\'écoute…';$('#tpline').hidden=true}renderAll()}}
-$('#keyAuto').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
-  if(b.dataset.v==='auto'){if(S.keyMode!=='auto')setKeyMode('auto')}
-  else if(S.keyMode==='auto')setKeyMode(key?key.tonic+'-'+key.mode:'0-maj')});
-$('#keyNotes').addEventListener('click',e=>{const b=e.target.closest('button');if(b)setKeyMode(b.dataset.v+'-'+S.keyMode.split('-')[1])});
-$('#keyQual').addEventListener('click',e=>{const b=e.target.closest('button');if(b)setKeyMode(S.keyMode.split('-')[0]+'-'+b.dataset.v)});
-$$('.seg[data-set]').forEach(seg=>seg.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
-  const k=seg.dataset.set;S[k]=k==='level'?+b.dataset.v:b.dataset.v;save();prevRH=null;syncSettings();updateKeyPill();renderAll()}));
-$('#chordLen').oninput=e=>{S.chordLen=+e.target.value;save();$('#chordLenV').textContent=S.chordLen.toFixed(1)+' s'};
-$('#newGap').oninput=e=>{S.newGap=+e.target.value;save();$('#newGapV').textContent=S.newGap+' s'};
-$('#sens').oninput=e=>{S.sens=+e.target.value;save()};
-$('#demoVol').oninput=e=>{S.demoVol=+e.target.value;save()};
-$('#showMel').onchange=e=>{S.showMelody=e.target.checked;save();renderAll()};
-$('#autoMod').onchange=e=>{S.autoMod=e.target.checked;save()};
-$('#lyricsOn').onchange=e=>{S.lyrics=e.target.checked;save();if(S.lyrics&&mode==='mic'&&running&&!recog)startLyrics()};
-$('#redetect').onclick=()=>{setDlg.close();if(running){key=null;chord=null;keyHist.fill(0);voiced=0;$('#keyname').textContent='J\'écoute…';renderAll()}};
-$('#passBtn').onclick=()=>{if(S.level<2)return;previewPass=!previewPass;selCell=null;renderAll()};
-$('#liveBtn').onclick=()=>{selCell=null;previewPass=false;renderAll()};
-$('#toMel').onclick=()=>{$('#side').dataset.show='mel'};
-$('#toGrid').onclick=()=>{$('#side').dataset.show='grid'};
-$('#newSong').onclick=()=>{if(!running)return;songPending=false;newSong(ctx.currentTime,true)};
-$('#clearGrid').onclick=()=>{const saved=grid;grid=running?[{type:'song',key,n:1}]:[];selCell=null;$('#copyOut').hidden=true;renderAll();
-  showMsg('Grille effacée.',{undo:()=>{grid=saved;renderAll()}})};
-$('#copyGrid').onclick=async()=>{
-  const txt=buildSongs().map(s=>{const k=s.head.key;let h=(k?keyName(k):'?')+(k&&S.playKey==='easy'?' (joue en '+keyName(view(k).pk)+', '+tpText(k)+')':'')+'\nStructure : '+s.structure;
-    s.rows.forEach(r=>{if(!Array.isArray(r)){h+='\nNouvelle tonalité : '+keyName(r.mark.key);return}if(!r.length)return;
-      h+='\n'+r.letter+' : '+r.map(({it})=>it.deg+' '+label(it.root,S.level?enrich(it,it.key):it.q,it.key)+(it.words?' ('+it.words+')':'')).join(' | ')});return h}).join('\n\n');
-  const out=$('#copyOut');try{await navigator.clipboard.writeText(txt);out.hidden=true;showMsg('<b>Grille copiée.</b>')}catch(e){out.textContent=txt;out.hidden=false}
-};
-
-/* ---------- PC : raccourcis, les mains restent près du clavier ---------- */
-document.addEventListener('click',e=>{if(e.detail){const b=e.target.closest('button');if(b)b.blur()}});
-document.addEventListener('keydown',e=>{
-  if(e.repeat||e.ctrlKey||e.metaKey||e.altKey||setDlg.open||(e.target.closest&&e.target.closest('button,input,label,summary,a')))return;
-  if(e.code==='Space'){e.preventDefault();if(running)stop(false);else startMic()}
-  else if((e.key==='n'||e.key==='N')&&running)$('#newSong').click();
-});
-wide.addEventListener('change',()=>renderAll());
-
-/* ---------- Départ ---------- */
-kbInto($('#wkb'),voicing(0,'maj'),{tonic:7,mode:'maj'},false,100);
-syncSettings();renderAll();requestAnimationFrame(drawMel);
-})();
-</script>
-
+<script src="js/theorie.js"></script>
+<script src="js/doigtes.js"></script>
+<script src="js/moteur.js"></script>
+<script src="js/catalogue.js"></script>
+<script src="js/enrichir.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/clavier.js"></script>
+<link rel="stylesheet" href="css/labs.css">
+<script src="js/chants.js"></script>
+<script src="js/reconnaissance.js"></script>
+<script src="js/labs.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
