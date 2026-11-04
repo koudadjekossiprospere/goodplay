@@ -1,0 +1,147 @@
+/* goodplay simple : Mes chants, la saisie, et le chant en cases. Jetons et primitives (.btn, .seg, .interrupteur, dialog) de css/app.css.
+   Base : le téléphone. Une case : l'accord en haut, les paroles au milieu, la mélodie en bas ; la case en cours est pleine d'orange. */
+body{overflow:hidden}
+.s-app{display:flex;flex-direction:column;height:100dvh}
+.s-tete{display:flex;align-items:center;gap:4px;min-height:48px;padding:0 4px 0 12px;border-bottom:1px solid var(--filet);background:var(--fond)}
+.s-tete .logo{margin-right:8px}
+.s-titre{flex:1;min-width:0;font-size:16px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body:not([data-ecran="liste"]) .s-tete .logo{display:none}
+.s-ecran{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain}
+.s-etiq{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--texte-2)}
+.s-espace{flex:1}
+.s-danger{color:var(--danger);border-color:var(--danger)}
+.s-err{color:var(--danger);font-size:13px}
+
+/* ---------- Mes chants ---------- */
+.s-liste{display:flex;flex-direction:column;gap:12px;width:100%;max-width:760px;margin:0 auto;padding:12px 16px 32px}
+.s-barre{display:flex;flex-wrap:wrap;gap:8px}
+.s-cherche{flex:1 1 220px;display:flex;align-items:center;gap:8px;min-height:var(--cible);padding:0 12px;border:1px solid var(--bord);border-radius:var(--r);color:var(--texte-2)}
+.s-cherche input{flex:1;min-width:0;border:0;background:transparent;color:var(--texte);font-size:16px;outline:0}
+.s-cherche:focus-within{outline:2px solid var(--focus);outline-offset:-2px}
+.s-chants{list-style:none;margin:0;padding:0;border:1px solid var(--filet);border-radius:var(--r)}
+.s-chants li+li{border-top:1px solid var(--filet)}
+.s-chants button{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;width:100%;min-height:60px;padding:10px 12px;border:0;background:transparent;color:inherit;text-align:left;cursor:pointer;transition:background-color var(--vite) ease}
+.s-chants button:hover{background:var(--survol)}
+.s-chants button:active{background:var(--presse)}
+.s-chants b{font-size:16px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.s-chants small{grid-column:1;color:var(--texte-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.s-chants .s-k{grid-row:1/span 2;grid-column:2;align-self:center;font-weight:600;color:var(--accord)}
+.s-vide{display:flex;flex-direction:column;gap:6px;padding:32px 16px;border:1px dashed var(--bord);border-radius:var(--r);text-align:center;color:var(--texte-2)}
+.s-vide b{font-size:16px;color:var(--texte)}
+.s-pied{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+.s-pied .note{flex-basis:100%;padding-left:8px}
+.s-pied label{position:relative;cursor:pointer}
+.s-pied label input{position:absolute;width:1px;height:1px;opacity:0}
+.s-pied label:focus-within{outline:2px solid var(--focus);outline-offset:-2px}
+
+/* ---------- Saisie ---------- */
+.s-edit{padding:12px 16px 32px}
+.s-edit form{display:flex;flex-direction:column;gap:14px;max-width:760px;margin:0 auto}
+.s-champ{display:flex;flex-direction:column;gap:6px;min-width:0}
+.s-champ>span:first-child{font-size:13px;font-weight:500;color:var(--texte-2)}
+.s-champ input,.s-champ textarea{width:100%;min-height:var(--cible);padding:8px 10px;border:1px solid var(--bord);border-radius:var(--r);background:var(--fond);font-size:16px;transition:border-color var(--vite) ease}
+.s-champ input:hover,.s-champ textarea:hover{border-color:var(--bord-fort)}
+.s-champ input:focus-visible,.s-champ textarea:focus-visible{outline:2px solid var(--focus);outline-offset:-1px}
+.s-champ input[aria-invalid="true"]{border-color:var(--danger)}
+.s-champ textarea{font:400 15px/1.7 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;resize:vertical}
+.s-champ .seg{align-self:flex-start}
+.s-rang{display:flex;flex-wrap:wrap;gap:12px 24px}
+.s-unite{display:flex;align-items:center;gap:6px}
+.s-unite input{width:88px}
+.s-unite small{color:var(--texte-2)}
+.s-erreurs{color:var(--danger);font-size:13px}
+.s-erreurs:empty{display:none}
+.s-ton-ecrit{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px}
+.s-ton-ecrit>span{font-size:13px;font-weight:500;color:var(--texte-2)}
+.s-ton-ecrit b{font-size:16px}
+.s-apercu{max-height:46vh;overflow:auto;padding:8px;border:1px solid var(--filet);border-radius:var(--r);background:var(--panneau)}
+.s-apercu:empty{display:none}
+.s-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+
+/* ---------- Le chant ---------- */
+.s-chant{display:flex;flex-direction:column;overflow:hidden}
+.s-tonbar{flex:none;display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;padding:8px 12px;border-bottom:1px solid var(--filet)}
+.s-ton{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+#cTon{font-size:18px;font-weight:600}
+.s-etat{font-size:13px;color:var(--texte-2)}
+.s-pas{display:inline-flex}
+.s-pas .icone{width:36px;height:36px}
+.s-jeu{flex-basis:100%;font-size:14px}
+.s-jeu:empty{display:none}
+.s-jeu b{color:var(--accent-fil)}
+.s-actions-chant{display:flex;flex-wrap:wrap;gap:8px}
+.s-tempo{flex-basis:100%;display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+.s-tempo .btn{min-height:36px;padding:0 10px}
+.s-tempo .icone{width:36px;height:36px}
+.s-bpm{display:inline-flex;align-items:baseline;justify-content:center;gap:4px;min-width:64px}
+.s-bpm b{font-size:18px}
+.s-bpm small{color:var(--texte-2)}
+
+.s-now{flex:none;display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-areas:"m e" "i i";align-items:end;gap:6px 20px;padding:8px 12px 10px;border-bottom:1px solid var(--filet);background:var(--panneau)}
+.s-maint{grid-area:m;display:flex;flex-direction:column;align-items:flex-start;padding:0;border:0;background:transparent;color:inherit;text-align:left;cursor:pointer}
+.s-maint:disabled{cursor:default}
+#nowAcc{font-size:40px;line-height:1.05;font-weight:600;color:var(--accord);white-space:nowrap}
+#nowDeg{font-size:13px;color:var(--texte-2)}
+.s-ens{grid-area:e;display:flex;flex-direction:column;padding-bottom:4px}
+#nextAcc{font-size:22px;font-weight:600;color:var(--texte-2);white-space:nowrap}
+.s-idee{grid-area:i;display:flex;align-items:center;gap:10px;padding:4px 4px 4px 10px;border:1px solid var(--bord);border-radius:var(--r);background:var(--fond)}
+.s-idee>.ic{color:var(--accent-fil)}
+.s-idee-txt{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;min-height:var(--cible);justify-content:center;padding:0;border:0;background:transparent;color:inherit;text-align:left;cursor:pointer}
+.s-idee-txt b{font-size:16px}
+.s-idee-txt small{color:var(--texte-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+
+.s-cases{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding:12px 12px 32px;scroll-padding:96px 0}
+.s-cases:focus{outline:none}
+.s-l{display:flex;flex-wrap:wrap;margin:0 1px 12px 0}
+.s-sep{height:12px}
+/* Une case : aussi large que son contenu, puis elle grandit selon sa durée ; une ligne trop pleine passe à la suivante. Cases jointives : la grille d'accords, mesure par mesure. */
+.s-c{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:3px;flex:var(--t,4) 1 auto;min-width:72px;max-width:100%;margin:0 -1px -1px 0;padding:9px 10px 8px;border:1px solid var(--bord);border-radius:0;background:var(--fond);color:inherit;font:inherit;text-align:left;cursor:pointer;transition:background-color var(--vite) ease}
+.s-c:hover{background:var(--survol)}
+.s-c:active{background:var(--presse)}
+.s-c:focus-visible{z-index:2}
+.s-c.sans{flex:0 1 auto;min-width:0;border-style:dashed;cursor:default;background:transparent}
+.s-a{min-height:26px;font-size:20px;line-height:1.3;font-weight:600;color:var(--accord);white-space:nowrap}
+.s-a sup{margin-left:4px;font-size:11px;font-weight:500;color:var(--texte-2)}
+.s-a.faux{color:var(--danger);text-decoration:underline wavy}
+.s-p{font-size:17px;line-height:1.35;white-space:pre-wrap;overflow-wrap:break-word}
+.s-m{display:flex;flex-wrap:wrap;gap:0 6px;min-height:16px;font-size:12px;letter-spacing:.02em;color:var(--texte-2)}
+/* Les temps de la case : un trait par temps le long du bord haut, celui en cours s'allume. */
+.s-temps{position:absolute;top:2px;left:4px;right:4px;display:flex;gap:2px;height:3px}
+.s-temps i{flex:1;border-radius:1px;background:var(--filet)}
+.s-c.cour{z-index:1;background:var(--accent);border-color:var(--accent-a);color:var(--sur-accent)}
+.s-c.cour .s-a,.s-c.cour .s-a sup,.s-c.cour .s-m{color:var(--sur-accent)}
+.s-c.cour .s-m i{opacity:.7}
+.s-c.cour .s-m i.on{opacity:1;font-weight:700}
+.s-c.cour .s-temps i{background:var(--sur-accent);opacity:.3}
+.s-c.cour .s-temps i.on{opacity:1}
+.s-c.suiv{z-index:1;box-shadow:inset 0 0 0 2px var(--accent)}
+.s-chant[data-edition] .s-c:not(.sans){border-style:dashed;cursor:text}
+.s-chant[data-edition] .s-cases::before{content:"Touche une case pour la modifier.";display:block;margin-bottom:10px;font-size:13px;color:var(--texte-2)}
+
+.s-kb{flex:none;position:relative;height:clamp(120px,24vh,260px);border-top:1px solid var(--filet);background:var(--panneau)}
+
+.s-annonce{position:fixed;z-index:30;left:50%;bottom:calc(clamp(120px,24vh,260px) + 12px);transform:translateX(-50%);max-width:min(560px,calc(100vw - 32px));padding:10px 14px;border-radius:var(--r);background:var(--texte);color:var(--fond);font-size:14px;box-shadow:var(--ombre)}
+body[data-ecran="liste"] .s-annonce,body[data-ecran="edition"] .s-annonce{bottom:16px}
+
+/* ---------- Fenêtres ---------- */
+.s-dlg{display:flex;flex-direction:column;gap:14px;padding:12px 0 16px}
+dialog .pop-tete{margin:0;padding:0 4px 0 12px}
+dialog .s-dlg{padding-inline:12px}
+.s-dlg h3{font-size:14px;font-weight:600}
+.s-notes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--bord);border-radius:var(--r);overflow:clip}
+.s-notes button{min-height:var(--cible);border:0;box-shadow:inset -1px -1px 0 var(--filet);background:transparent;color:var(--texte);font-weight:500;cursor:pointer;transition:background-color var(--vite) ease}
+.s-notes button:hover{background:var(--survol)}
+.s-notes button[aria-pressed="true"]{background:var(--texte);color:var(--fond);font-weight:600}
+.s-notes button.s-tout{grid-column:1/-1}
+.s-reg{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px}
+.s-dlg .interrupteur small{display:block;font-size:13px;color:var(--texte-2)}
+
+@media (prefers-reduced-motion:reduce){.s-cases{scroll-behavior:auto}}
+@media (min-width:1024px){
+  .s-tonbar{padding-inline:20px}
+  .s-now{grid-template-columns:auto auto minmax(0,1fr);grid-template-areas:"m e i";align-items:center;padding-inline:20px}
+  .s-cases{padding-inline:20px}
+  .s-c{min-width:96px}
+  #nowAcc{font-size:48px}
+  dialog{max-width:520px;margin:auto;border:1px solid var(--bord);border-radius:var(--r)}
+}

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="goodplay écoute un chant, trouve la tonalité et souffle la basse à jouer au piano.">
+<meta name="description" content="goodplay : tes chants avec leurs accords, dans la tonalité chantée et dans celle où tu es à l'aise au piano.">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="goodplay">
@@ -16,8 +16,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/live.css">
 </head>
-<body data-onglet="live" data-panneau="grille">
+<body data-ecran="liste">
+
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <!-- Logo redessiné d'après la maquette. Le fichier officiel, s'il existe en SVG, se remplace ici. -->
@@ -67,270 +69,149 @@
   <symbol id="i-panneau" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></symbol>
   <symbol id="i-recherche" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
   <symbol id="i-idee" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5A5 5 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6M10 22h4"/></symbol>
+  <symbol id="i-crayon" viewBox="0 0 24 24"><path d="M21.17 6.81a1 1 0 0 0-3.98-3.98L3.84 16.17a2 2 0 0 0-.5.83l-1.32 4.35a.5.5 0 0 0 .62.62l4.35-1.32a2 2 0 0 0 .83-.5z"/><path d="m15 5 4 4"/></symbol>
+  <symbol id="i-retour" viewBox="0 0 24 24"><path d="M19 12H5M11 18l-6-6 6-6"/></symbol>
 </svg>
 
-<div class="app" id="app">
-  <header class="barre">
-    <button class="icone" id="arbreBasculer" aria-label="Masquer le panneau de gauche" aria-pressed="true" title="Masquer ou montrer le panneau de gauche"><svg class="ic"><use href="#i-panneau"/></svg></button>
+<div class="s-app">
+  <header class="s-tete">
+    <button class="icone" id="retour" aria-label="Retour à Mes chants" title="Mes chants" hidden><svg class="ic"><use href="#i-retour"/></svg></button>
     <svg class="logo" role="img" aria-label="goodplay"><use href="#logo"/></svg>
-    <span class="espace" id="espaceNom">Session vide</span>
-    <div class="barre-fin">
-      <button class="tonbtn" id="barreTon" aria-haspopup="dialog" aria-expanded="false" aria-controls="popTon">
-        <svg class="ic" id="barreIc"><use href="#i-ecoute"/></svg><small>Chant</small><b id="barreTonNom">Pas encore écouté</b><svg class="ic chev"><use href="#i-chevron"/></svg>
-      </button>
-      <button class="tonbtn barre-jeu" id="barreJeu" aria-haspopup="dialog" aria-expanded="false" aria-controls="popTon"><small>Tu joues en</small><b id="barreJeuNom">Comme le chant</b></button>
-      <div class="vu vu-haut" role="img" aria-label="Niveau du micro"><span class="vu-rail"><i class="vuBarre"></i></span></div>
-      <button class="icone act-reglages" aria-label="Réglages" title="Réglages"><svg class="ic"><use href="#i-sliders"/></svg></button>
-    </div>
+    <h1 class="s-titre" id="titre">Mes chants</h1>
+    <button class="icone" id="sonBtn" aria-pressed="true" aria-label="Son des accords" title="Son des accords : un toucher sur un accord le fait sonner"><svg class="ic"><use href="#i-haut-parleur"/></svg></button>
+    <button class="icone" id="reglagesBtn" aria-label="Réglages" title="Réglages"><svg class="ic"><use href="#i-sliders"/></svg></button>
   </header>
 
-  <nav class="rail" aria-label="Espaces">
-    <button class="vue" data-onglet="live" aria-pressed="true"><svg class="ic"><use href="#i-piano"/></svg><span>Live</span></button>
-    <button class="vue" data-onglet="labs" aria-pressed="false"><svg class="ic"><use href="#i-labs"/></svg><span>Labs</span></button>
-    <button class="vue-r act-reglages"><svg class="ic"><use href="#i-sliders"/></svg><span>Réglages</span></button>
-  </nav>
-
-  <main class="scene" id="scene">
-    <aside class="arbre" aria-label="Contenu de la session">
-      <div class="arbre-tete">Session</div>
-      <div class="arbre-corps" id="arbreCorps"></div>
-    </aside>
-
-    <div class="travail">
-      <div class="onglets">
-        <div class="f-onglets" role="tablist" aria-label="Affichage">
-          <button role="tab" data-panneau="grille" aria-selected="true" id="tabGrille" aria-controls="grille">Grille</button>
-          <button role="tab" data-panneau="melodie" aria-selected="false" id="tabMelodie" aria-controls="melodie">Grille mélodique</button>
-          <button role="tab" data-panneau="enrichir" aria-selected="false" id="tabEnrichir" aria-controls="enrichirP">Enrichir<i class="point-signal" aria-hidden="true"></i></button>
-        </div>
-        <p class="structure" id="structure"></p>
-        <div class="seg profondeur" role="group" aria-label="Profondeur des accords">
-          <button data-v="squelette" title="La basse et l'accord de base">Squelette</button>
-          <button data-v="enrichi" title="Ajoute une couleur à chaque accord">Enrichi</button>
-        </div>
-        <button class="icone" id="copier" aria-label="Copier la grille" title="Copier la grille"><svg class="ic"><use href="#i-copy"/></svg></button>
-        <button class="icone danger" id="effacer" aria-label="Effacer la grille" title="Effacer la grille"><svg class="ic"><use href="#i-trash"/></svg></button>
-      </div>
-
-      <div class="commande" aria-label="Commandes">
-        <div class="cmd-champ">
-          <button class="seg-ton" id="tonBtn" aria-haspopup="dialog" aria-expanded="false" aria-controls="popTon">
-            <svg class="ic" id="tonIc"><use href="#i-ecoute"/></svg><small>Chant</small><b id="tonNom">Pas encore écouté</b><span class="ton-etat" id="tonEtat"></span><svg class="ic chev"><use href="#i-chevron"/></svg>
-          </button>
-          <div class="jeu" role="group" aria-label="Tonalité dans laquelle tu joues">
-            <button class="pas" id="jeuMoins" aria-label="Jouer un demi-ton plus bas" title="Un demi-ton plus bas"><svg class="ic"><use href="#i-minus"/></svg></button>
-            <button class="jeu-val" id="jeuBtn" aria-haspopup="dialog" aria-expanded="false" aria-controls="popTon"><small>Tu joues en</small><b id="jeuNom">Comme le chant</b><output class="tp" id="tpVal" aria-live="polite"></output></button>
-            <button class="pas" id="jeuPlus" aria-label="Jouer un demi-ton plus haut" title="Un demi-ton plus haut"><svg class="ic"><use href="#i-plus"/></svg></button>
-          </div>
-          <div class="tempo">
-            <span class="bpm"><b class="bpmV">--</b><small>bpm</small><i class="battue" id="battue"></i></span>
-            <button class="taper taper-cmd">Taper</button>
-          </div>
-        </div>
-        <div class="cmd-sec">
-          <button class="btn direct-seul act-nouveau"><svg class="ic"><use href="#i-plus"/></svg><span>Nouveau chant</span></button>
-          <button class="btn direct-seul act-changeton" title="La tonalité ne change que quand tu le dis (C)"><svg class="ic"><use href="#i-boucle"/></svg><span>Changement<span class="long"> de tonalité</span></span></button>
-          <label class="btn repos"><svg class="ic"><use href="#i-upload"/></svg><span>Analyser<span class="long"> un enregistrement</span></span><input class="act-fichier" type="file" accept="audio/*,.m4a,.mp3,.wav,.aac"></label>
-          <button class="btn repos act-demo"><svg class="ic"><use href="#i-play"/></svg><span>Démo</span></button>
-          <button class="btn tel-seul act-accord" disabled aria-label="Écouter l'accord"><svg class="ic"><use href="#i-haut-parleur"/></svg></button>
-          <button class="btn tel-seul act-mains" aria-pressed="true" aria-label="Montrer les mains"><svg class="ic"><use href="#i-main"/></svg></button>
-        </div>
-        <button class="btn principal envoi act-micro repos"><svg class="ic"><use href="#i-mic"/></svg><span>Écouter</span></button>
-        <button class="btn principal envoi arret act-arret direct-seul"><svg class="ic"><use href="#i-stop"/></svg><span>Arrêter</span></button>
-      </div>
-
-      <div class="corps">
-        <section class="maintenant" id="pupitre" aria-label="Accord à jouer">
-          <div class="reco-bande" id="recoBande" role="status" hidden><p id="recoTxt"></p><button class="lien" id="recoSauve" aria-haspopup="dialog" hidden></button><button class="lien" id="recoNon" hidden>Ce n'est pas ce chant</button></div>
-          <button class="tp-bande" id="tpBande" aria-haspopup="dialog" aria-controls="popTon" hidden></button>
-          <div class="ton-choix" id="tonChoix" role="group" aria-label="Choisis la tonalité" hidden></div>
-          <div class="duo">
-            <div class="now">
-              <span class="etiq-z">Maintenant<span class="prop" id="nowProp" title="Je devine les accords : le chant n'est pas reconnu" hidden>proposition</span></span>
-              <button class="now-btn" id="nowBtn" aria-label="Écouter l'accord" disabled>
-                <span class="chiffre" id="nowDeg"></span>
-                <span class="accord" id="nowNom"></span>
-                <span class="now-basse" id="nowBasse"></span>
-              </button>
-              <div class="now-choix" id="nowChoix" role="group" aria-label="Choisis l'accord" hidden></div>
-            </div>
-            <div class="ensuite vide-en" id="ensuite">
-              <span class="etiq-z">Ensuite<span class="badge" id="nextBadge" hidden></span></span>
-              <span class="en-corps" id="nextCorps"><span class="chiffre2" id="nextDeg"></span><span class="accord2" id="nextNom"></span></span>
-              <span class="en-attente" id="nextAttente"></span>
-              <span class="jauge" id="nextJauge" hidden><i id="nextJaugeI"></i></span>
-            </div>
-          </div>
-          <div class="sous-ligne">
-            <p class="sous" id="nowSous"></p>
-            <div class="pasca" id="pasCa" hidden></div>
-          </div>
-          <div class="aide" id="aide" role="status" hidden><svg class="ic"><use href="#i-alert"/></svg><span><b id="aideT"></b> <span id="aideD"></span></span></div>
-          <aside class="enrichir-tel" aria-label="Idée pour enrichir"><svg class="ic"><use href="#i-idee"/></svg><div class="suggs" id="suggsTel"></div></aside>
-        </section>
-
-        <section class="feuille" id="feuille" aria-label="Grille de la chanson">
-          <div class="f-corps">
-            <div class="grille" id="grille" role="tabpanel" aria-labelledby="tabGrille" tabindex="-1">
-              <div class="vide" id="grilleVide"><svg class="ic"><use href="#i-grille"/></svg><b>La grille s'écrit ici</b><span>Une case par accord, une ligne par phrase. Clique une case pour la corriger.</span><span>Pour le micro : pose le téléphone près du chantre, loin du piano.</span><button class="btn act-demo vide-action"><svg class="ic"><use href="#i-play"/></svg>Voir la démo</button></div>
-            </div>
-            <div class="melodie" id="melodie" role="tabpanel" aria-labelledby="tabMelodie" tabindex="-1" hidden>
-              <div class="vide" id="melodieVide"><svg class="ic"><use href="#i-music"/></svg><b>La mélodie s'écrit ici</b><span>Chaque note chantée, avec son nom, sous les accords, dès que tu chantes.</span></div>
-            </div>
-            <div class="enrichir-p" id="enrichirP" role="tabpanel" aria-labelledby="tabEnrichir" tabindex="-1" hidden>
-              <div class="en-tete">
-                <h2>Suggestions de l'accord en cours et du suivant</h2>
-                <button class="choix" id="styleBtn" aria-haspopup="listbox" aria-expanded="false"><small>Style</small><span id="styleNom">Gospel</span><svg class="ic"><use href="#i-chevron"/></svg></button>
-              </div>
-              <div class="suggs" id="suggs"></div>
-            </div>
-            <button class="direct" id="retourDirect" hidden><svg class="ic"><use href="#i-bas"/></svg>Revenir au direct</button>
-          </div>
-          <textarea class="copie" id="copieTexte" readonly hidden aria-label="Texte de la grille à copier"></textarea>
-        </section>
-      </div>
-
-      <div class="sep" role="separator" aria-orientation="horizontal" aria-label="Hauteur du clavier" tabindex="0"></div>
-
-      <section class="kbzone" aria-label="Clavier et mains">
-        <div class="kb-tete">
-          <div class="kb-actions">
-            <button class="btn act-accord" disabled><svg class="ic"><use href="#i-haut-parleur"/></svg><span>Accord</span></button>
-            <button class="btn act-mains" aria-pressed="true"><svg class="ic"><use href="#i-main"/></svg><span>Mains</span></button>
-          </div>
-          <div class="apercu" id="apercu" hidden><span id="apercuNom"></span><button class="lien" id="apercuFin">Retour au direct</button></div>
-          <p class="kb-etat" id="kbEtat"></p>
-        </div>
-        <div class="kb-corps"><div class="clavier" id="clavier"></div></div>
-      </section>
+  <!-- Mes chants -->
+  <main class="s-ecran s-liste" id="ecranListe">
+    <div class="s-barre">
+      <label class="s-cherche"><svg class="ic"><use href="#i-recherche"/></svg><input id="cherche" type="search" placeholder="Chercher un chant" aria-label="Chercher un chant" autocomplete="off"></label>
+      <button class="btn principal" id="ajouter"><svg class="ic"><use href="#i-plus"/></svg>Ajouter un chant</button>
+    </div>
+    <ul class="s-chants" id="listeChants"></ul>
+    <div class="s-vide" id="listeVide" hidden>
+      <b>Aucun chant pour l'instant</b>
+      <span>Ajoute ton premier chant : son titre, puis ses paroles avec les accords entre crochets.</span>
+    </div>
+    <div class="s-pied">
+      <button class="lien" id="exporter"><svg class="ic"><use href="#i-download"/></svg>Exporter mes chants</button>
+      <label class="lien"><svg class="ic"><use href="#i-upload"/></svg>Importer<input type="file" id="importer" accept=".json,application/json"></label>
+      <p class="note">Tes chants restent dans ce navigateur. Exporte-les pour les passer sur un autre appareil.</p>
     </div>
   </main>
 
-  <section class="labs" id="labs" hidden><div id="labsMontage"></div></section>
-
-  <footer class="statut">
-    <span class="st-bloc st-live vu vu-bas" role="img" aria-label="Niveau du micro"><svg class="ic"><use href="#i-mic"/></svg><span class="vu-rail"><i class="vuBarre"></i></span></span>
-    <span class="st-bloc" id="stEtat" role="status">Au repos</span>
-    <span class="st-bloc st-live" id="stLat" title="Temps entre le début de note retenu par le moteur et l'accord affiché, médiane des derniers accords">Latence --</span>
-    <button class="st-nota" id="stNota" title="Changer les noms des notes"></button>
-    <span class="st-racc" aria-label="Raccourcis clavier">
-      <span><kbd>Espace</kbd><i>Écouter</i></span>
-      <span class="st-live"><kbd>N</kbd><i>Nouveau</i></span>
-      <span class="st-live"><kbd>C</kbd><i>Changement de ton</i></span>
-      <span class="st-live"><kbd>T</kbd><i>Taper</i></span>
-      <span class="st-live"><kbd>A</kbd><i>Accord</i></span>
-      <span class="st-live"><kbd>M</kbd><i>Mains</i></span>
-      <span class="st-live"><kbd>1</kbd><kbd>2</kbd><i>Trancher</i></span>
-    </span>
-  </footer>
-
-  <nav class="tabbar" aria-label="Navigation">
-    <button class="tab" data-onglet="live" aria-pressed="true"><svg class="ic"><use href="#i-piano"/></svg>Live</button>
-    <button class="tab" data-onglet="grille" aria-pressed="false"><svg class="ic"><use href="#i-grille"/></svg>Grille</button>
-    <button class="fab" id="fab"><svg class="ic"><use id="fabIc" href="#i-mic"/></svg><span id="fabTxt">Écouter</span></button>
-    <button class="tab" data-onglet="melodie" aria-pressed="false"><svg class="ic"><use href="#i-music"/></svg>Mélodie</button>
-    <button class="tab" data-onglet="labs" aria-pressed="false"><svg class="ic"><use href="#i-labs"/></svg>Labs</button>
-  </nav>
-</div>
-
-<div class="annonce" id="annonce" role="status" hidden>
-  <svg class="ic" id="annonceIc"><use id="annonceUse" href="#i-haut"/></svg>
-  <div class="annonce-t" id="annonceT"></div>
-  <button class="lien" id="annonceAnnuler" hidden>Annuler</button>
-  <button class="icone petite" id="annonceFermer" aria-label="Fermer le message"><svg class="ic"><use href="#i-x"/></svg></button>
-</div>
-
-<!-- Enregistrer un chant -->
-<div class="pop pop-nom" id="popNom" role="dialog" aria-label="Enregistrer dans Mes chants" hidden>
-  <div class="pop-tete"><h2>Enregistrer dans Mes chants</h2><button class="icone" data-fermer aria-label="Fermer"><svg class="ic"><use href="#i-x"/></svg></button></div>
-  <form class="nom-form" id="nomForm" novalidate>
-    <label class="nom-champ"><span>Nom du chant</span><input id="nomChant" maxlength="60" autocomplete="off"></label>
-    <button class="btn principal" type="submit">Enregistrer</button>
-    <p class="nom-err" id="nomErr" role="alert" hidden></p>
-    <p class="note">Ta grille et la mélodie entendue restent sur cet appareil. Je reconnaîtrai ce chant la prochaine fois, même dans une autre tonalité.</p>
-  </form>
-</div>
-
-<!-- Tonalité et Transpose -->
-<div class="pop pop-ton" id="popTon" role="dialog" aria-label="Tonalité et Transpose" hidden>
-  <div class="pop-tete"><h2>Tonalité et Transpose</h2><button class="icone" data-fermer aria-label="Fermer"><svg class="ic"><use href="#i-x"/></svg></button></div>
-  <div class="ton-cols">
-    <div class="ton-col">
-      <h3>Le chant</h3>
-      <p class="etat" id="popEtat"></p>
-      <div class="seg" id="tonMode" role="group" aria-label="Choix de la tonalité du chant"><button data-v="auto">Automatique</button><button data-v="manuel">Je la choisis</button></div>
-      <div class="ton-manuel" id="tonManuel" hidden>
-        <div class="notes" id="tonNotes" role="group" aria-label="Note de la tonalité"></div>
-        <div class="seg" id="tonQualite" role="group" aria-label="Mode"><button data-v="maj">Majeur</button><button data-v="min">Mineur</button></div>
+  <!-- Ajouter ou modifier un chant -->
+  <main class="s-ecran s-edit" id="ecranEdition" hidden>
+    <form id="formChant" novalidate>
+      <label class="s-champ"><span>Titre</span><input id="fTitre" maxlength="80" autocomplete="off" aria-describedby="fTitreErr"><small class="s-err" id="fTitreErr" hidden>Donne un titre au chant.</small></label>
+      <div class="s-rang">
+        <label class="s-champ s-court"><span>Tempo</span><span class="s-unite"><input id="fBpm" type="number" inputmode="numeric" min="30" max="240" step="1"><small>bpm</small></span></label>
+        <div class="s-champ"><span id="fMesureL">Temps par mesure</span><div class="seg" id="fMesure" role="group" aria-labelledby="fMesureL"><button type="button" data-v="2">2</button><button type="button" data-v="3">3</button><button type="button" data-v="4">4</button><button type="button" data-v="6">6</button></div></div>
       </div>
-      <button class="btn direct-seul act-changeton"><svg class="ic"><use href="#i-boucle"/></svg>Changement de tonalité</button>
-      <p class="note direct-seul">La tonalité ne change que quand tu le dis : je réécoute 20 s, la grille reste.</p>
-      <button class="btn" id="redetecter"><svg class="ic"><use href="#i-boucle"/></svg>Re-détecter</button>
-      <p class="note">Re-détecter repart à zéro, sur un nouveau bloc de grille.</p>
-    </div>
-    <div class="ton-col">
-      <h3>Tu joues en</h3>
-      <p class="etat" id="popJeu"></p>
-      <div class="notes" id="jeuNotes" role="group" aria-label="Tonalité dans laquelle tu joues"></div>
-      <div class="ligne-pas">
-        <button class="btn" id="popMoins"><svg class="ic"><use href="#i-minus"/></svg>Demi-ton</button>
-        <button class="btn" id="popPlus"><svg class="ic"><use href="#i-plus"/></svg>Demi-ton</button>
+      <label class="s-champ"><span>Paroles et accords</span><textarea id="fTexte" rows="12" spellcheck="false" autocapitalize="off" placeholder="[Sol]Amazing [Sol7]grace, how [Do]sweet the [Sol]sound&#10;That [Sol]saved a [Ré]wretch like [Sol]me"></textarea></label>
+      <p class="note">L'accord entre crochets, juste avant les mots qu'il couvre. Un accord dure une mesure : <kbd>[Fa:2]</kbd> pour deux, <kbd>[Sol:½]</kbd> pour une demie. Une ligne qui commence par <kbd>♪</kbd> donne la mélodie de la ligne du dessus, une case par barre : <kbd>♪ sol la si | do</kbd>.</p>
+      <p class="s-erreurs" id="fErreurs" role="status"></p>
+      <div class="s-ton-ecrit"><span>Tonalité</span><b id="fTon">Pas encore d'accord</b><button class="lien" type="button" id="fTonChanger">Changer</button></div>
+      <div class="s-apercu" id="fApercu" aria-label="Aperçu en cases"></div>
+      <div class="s-actions">
+        <button class="btn s-danger" type="button" id="fSupprimer" hidden><svg class="ic"><use href="#i-trash"/></svg>Supprimer</button>
+        <span class="s-espace"></span>
+        <button class="btn" type="button" id="fAnnuler">Annuler</button>
+        <button class="btn principal" type="submit">Enregistrer</button>
       </div>
-      <button class="btn" id="popComme">Comme le chant</button>
-      <div class="tempo-tel"><span class="bpm"><b class="bpmV">--</b><small>bpm</small></span><button class="btn taper">Taper le tempo</button></div>
-      <div class="actions-tel"><button class="btn direct-seul act-nouveau"><svg class="ic"><use href="#i-plus"/></svg>Nouveau chant</button><button class="btn act-mains" aria-pressed="true"><svg class="ic"><use href="#i-main"/></svg><span>Mains</span></button></div>
-    </div>
-  </div>
-</div>
+    </form>
+  </main>
 
-<!-- Une case de la grille -->
-<div class="pop pop-case" id="popCase" role="dialog" aria-labelledby="caseTitre" hidden>
-  <div class="pop-tete">
-    <h2 id="caseTitre"></h2>
-    <button class="icone" data-fermer aria-label="Fermer"><svg class="ic"><use href="#i-x"/></svg></button>
-  </div>
-  <div class="case-corps">
-    <h3>C'est plutôt</h3>
-    <div class="case-alts" id="caseAlts"></div>
-    <div class="case-autres" id="caseAutres"></div>
-    <div class="case-clavier" id="caseClavier"></div>
-    <button class="btn principal" id="caseEcouter"><svg class="ic"><use href="#i-haut-parleur"/></svg>Écouter cet accord</button>
-  </div>
-</div>
+  <!-- Le chant -->
+  <main class="s-ecran s-chant" id="ecranChant" hidden>
+    <section class="s-tonbar" aria-label="Tonalité">
+      <div class="s-ton">
+        <span class="s-etiq">Chant</span>
+        <b id="cTon"></b>
+        <span class="s-etat" id="cTonEtat"></span>
+        <span class="s-pas" role="group" aria-label="Hauteur du chant">
+          <button class="icone" id="cMoins" aria-label="Le chant est un demi-ton plus bas" title="Un demi-ton plus bas"><svg class="ic"><use href="#i-minus"/></svg></button>
+          <button class="icone" id="cPlus" aria-label="Le chant est un demi-ton plus haut" title="Un demi-ton plus haut"><svg class="ic"><use href="#i-plus"/></svg></button>
+        </span>
+      </div>
+      <p class="s-jeu" id="cJeu"></p>
+      <div class="s-actions-chant">
+        <button class="btn principal" id="ecouterBtn"><svg class="ic"><use href="#i-mic"/></svg><span>Écouter</span></button>
+        <button class="btn" id="changeTon" hidden><svg class="ic"><use href="#i-boucle"/></svg><span>Changement<span class="long"> de tonalité</span></span></button>
+        <button class="btn" id="editerBtn" aria-pressed="false"><svg class="ic"><use href="#i-crayon"/></svg><span>Modifier</span></button>
+        <button class="btn" id="texteBtn" hidden><svg class="ic"><use href="#i-grille"/></svg><span>Tout le texte</span></button>
+      </div>
+      <div class="s-tempo" id="cTempo" hidden>
+        <button class="icone" id="bpmMoins" aria-label="Plus lent"><svg class="ic"><use href="#i-minus"/></svg></button>
+        <span class="s-bpm"><b id="bpmV">72</b><small>bpm</small></span>
+        <button class="icone" id="bpmPlus" aria-label="Plus vite"><svg class="ic"><use href="#i-plus"/></svg></button>
+        <button class="btn" id="taper">Taper</button>
+        <button class="btn" id="defiler"><svg class="ic"><use href="#i-play"/></svg><span>Démarrer</span></button>
+      </div>
+    </section>
 
-<div class="pop pop-liste" id="popMenu" role="listbox" aria-label="Choix" tabindex="-1" hidden></div>
+    <section class="s-now" aria-label="Accord en cours">
+      <button class="s-maint" id="nowBtn" aria-label="Écouter l'accord en cours"><span class="s-etiq">Maintenant</span><b id="nowAcc"></b><small id="nowDeg"></small></button>
+      <div class="s-ens"><span class="s-etiq">Ensuite</span><b id="nextAcc"></b></div>
+      <div class="s-idee" id="idee" hidden>
+        <svg class="ic"><use href="#i-idee"/></svg>
+        <button class="s-idee-txt" id="ideeEcouter" aria-label="Écouter l'idée"><b id="ideeAcc"></b><small id="ideeNom"></small></button>
+        <button class="btn" id="ideeAjouter"><svg class="ic"><use href="#i-plus"/></svg>Ajouter</button>
+      </div>
+    </section>
+
+    <section class="s-cases" id="cases" aria-label="Le chant, case par case" tabindex="-1"></section>
+
+    <section class="s-kb" aria-label="Clavier">
+      <div class="clavier" id="clavier"></div>
+    </section>
+  </main>
+
+  <div class="s-annonce" id="annonce" role="status" hidden></div>
+</div>
 
 <!-- Réglages -->
-<dialog id="reglages" aria-labelledby="regTitre">
-  <div class="reg-tete"><h2 id="regTitre">Réglages</h2><button class="icone" id="fermerReglages" aria-label="Fermer les réglages"><svg class="ic"><use href="#i-x"/></svg></button></div>
-  <div class="reg">
-    <div class="champ"><span class="champ-t">Thème</span>
-      <div class="seg" data-reg="theme" role="group" aria-label="Thème"><button data-v="auto">Auto</button><button data-v="light">Clair</button><button data-v="dark">Sombre</button></div></div>
-    <div class="champ"><span class="champ-t">Noms des notes</span>
-      <div class="seg" data-reg="notation" role="group" aria-label="Noms des notes"><button data-v="fr">Do Ré Mi</button><button data-v="en">C D E</button></div></div>
-    <div class="champ"><span class="champ-t">Main gauche</span>
-      <div class="seg" data-reg="niveauMg" role="group" aria-label="Main gauche"><button data-v="0">Basse</button><button data-v="1">Octave</button><button data-v="2">Avec quinte</button></div></div>
+<dialog id="dlgReglages" aria-labelledby="regT">
+  <div class="pop-tete"><h2 id="regT">Réglages</h2><button class="icone" data-fermer aria-label="Fermer"><svg class="ic"><use href="#i-x"/></svg></button></div>
+  <div class="s-dlg">
+    <h3 id="jeuT">La tonalité où tu es à l'aise</h3>
+    <p class="note">Tout s'affiche dans cette tonalité, et l'appli te dit de combien régler le Transpose de ton piano. Un chant mineur se joue sur les mêmes touches, dans sa mineure relative.</p>
+    <div class="s-notes" id="jeuNotes" role="group" aria-labelledby="jeuT"></div>
+    <div class="s-reg">
+      <span id="notaT">Noms des notes</span>
+      <div class="seg" id="notation" role="group" aria-labelledby="notaT"><button data-v="fr">Do Ré Mi</button><button data-v="en">C D E</button></div>
+    </div>
+    <label class="interrupteur"><span><b>Son des accords</b><small>Un toucher sur un accord le fait sonner.</small></span><input type="checkbox" role="switch" id="rSon"><i></i></label>
+    <label class="interrupteur"><span><b>Idées</b><small>Un accord de passage ou une couleur pour aller à l'accord suivant.</small></span><input type="checkbox" role="switch" id="rIdees"><i></i></label>
+    <label class="interrupteur"><span><b>Défiler au tempo</b><small>Coupé, c'est toi qui avances : toucher une case, flèches ou pédale.</small></span><input type="checkbox" role="switch" id="rDefile"><i></i></label>
+  </div>
+</dialog>
 
-    <div class="champ"><label class="interrupteur"><span><b>Un bassiste joue avec toi</b><small>Lit aussi la basse réelle dans le son. À activer seulement si un autre musicien joue la basse. S'applique à partir d'une grille vide.</small></span><input type="checkbox" role="switch" id="basseReelle"><i></i></label></div>
-    <div class="champ"><label class="interrupteur"><span><b>Suivre seul les changements de tonalité</b><small>Coupé, la tonalité trouvée reste jusqu'à ce que tu touches Changement de tonalité.</small></span><input type="checkbox" role="switch" id="modulationAuto"><i></i></label></div>
-    <div class="champ"><label class="champ-t" for="silence">Nouveau chant après un silence de <span id="silenceV"></span></label><input type="range" id="silence" min="8" max="60" step="1"></div>
+<!-- Une case -->
+<dialog id="dlgCase" aria-labelledby="caseT">
+  <div class="pop-tete"><h2 id="caseT">La case</h2><button class="icone" data-fermer aria-label="Fermer"><svg class="ic"><use href="#i-x"/></svg></button></div>
+  <form class="s-dlg" id="formCase" novalidate>
+    <label class="s-champ"><span>Accord</span><input id="kAcc" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="kAccErr"><small class="s-err" id="kAccErr" hidden>Cet accord ne se lit pas. Exemples : Do, Lam, Sol7, Fa/La, Am, Bb.</small></label>
+    <label class="s-champ"><span>Paroles</span><input id="kPar" autocomplete="off"></label>
+    <label class="s-champ"><span>Mélodie</span><input id="kMel" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="sol la si" aria-describedby="kMelErr"><small class="s-err" id="kMelErr" hidden></small></label>
+    <div class="s-champ"><span id="kDurT">Durée</span><div class="seg" id="kDur" role="group" aria-labelledby="kDurT"><button type="button" data-v="0.25">¼</button><button type="button" data-v="0.5">½</button><button type="button" data-v="1">1</button><button type="button" data-v="2">2</button><button type="button" data-v="4">4</button></div><small>mesure(s)</small></div>
+    <div class="s-actions">
+      <button class="btn s-danger" type="button" id="kSupprimer"><svg class="ic"><use href="#i-trash"/></svg>Supprimer</button>
+      <button class="btn" type="button" id="kPartager"><svg class="ic"><use href="#i-plus"/></svg>Ajouter un accord après</button>
+      <span class="s-espace"></span>
+      <button class="btn principal" type="submit">Enregistrer</button>
+    </div>
+  </form>
+</dialog>
 
-    <div class="champ"><span class="champ-t">Voix</span>
-      <div class="seg" data-reg="sortie" role="group" aria-label="Sortie"><button data-v="both">Écran et voix</button><button data-v="voice">Voix seule</button><button data-v="screen">Écran seul</button></div>
-      <small>La voix seule convient aux lunettes sans écran.</small></div>
-    <div class="champ"><span class="champ-t">La voix annonce</span>
-      <div class="seg" data-reg="annonce" role="group" aria-label="La voix annonce"><button data-v="deg">Degré</button><button data-v="note">Note</button><button data-v="both">Les deux</button></div></div>
-    <div class="champ" id="champVoixTel" hidden><label class="interrupteur"><span><b>Activer la voix sur ce téléphone</b><small>Désactivée par défaut : sur iPhone, la voix peut couper le micro pendant l'écoute.</small></span><input type="checkbox" role="switch" id="voixTel"><i></i></label></div>
-
-    <div class="champ"><label class="interrupteur"><span><b>Paroles (expérimental)</b><small>Reconnaissance vocale du chant, quand le navigateur la permet.</small></span><input type="checkbox" role="switch" id="paroles"><i></i></label></div>
-    <div class="champ"><label class="champ-t" for="volDemo">Volume de la démo</label><input type="range" id="volDemo" min="0" max="1" step=".05"><small>La démo : Amazing Grace par Vera Hall, Dock Reed, Jesse Allison, Alabama, 1937, voix seules, domaine public selon Wikimedia Commons.</small></div>
-
-    <details class="diag" id="diag">
-      <summary>Diagnostic<svg class="ic"><use href="#i-chevron"/></svg></summary>
-      <p class="note">Si le micro se comporte mal sur ton téléphone, copie ce texte et envoie-le.</p>
-      <pre id="diagTexte" tabindex="0"></pre>
-      <button class="btn" id="diagCopier"><svg class="ic"><use href="#i-copy"/></svg>Copier le diagnostic</button>
-    </details>
+<!-- Tonalité écrite -->
+<dialog id="dlgTon" aria-labelledby="tonT">
+  <div class="pop-tete"><h2 id="tonT">Tonalité écrite</h2><button class="icone" data-fermer aria-label="Fermer"><svg class="ic"><use href="#i-x"/></svg></button></div>
+  <div class="s-dlg">
+    <p class="note">Déduite des accords. Change-la seulement si elle est fausse.</p>
+    <div class="s-notes" id="tonNotes" role="group" aria-label="Tonique"></div>
+    <div class="seg" id="tonMode" role="group" aria-label="Mode"><button data-v="maj">Majeur</button><button data-v="min">Mineur</button></div>
+    <button class="btn" id="tonAuto">Revenir à la tonalité déduite</button>
   </div>
 </dialog>
 
@@ -343,10 +224,7 @@
 <script src="js/enrichir.js"></script>
 <script src="js/audio.js"></script>
 <script src="js/clavier.js"></script>
-<link rel="stylesheet" href="css/labs.css">
-<script src="js/chants.js"></script>
-<script src="js/reconnaissance.js"></script>
-<script src="js/labs.js"></script>
-<script src="js/app.js"></script>
+<script src="js/chant.js"></script>
+<script src="js/live.js"></script>
 </body>
 </html>
