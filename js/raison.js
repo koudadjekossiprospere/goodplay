@@ -16,7 +16,8 @@
   const DEFAUT = {
     beta: 1, gamma: 1, durMax: 1, lambda: .7, eps: .01, af: .5, ai: .3, priorMaj: .5, temperature: 1,
     pauseMin: .2, pauseRel: .25, porte: 0,
-    limite: 4.6, attenteMin: 2.5, pMontre: .6, dChange: .25, pSure: .97, voixSure: 6, tenueSure: 0, tenueChange: 0, pGarde: .6, nGarde: 3, pMod: .9, nMod: 4
+    limite: 4.6, attenteMin: 2.5, pMontre: .6, dChange: .25, pSure: .97, voixSure: 6, tenueSure: 0, tenueChange: 0, pGarde: .6, nGarde: 3, pMod: .9, nMod: 4,
+    figer: false // une fois sûre, la tonalité ne change plus seule (ni correction ni modulation) ; « sûre » reste révocable
   };
 
   /* Tables en probabilités (somme 1) vers logarithmes, avec interpolation bigramme / unigramme. */
@@ -144,19 +145,19 @@
         if (this.pcs.size >= 2 && (this.voise >= P.limite || (this.voise >= P.attenteMin && pb >= P.pMontre))) { if (sure(b)) this.aEteSure = true; return montre(b, sure(b) ? 'sure' : 'probable'); }
         return null;
       }
-      const a = this.aff, pa = Math.exp(this.la[a]);
+      const a = this.aff, pa = Math.exp(this.la[a]), fige = P.figer && this.aEteSure;
       const rel = (i, j) => (i & 1) !== (j & 1) && mod((i >> 1) - (j >> 1)) === ((j & 1) ? 3 : 9);
       if (this.etat === 'probable') {
         // Changer d'avis : une autre tonalité mène nettement, depuis tenueChange s (une tonalité qui saute gêne autant qu'une tonalité fausse).
         // Un changement après avoir été sûr est une modulation, sauf vers le relatif (même gamme : c'était une hésitation).
-        if (b !== a && pb - pa >= P.dChange && t - this.tete.t >= P.tenueChange) { const mo = this.aEteSure && !rel(b, a); if (sure(b)) this.aEteSure = true; return montre(b, sure(b) ? 'sure' : 'probable', mo); }
+        if (!fige && b !== a && pb - pa >= P.dChange && t - this.tete.t >= P.tenueChange) { const mo = this.aEteSure && !rel(b, a); if (sure(b)) this.aEteSure = true; return montre(b, sure(b) ? 'sure' : 'probable', mo); }
         if (sure(a)) { this.aEteSure = true; return montre(a, 'sure'); }
         return null;
       }
       // Sûre décrit la confiance du moment, pas un verrou : si la tonalité affichée faiblit nettement plusieurs notes de suite, on repasse en probable.
       if (pa < P.pGarde) { this.bas = (this.bas || 0) + 1; if (this.bas >= P.nGarde) { this.bas = 0; this.cand = null; return montre(a, 'probable'); } } else this.bas = 0;
       // Modulation nette : une autre tonalité (pas le relatif) tient nMod notes au-dessus de pMod.
-      if (b !== a && pb >= P.pMod && !rel(b, a)) { this.cand = this.cand && this.cand.i === b ? { i: b, n: this.cand.n + 1 } : { i: b, n: 1 }; if (this.cand.n >= P.nMod) { this.cand = null; return montre(b, 'sure', true); } }
+      if (!fige && b !== a && pb >= P.pMod && !rel(b, a)) { this.cand = this.cand && this.cand.i === b ? { i: b, n: this.cand.n + 1 } : { i: b, n: 1 }; if (this.cand.n >= P.nMod) { this.cand = null; return montre(b, 'sure', true); } }
       else this.cand = null;
       return null;
     }

@@ -129,6 +129,7 @@
         </div>
         <div class="cmd-sec">
           <button class="btn direct-seul act-nouveau"><svg class="ic"><use href="#i-plus"/></svg><span>Nouveau chant</span></button>
+          <button class="btn direct-seul act-changeton" title="La tonalité ne change que quand tu le dis (C)"><svg class="ic"><use href="#i-boucle"/></svg><span>Changement<span class="long"> de tonalité</span></span></button>
           <label class="btn repos"><svg class="ic"><use href="#i-upload"/></svg><span>Analyser<span class="long"> un enregistrement</span></span><input class="act-fichier" type="file" accept="audio/*,.m4a,.mp3,.wav,.aac"></label>
           <button class="btn repos act-demo"><svg class="ic"><use href="#i-play"/></svg><span>Démo</span></button>
           <button class="btn tel-seul act-accord" disabled aria-label="Écouter l'accord"><svg class="ic"><use href="#i-haut-parleur"/></svg></button>
@@ -215,6 +216,7 @@
     <span class="st-racc" aria-label="Raccourcis clavier">
       <span><kbd>Espace</kbd><i>Écouter</i></span>
       <span class="st-live"><kbd>N</kbd><i>Nouveau</i></span>
+      <span class="st-live"><kbd>C</kbd><i>Changement de ton</i></span>
       <span class="st-live"><kbd>T</kbd><i>Taper</i></span>
       <span class="st-live"><kbd>A</kbd><i>Accord</i></span>
       <span class="st-live"><kbd>M</kbd><i>Mains</i></span>
@@ -261,6 +263,8 @@
         <div class="notes" id="tonNotes" role="group" aria-label="Note de la tonalité"></div>
         <div class="seg" id="tonQualite" role="group" aria-label="Mode"><button data-v="maj">Majeur</button><button data-v="min">Mineur</button></div>
       </div>
+      <button class="btn direct-seul act-changeton"><svg class="ic"><use href="#i-boucle"/></svg>Changement de tonalité</button>
+      <p class="note direct-seul">La tonalité ne change que quand tu le dis : je réécoute 20 s, la grille reste.</p>
       <button class="btn" id="redetecter"><svg class="ic"><use href="#i-boucle"/></svg>Re-détecter</button>
       <p class="note">Re-détecter repart à zéro, sur un nouveau bloc de grille.</p>
     </div>
@@ -308,7 +312,7 @@
       <div class="seg" data-reg="niveauMg" role="group" aria-label="Main gauche"><button data-v="0">Basse</button><button data-v="1">Octave</button><button data-v="2">Avec quinte</button></div></div>
 
     <div class="champ"><label class="interrupteur"><span><b>Un bassiste joue avec toi</b><small>Lit aussi la basse réelle dans le son. À activer seulement si un autre musicien joue la basse. S'applique à partir d'une grille vide.</small></span><input type="checkbox" role="switch" id="basseReelle"><i></i></label></div>
-    <div class="champ"><label class="interrupteur"><span><b>Suivre les changements de tonalité</b><small>Bascule seul quand la personne qui mène change de ton.</small></span><input type="checkbox" role="switch" id="modulationAuto"><i></i></label></div>
+    <div class="champ"><label class="interrupteur"><span><b>Suivre seul les changements de tonalité</b><small>Coupé, la tonalité trouvée reste jusqu'à ce que tu touches Changement de tonalité.</small></span><input type="checkbox" role="switch" id="modulationAuto"><i></i></label></div>
     <div class="champ"><label class="champ-t" for="silence">Nouveau chant après un silence de <span id="silenceV"></span></label><input type="range" id="silence" min="8" max="60" step="1"></div>
 
     <div class="champ"><span class="champ-t">Voix</span>

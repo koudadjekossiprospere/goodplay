@@ -10,12 +10,12 @@
 
   /* ---------- Réglages, avec reprise de l'ancienne clé ---------- */
   function charger() {
-    const D = { sortie: 'both', annonce: 'both', niveauMg: 0, notation: 'fr', paroles: false, volDemo: .35, jeu: null, modulationAuto: true, silence: 15, theme: 'auto', tonManuelle: null, profondeur: 'squelette', style: 'gospel', mains: true, basseReelle: false, voixTel: false, arbre: true, kbH: null };
+    const D = { sortie: 'both', annonce: 'both', niveauMg: 0, notation: 'fr', paroles: false, volDemo: .35, jeu: null, suitTon: false, silence: 15, theme: 'auto', tonManuelle: null, profondeur: 'squelette', style: 'gospel', mains: true, basseReelle: false, voixTel: false, arbre: true, kbH: null };
     try {
-      const n = JSON.parse(localStorage.getItem(CLE)); if (n) return { ...D, ...n };
+      const n = JSON.parse(localStorage.getItem(CLE)); if (n) { delete n.modulationAuto; return { ...D, ...n }; } // remplacé par suitTon, coupé par défaut
       const a = JSON.parse(localStorage.getItem(ANCIENNE)); if (!a) return D;
       const k = typeof a.keyMode === 'string' && a.keyMode !== 'auto' ? a.keyMode.split('-') : null;
-      const r = { ...D, sortie: a.output ?? D.sortie, annonce: a.announce ?? D.annonce, niveauMg: a.level ?? 0, notation: a.notation ?? 'fr', paroles: !!a.lyrics, volDemo: a.demoVol ?? D.volDemo, jeu: a.playKey === 'easy' ? 0 : null, modulationAuto: a.autoMod ?? true, silence: a.newGap ?? 15, theme: a.theme ?? 'auto', tonManuelle: k ? { tonic: +k[0], mode: k[1] } : null };
+      const r = { ...D, sortie: a.output ?? D.sortie, annonce: a.announce ?? D.annonce, niveauMg: a.level ?? 0, notation: a.notation ?? 'fr', paroles: !!a.lyrics, volDemo: a.demoVol ?? D.volDemo, jeu: a.playKey === 'easy' ? 0 : null, silence: a.newGap ?? 15, theme: a.theme ?? 'auto', tonManuelle: k ? { tonic: +k[0], mode: k[1] } : null };
       localStorage.setItem(CLE, JSON.stringify(r)); localStorage.removeItem(ANCIENNE);
       return r;
     } catch (e) { return D; }
@@ -24,7 +24,7 @@
   const sauver = () => { try { localStorage.setItem(CLE, JSON.stringify(S)); } catch (e) { /* stockage bloqué : les réglages restent pour la session */ } };
 
   /* ---------- Moteur ---------- */
-  const m = new GP.Moteur({ reglages: { basseReelle: S.basseReelle, modulationAuto: S.modulationAuto, tempsNouveauChant: S.silence, tonalite: S.tonManuelle } });
+  const m = new GP.Moteur({ reglages: { basseReelle: S.basseReelle, modulationAuto: S.suitTon, tempsNouveauChant: S.silence, tonalite: S.tonManuelle } });
   const pc = matchMedia('(min-width:1024px) and (min-height:521px)');
   const rangees = matchMedia('(max-width:700px) and (orientation:portrait)');
   const A = GP.Audio;
@@ -125,7 +125,7 @@
   $('#nowChoix').addEventListener('click', e => { const x = e.target.closest('[data-deg]'); if (x) corriger(indiceCourant, +x.dataset.deg); });
 
   /* La tonalité aussi, tant que le moteur en garde plusieurs. Le choix tient jusqu'au prochain chant : ce n'est pas le réglage « Je la choisis », qui vaut pour tous. */
-  let tonHyp = null, tonTranche = false;
+  let tonHyp = null, tonTranche = false, tonEcoute = false;
   function hypothesesTon() {
     const l = tonHyp || m.tonaliteHypotheses;
     return Array.isArray(l) && l.length > 1 && !rc && !m.reglages.tonalite && tonEtat !== 'sure' ? l.slice(0, 3) : null;
@@ -182,10 +182,11 @@
   function etatTon() {
     const k = tonChant();
     if (rc) return { ic: 'i-sure', etat: ', chantée', nom: nomT(k), cle: 'sure', long: nomT(k) + ', la tonalité chantée de ' + rc.titre + '.' };
+    if (tonEcoute && k) return { ic: 'i-ecoute', etat: ", j'écoute la nouvelle", nom: nomT(k), cle: 'probable', long: nomT(k) + " jusqu'ici. J'écoute la nouvelle tonalité." };
     if (k) {
       if (m.reglages.tonalite) return { ic: 'i-cadenas', etat: ', choisie', nom: nomT(k), cle: 'choisie', long: nomT(k) + ', choisie par toi.' };
       const sure = tonEtat === 'sure' || m.etat === 'sure';
-      return sure ? { ic: 'i-sure', etat: ', sûre', nom: nomT(k), cle: 'sure', long: nomT(k) + ', tonalité sûre.' } : { ic: 'i-probable', etat: ', probable', nom: nomT(k), cle: 'probable', long: nomT(k) + ', tonalité probable. Je peux encore corriger.' };
+      return sure ? { ic: 'i-sure', etat: ', sûre', nom: nomT(k), cle: 'sure', long: nomT(k) + ', tonalité sûre.' + (S.suitTon ? '' : ' Elle ne change plus que si tu touches Changement de tonalité.') } : { ic: 'i-probable', etat: ', probable', nom: nomT(k), cle: 'probable', long: nomT(k) + ', tonalité probable. Je peux encore corriger.' };
     }
     if (hypothese) return { ic: 'i-hypothese', etat: '', nom: 'Peut-être ' + nomT(hypothese), cle: 'hypothese', long: 'Peut-être ' + nomT(hypothese) + '. Ce n\'est encore qu\'une hypothèse.' };
     return { ic: 'i-ecoute', etat: '', nom: enCours ? 'J\'écoute' : 'Pas encore écouté', cle: 'vide', long: enCours ? 'J\'écoute le chant.' : 'Pas encore de tonalité. Lance l\'écoute, ou choisis-la toi-même.' };
@@ -635,10 +636,12 @@
   m.on('prochain', p => { if (rc) return; if (!prochain || prochain.deg !== p.deg) jaugeMax = 0; prochain = p; if (!suggDue) { peindreEnsuite(); peindreSuggestions(); } });
   m.on('tonaliteProvisoire', h => { hypothese = h; peindreBarre(); peindreMaintenant(); melodieSale(true); });
   m.on('tonalite', t => {
-    const av = tonEtat; tonEtat = t.etat; hypothese = null; precV = null;
+    const av = tonEtat, attendait = tonEcoute; tonEtat = t.etat; hypothese = null; precV = null;
+    if (t.modulation || t.correction || t.finEcoute) tonEcoute = false;
     if (!rc && (t.modulation || t.correction)) prochain = null; // une prédiction faite dans l'ancienne tonalité ne vaut plus
     peindreBarre(); peindreMaintenant(); peindreEnsuite(); peindreSuggestions();
     if (rc) return; // la tonalité dite est celle du chant reconnu, les hésitations du moteur restent derrière
+    if (t.finEcoute) { if (attendait) annoncer(`Pas de changement entendu : toujours <b>${echappe(nomT({ tonic: t.tonic, mode: t.mode }))}</b>.`, { ic: 'i-sure', html: true }); return; }
     if (t.modulation) {
       const k = { tonic: t.tonic, mode: t.mode }, tx = (t.de ? nomT(t.de) + ' devient ' : 'Nouvelle tonalité : ') + nomT(k);
       annoncer(`<b>${echappe(tx)}.</b>` + (S.jeu != null ? ` Règle ton clavier sur <b>${echappe(GP.texteTranspose(k, S.jeu))}</b>.` : ''), { ic: 'i-haut', fort: true, html: true });
@@ -674,7 +677,7 @@
   });
   m.on('nouveauChant', () => {
     Rec.nouveauChant();
-    tonHyp = null; if (tonTranche) { tonTranche = false; m.reprendreTonaliteAuto(); }
+    tonHyp = null; tonEcoute = false; if (tonTranche) { tonTranche = false; m.reprendreTonaliteAuto(); }
     indiceCourant = -1; tonEtat = null; hypothese = null; prochain = null; dejaVus = []; idees = []; precV = null; ligneCour = null;
     peindreBarre(); peindreMaintenant(); peindreEnsuite(); peindreClavier(); peindreSuggestions();
     peindreStructure(); peindreReco();
@@ -909,6 +912,14 @@
   }
   const basculerEcoute = () => { if (enCours) arreter(); else ecouter(); };
   function nouveauChant() { if (enCours) { m.nouveauChant(heure()); } }
+  /* La tonalité ne change que quand le musicien le dit : le moteur réécoute, la grille reste. Une tonalité choisie à la main se change dans son panneau. */
+  function changementTon() {
+    if (!enCours) return;
+    if (S.tonManuelle) { basculerPopTon($('#tonBtn')); return; }
+    if (popOuvert === 'popTon') fermerPop('popTon');
+    tonTranche = false; tonHyp = null; tonEcoute = !!tonChant(); m.changerTonalite(heure());
+    peindreBarre(); annoncer("Changement de tonalité : j'écoute la nouvelle.", { ic: 'i-boucle' });
+  }
   function taper() {
     const b = m.taperTempo(heure());
     if (b == null) for (const x of $$('.bpmV')) x.textContent = '...';
@@ -917,6 +928,7 @@
   for (const b of $$('.act-arret')) b.onclick = arreter;
   for (const b of $$('.act-demo')) b.onclick = demo;
   for (const b of $$('.act-nouveau')) b.onclick = nouveauChant;
+  for (const b of $$('.act-changeton')) b.onclick = changementTon;
   for (const b of $$('.taper')) b.onclick = taper;
   for (const i of $$('.act-fichier')) i.onchange = e => { const f = e.target.files && e.target.files[0]; e.target.value = ''; if (f) analyser(f); };
   /* Dans Labs, le bouton orange joue ce qui est ouvert. Si rien ne se joue là, il revient au Live et écoute. */
@@ -1122,7 +1134,7 @@
     for (const s of $$('.seg[data-reg]')) presser(s, S[s.dataset.reg]);
     presser($('.profondeur'), S.profondeur);
     appliquerTheme();
-    $('#basseReelle').checked = S.basseReelle; $('#modulationAuto').checked = S.modulationAuto; $('#voixTel').checked = S.voixTel; $('#paroles').checked = S.paroles;
+    $('#basseReelle').checked = S.basseReelle; $('#modulationAuto').checked = S.suitTon; $('#voixTel').checked = S.voixTel; $('#paroles').checked = S.paroles;
     $('#silence').value = S.silence; $('#silenceV').textContent = S.silence + ' s'; $('#volDemo').value = S.volDemo;
     $('#champVoixTel').hidden = !A.telephone();
     peindreMains(); peindreStyle(); peindreStatut();
@@ -1141,7 +1153,7 @@
     S.basseReelle = e.target.checked; m.reglages.basseReelle = S.basseReelle; sauver();
     if (!m.grille.length && !enCours) m.reinit(); else annoncer('Ce réglage s\'appliquera quand la grille sera vide.', { ic: 'i-alert' });
   };
-  $('#modulationAuto').onchange = e => { S.modulationAuto = e.target.checked; m.reglages.modulationAuto = S.modulationAuto; sauver(); };
+  $('#modulationAuto').onchange = e => { S.suitTon = e.target.checked; m.reglages.modulationAuto = S.suitTon; sauver(); };
   $('#voixTel').onchange = e => { S.voixTel = e.target.checked; sauver(); };
   $('#paroles').onchange = e => { S.paroles = e.target.checked; sauver(); if (S.paroles && A.mode === 'micro') lancerParoles(); else if (!S.paroles) arreterParoles(); };
   $('#silence').oninput = e => { S.silence = +e.target.value; m.reglages.tempsNouveauChant = S.silence; $('#silenceV').textContent = S.silence + ' s'; sauver(); };
@@ -1168,6 +1180,7 @@
     if (e.code === 'Space') { if (cible) return; e.preventDefault(); basculerEcoute(); }
     else if (cible && cible.tagName !== 'BUTTON') return;
     else if (e.key === 'n' || e.key === 'N') nouveauChant();
+    else if (e.key === 'c' || e.key === 'C') changementTon();
     else if (e.key === 't' || e.key === 'T') taper();
     else if (e.key === 'a' || e.key === 'A') clavier.ecouter();
     else if (e.key === 'm' || e.key === 'M') basculerMains();

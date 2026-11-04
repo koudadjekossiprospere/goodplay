@@ -22,6 +22,9 @@
     profil: 'hymnes', priorMaj: .5,
     // Raison apprise (js/raison.js, poids dans js/raison-poids.js) : 'apprise' la remplace au profil ci-dessus, modulations comprises ; 'profil' garde l'ancien calcul (et reste le repli sans les poids).
     raison: 'apprise',
+    // Sans le suivi automatique (réglage modulationAuto), la tonalité se fige une fois sûre (js/raison.js) : seul le musicien la relance, pour fenetreChangement s.
+    // Pas dès qu'elle s'affiche : la première tonalité montrée n'est juste que 60 % du temps (validation), 8 % quand une annonce précède le chant.
+    fenetreChangement: 20,
     // Accords : aucun bonus sur la fondamentale, la note chantée est souvent la tierce ou la quinte.
     // Rythme harmonique : quitter un accord de moins de `jeune` s coûte `surcout` ; plus de case sous `caseMin` s, ni de crochet A B A sous `blip` s si `blipFrac` du chant de B tient dans A. Une vraie basse garde ses propres valeurs.
     ambigu: .5, clarteAcc: .9, margeAcc: 3, margeJeuneAcc: 3, caseTenue: 2, pAccord: .28, pGamme: .04, pHors: .012, gain: 4, attaque: .25, noteRapide: .2, cout: 1, coutTrans: 2, jeune: 2, jeuneBasse: .9, surcout: 1, duree: 1, retard: 1.5, caseMin: .6, caseMinBasse: .3, fenetreDecode: 300, blip: 2, blipFrac: .3, pSept: .12,
@@ -137,7 +140,7 @@
       this.cur = null; this.pend = null; this.bc = null; this.tempsBasse = 0; this.fige = false; this.tess = null; this.hauts = []; this.notes = []; this.mel = []; this.dernierAlign = -1; this.prevu = null; this.phrases = []; this.debutPhrase = 0; this.nLettres = 0;
       this.key = null; this.etat = null; this.L = this._apriori(); this.sigHyp = ''; this.voise = 0; this.finsPhrase = 0; this.lockT = null; this.recentes = []; this.provi = -1;
       this.cusum = new Float64Array(24); this.candDebut = new Float64Array(24).fill(-1); this.candPhrases = new Int32Array(24); this.candHors = new Float64Array(24);
-      if (this.R) this.R.reinit();
+      if (this.R) this.R.reinit(); this.libreJusque = null;
       this.cands = null; this.delta = null; this.entree = null; this.courant = -1; this.rapide = false; this.iDecode = 0;
       this.onsets = []; this.resteB = []; this.mesureCourante = null; this.tempoAuto = null; this.dernierTempo = 0; this.numTemps = 0; this.prochainTemps = null;
     }
@@ -329,11 +332,18 @@
       this.voise += ecartee ? 0 : dur; if (e.fin_de_phrase) this.finsPhrase++;
       this.recentes.push({ pc: e.pc, w: ecartee ? 0 : Math.min(dur, 1), t, d: e.debut }); if (this.recentes.length > 200) this.recentes.shift();
       if (ecartee) return;
+      // Sans le suivi automatique, la tonalité sûre ne bouge plus, sauf pendant la fenêtre ouverte par « Changement de tonalité ».
+      const libre = this.libreJusque != null && t < this.libreJusque;
+      this.R.P.figer = !this.reglages.modulationAuto && !libre;
       const d = this.R.note(e);
       this.L = Float64Array.from(this.R.la);
       this._hypotheses();
       if (this.reglages.tonalite) return;
       if (!this.key) { const b = this.R.meilleure(); if (b !== this.provi && this.voise > 1) { this.provi = b; this._emet('tonaliteProvisoire', { ...this._de(b), confiance: Math.exp(this.R.la[b]), etat: 'provisoire' }); } }
+      if (this.libreJusque != null && !libre) { // fenêtre close : l'interface apprend que l'écoute est finie, changement ou pas
+        this.libreJusque = null;
+        if (this.key) this._emet('tonalite', { ...this.key, confiance: Math.exp(this.R.la[this._ix(this.key)]), modulation: false, de: null, etat: this.etat, t, finEcoute: true });
+      }
       if (!d) return;
       const k = { tonic: d.tonic, mode: d.mode };
       if (!this.key || this.key.tonic !== k.tonic || this.key.mode !== k.mode) {
@@ -406,6 +416,13 @@
     /* Pour l'interface : tonalité imposée par le musicien */
     fixerTonalite(k, t = this.tNow) { this.reglages.tonalite = k; this._fixeTon(k, t, false); this.etat = 'sure'; }
     reprendreTonaliteAuto() { this.reglages.tonalite = null; }
+    /* Le musicien annonce un changement de tonalité : pendant fenetreChangement s, la Raison peut changer comme en suivi automatique, puis se refige.
+       Elle garde ce qu'elle a entendu : repartir de zéro se trompait bien plus, surtout sur un appui pour rien (validation). La grille reste.
+       shortcut: sans la Raison apprise (poids absents), on repart sur un nouveau chant ; à faire si ce repli sert vraiment. */
+    changerTonalite(t = this.tNow) {
+      if (!this.R) return this.nouveauChant(t);
+      this.reglages.tonalite = null; this.libreJusque = t + this.P.fenetreChangement;
+    }
 
     /* ---------- Accords : Viterbi en ligne, sur les attaques ---------- */
     _initFiltre() {

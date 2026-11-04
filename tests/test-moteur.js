@@ -165,6 +165,28 @@ ok('déterminisme, hypothèses, ambigu');
   for (const d of [-12, 12]) { const x = L(d, 'apprise'), px = Math.exp(x.L[0]), pa = Math.exp(a.L[0]); assert.deepStrictEqual(x.k, a.k, 'Raison apprise : même tonalité à une octave'); assert(Math.abs(px - pa) < .02, 'Raison apprise : même confiance à une octave'); if ((px >= pS) === (pa >= pS)) assert.strictEqual(x.etat, a.etat, 'Raison apprise : même état à une octave'); }
 }
 ok('octave sans effet sur la tonalité');
+/* Changement de tonalité au bouton : sans le suivi automatique, la tonalité sûre ne bouge plus, même quand le chant monte d'un ton ;
+   changerTonalite ouvre une fenêtre où la nouvelle arrive comme une modulation, puis la fin de l'écoute est annoncée. Un appui pour rien ne change rien.
+   Avec le suivi automatique, le moteur la trouve seul. */
+{
+  const essai = (suit, montee = 2) => {
+    const m = new GP.Moteur({ sr: 16000, reglages: { modulationAuto: suit } }), ev = []; m.on('tonalite', e => ev.push(e));
+    let t = 0; m.hauteur(.01, null, 0, .0001);
+    const chante = (dec, fois) => { for (let f = 0; f < fois; f++) for (const md of [60, 64, 67, 65, 64, 62, 60, 62, 64, 65, 67, 72, 71, 67, 65, 64, 62, 60]) for (let i = 0; i < 20; i++) { t += .02; m.hauteur(t, md + dec, .95, .1); } };
+    chante(0, 3); const k0 = { ...m.key }, e0 = m.etat; chante(montee, 4); const k1 = { ...m.key };
+    if (!suit) { m.changerTonalite(t); chante(montee, 3); }
+    return { m, ev, k0, e0, k1 };
+  };
+  const a = essai(false);
+  assert.deepStrictEqual([a.k0, a.e0], [{ tonic: 0, mode: 'maj' }, 'sure'], 'Do majeur sûr'); assert.deepStrictEqual(a.k1, a.k0, 'la tonalité ne change pas seule');
+  assert.deepStrictEqual({ ...a.m.key }, { tonic: 2, mode: 'maj' }, 'Ré majeur après le bouton');
+  const mo = a.ev.filter(e => e.modulation); assert(mo.length === 1 && mo[0].de.tonic === 0, 'une seule modulation, annoncée depuis Do');
+  assert(a.ev.some(e => e.finEcoute), "fin de l'écoute annoncée");
+  const b = essai(false, 0); assert.deepStrictEqual({ ...b.m.key }, { tonic: 0, mode: 'maj' }, 'appui pour rien : la tonalité reste');
+  assert(!b.ev.some(e => e.modulation || e.correction) && b.ev.some(e => e.finEcoute), 'appui pour rien : aucun changement, fin annoncée');
+  assert.deepStrictEqual(essai(true).k1, { tonic: 2, mode: 'maj' }, 'avec le suivi automatique, le moteur suit seul');
+}
+ok('changement de tonalité au bouton');
 /* Silence : ni case ni accord quand personne ne chante, 60 s après une phrase comprises, et la voix reste entendue à bas niveau. tests/banc/silence.js */
 {
   const S = require('./banc/silence.js');
