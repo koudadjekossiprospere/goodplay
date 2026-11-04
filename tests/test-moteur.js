@@ -63,7 +63,8 @@ const corpus = lireCorpus(), e0 = corpus[0], chant = chantCorpus(e0, { couplets:
   const k = ev.tonalite[0]; assert(k && k.tonic === 7 && k.mode === 'maj' && !k.modulation, 'tonalité de Amazing Grace'); assert(ev.tonalite.every(t => !t.modulation), 'aucune modulation');
   assert(ev.provi.length && ev.provi[0].etat === 'provisoire'); assert.strictEqual(k.etat, 'probable'); assert(ev.tonalite.some(t => t.etat === 'sure'), 'la tonalité devient sûre');
   assert(ev.grille.length, 'grilleRefaite au verrouillage');
-  assert(m.grille[0].t < k.t - 3, 'les notes chantées avant le verrouillage sont réanalysées');
+  // la grille part de la première note chantée, pas du verrouillage (2 s avec la Raison apprise, 5 s avec le profil)
+  assert(m.grille[0].t <= ev.note[0].debut + .1 && m.grille[0].t < k.t - 1, 'les notes chantées avant le verrouillage sont réanalysées');
   const c = m.grille[0]; for (const f of ['deg', 'racine', 'q', 'basse', 't', 'dur', 'conf', 'alternatives', 'mots']) assert(f in c, 'case sans ' + f);
   assert(c.alternatives.length && 'p' in c.alternatives[0]);
   assert(m.grille.some(g => g.deg === 4) && m.grille.some(g => g.deg === 5), 'squelette 1 4 5');
@@ -81,9 +82,9 @@ const corpus = lireCorpus(), e0 = corpus[0], chant = chantCorpus(e0, { couplets:
 }
 ok('tonalité, grille, réanalyse, reprise, lettres');
 
-/* Verrou adaptatif : jamais sans assez de notes différentes, jamais sans avance sauf au plafond, et le relatif ne bloque pas */
+/* Verrou adaptatif de la Raison « profil » (toujours disponible) : jamais sans assez de notes différentes, jamais sans avance sauf au plafond, et le relatif ne bloque pas */
 {
-  const chante = (pcs, o = {}) => { const m = new GP.Moteur({ reglages: { params: o } }), ks = []; m.on('tonalite', k => ks.push({ ...k, voise: m.voise })); let t = 0; for (const pc of pcs) { t += 1; m._tonalite({ midi: 60 + pc, pc, fin: t, fin_de_phrase: false, clarteMoy: 1 }, 1); } return ks; };
+  const chante = (pcs, o = {}) => { const m = new GP.Moteur({ reglages: { params: { raison: 'profil', ...o } } }), ks = []; m.on('tonalite', k => ks.push({ ...k, voise: m.voise })); let t = 0; for (const pc of pcs) { t += 1; m._tonalite({ midi: 60 + pc, pc, fin: t, fin_de_phrase: false, clarteMoy: 1 }, 1); } return ks; };
   const clair = chante([0, 4, 7, 5, 2, 0, 4, 7, 5, 2]); assert(clair.length && clair[0].voise >= 4 && clair[0].voise < 8, 'verrou avant le plafond : ' + (clair[0] && clair[0].voise)); assert.strictEqual(clair[0].etat, 'probable');
   assert.strictEqual(chante([0, 4, 7, 0, 4, 7, 0, 4, 7])[0].voise, 8, 'trois notes différentes : on attend le plafond');
   assert.strictEqual(chante([0, 4, 7, 5, 2, 0, 4, 7, 5, 2], { margeLock: 1e9 })[0].voise, 8, 'sans avance : on attend le plafond');
@@ -156,8 +157,12 @@ ok('ronflement, octave, respiration');
 ok('déterminisme, hypothèses, ambigu');
 /* Principe 4 : l'octave ne pèse pas dans la tonalité */
 {
-  const L = dec => { const m = new GP.Moteur({ sr: 16000 }); let t = 0; m.hauteur(.01, null, 0, .0001); for (const md of [67, 72, 76, 72, 76, 74, 72, 69, 67]) for (let i = 0; i < 25; i++) { t += .02; m.hauteur(t, md + dec, .95, .1); } for (let i = 0; i < 30; i++) { t += .02; m.hauteur(t, null, 0, .0001); } return { L: [...m.L], k: m.key }; };
-  const r = L(0); for (const d of [-12, 12]) assert.deepStrictEqual(L(d), r, 'même tonalité à une octave de distance');
+  const L = (dec, raison) => { const m = new GP.Moteur({ sr: 16000, reglages: { params: { raison } } }); let t = 0; m.hauteur(.01, null, 0, .0001); for (const md of [67, 72, 76, 72, 76, 74, 72, 69, 67]) for (let i = 0; i < 25; i++) { t += .02; m.hauteur(t, md + dec, .95, .1); } for (let i = 0; i < 30; i++) { t += .02; m.hauteur(t, null, 0, .0001); } return { L: [...m.L], k: m.key, etat: m.etat }; };
+  const r = L(0, 'profil'); for (const d of [-12, 12]) assert.deepStrictEqual(L(d, 'profil'), r, 'même tonalité à une octave de distance');
+  // Raison apprise : le registre l'aide à reconnaître la basse d'un accompagnement. Commun aux 12 toniques, il ne favorise aucune tonalité ;
+  // à une octave près, même tonalité, confiance à 2 points près, et même état sauf si les deux confiances encadrent le seuil « sûre ».
+  const a = L(0, 'apprise'), pS = GP.raisonPoids.params.pSure;
+  for (const d of [-12, 12]) { const x = L(d, 'apprise'), px = Math.exp(x.L[0]), pa = Math.exp(a.L[0]); assert.deepStrictEqual(x.k, a.k, 'Raison apprise : même tonalité à une octave'); assert(Math.abs(px - pa) < .02, 'Raison apprise : même confiance à une octave'); if ((px >= pS) === (pa >= pS)) assert.strictEqual(x.etat, a.etat, 'Raison apprise : même état à une octave'); }
 }
 ok('octave sans effet sur la tonalité');
 /* Silence : ni case ni accord quand personne ne chante, 60 s après une phrase comprises, et la voix reste entendue à bas niveau. tests/banc/silence.js */

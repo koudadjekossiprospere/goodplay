@@ -20,6 +20,8 @@
     attente: 8, limiteTon: 4.6, attenteMin: 3, notesLock: 4, margeLock: .4, margeSure: 6, voixSure: 20, hypMin: .1, fenetreCorrection: 60, margeCorrection: 1.2, H: 8, margeMod: 3, margeModeMod: 6, phrasesMod: 2, tempsMod: 6, horsGamme: .05, plancherProfil: .012,
     // Profil de cantiques et a priori majeur (157 cantiques sur 189), réglés sur les pairs de tests/banc/tonalite-hymnes.js et de balayage-tonalite.js. 'ae' et 0 pour l'ancien réglage.
     profil: 'hymnes', priorMaj: .5,
+    // Raison apprise (js/raison.js, poids dans js/raison-poids.js) : 'apprise' la remplace au profil ci-dessus, modulations comprises ; 'profil' garde l'ancien calcul (et reste le repli sans les poids).
+    raison: 'apprise',
     // Accords : aucun bonus sur la fondamentale, la note chantée est souvent la tierce ou la quinte.
     // Rythme harmonique : quitter un accord de moins de `jeune` s coûte `surcout` ; plus de case sous `caseMin` s, ni de crochet A B A sous `blip` s si `blipFrac` du chant de B tient dans A. Une vraie basse garde ses propres valeurs.
     ambigu: .5, clarteAcc: .9, margeAcc: 3, margeJeuneAcc: 3, caseTenue: 2, pAccord: .28, pGamme: .04, pHors: .012, gain: 4, attaque: .25, noteRapide: .2, cout: 1, coutTrans: 2, jeune: 2, jeuneBasse: .9, surcout: 1, duree: 1, retard: 1.5, caseMin: .6, caseMinBasse: .3, fenetreDecode: 300, blip: 2, blipFrac: .3, pSept: .12,
@@ -112,6 +114,7 @@
       this.reglages = { basseReelle: false, modulationAuto: true, tempsNouveauChant: 15, tonalite: null, ...reglages };
       this.P = { ...P0, ...(reglages.params || {}) };
       this.LP = logProfil(this.P.plancherProfil, this.P.profil === 'hymnes' ? HY : AE);
+      this.R = this.P.raison === 'apprise' && GP.Raison && GP.raisonPoids ? new GP.Raison(this.P.raisonParams || {}) : null; // sans ses poids, l'ancien calcul reste
       this.ecouteurs = {};
       this.definirSr(sr);
       this.reinit();
@@ -134,6 +137,7 @@
       this.cur = null; this.pend = null; this.bc = null; this.tempsBasse = 0; this.fige = false; this.tess = null; this.hauts = []; this.notes = []; this.mel = []; this.dernierAlign = -1; this.prevu = null; this.phrases = []; this.debutPhrase = 0; this.nLettres = 0;
       this.key = null; this.etat = null; this.L = this._apriori(); this.sigHyp = ''; this.voise = 0; this.finsPhrase = 0; this.lockT = null; this.recentes = []; this.provi = -1;
       this.cusum = new Float64Array(24); this.candDebut = new Float64Array(24).fill(-1); this.candPhrases = new Int32Array(24); this.candHors = new Float64Array(24);
+      if (this.R) this.R.reinit();
       this.cands = null; this.delta = null; this.entree = null; this.courant = -1; this.rapide = false; this.iDecode = 0;
       this.onsets = []; this.resteB = []; this.mesureCourante = null; this.tempoAuto = null; this.dernierTempo = 0; this.numTemps = 0; this.prochainTemps = null;
     }
@@ -176,6 +180,7 @@
       if (this.cur && !garde(this.cur)) { this.cur = null; this._emet('noteCourante', null); }
       for (const x of tf) for (let i = 0; i < 24; i++) this.L[i] += x.w * this._logP(i, x.pc);
       for (const e of ns) this.voise += e.fin - e.debut;
+      if (this.R) { this.R.reinit(); for (const e of ns) this.R.note(e); this.L = Float64Array.from(this.R.la); } // la tonalité n'est pas encore affichée : on rejoue sans décider
     }
     _analyse(t) {
       const w = this.fenetre, tb = this.tampon, d = this.nTampon; let e = 0;
@@ -251,6 +256,8 @@
       const dur = b.last + DT - b.debut, P = this.P; if (dur < P.basseDur || this.reglages.tonalite) return;
       this.tempsBasse += dur; if (this.tempsBasse < P.basseMin) return; // une sous-octave de réverbération n'est pas un accompagnement
       const pc = mod(b.midi), w = Math.min(dur, 1);
+      // La Raison apprise a appris sur un flux où la basse du piano se mêle à la voix (tests/donnees/concert.js) : une hauteur à la fois, donc dans l'ordre du temps.
+      if (this.R) { this._tonaliteApprise({ midi: b.midi, pc, debut: b.debut, fin: b.last + DT, clarteMoy: 1, fin_de_phrase: false }, dur); return; }
       for (let i = 0; i < 24; i++) this.L[i] += w * (LB[i & 1][mod(pc - (i >> 1))] + (i & 1 ? 0 : P.biaisMaj));
       this.voise += dur;
       if (!this.key) { const i = this._meilleur(); if (this._verrouPret(i)) this._fixeTon(this._de(i), b.last, false); }
@@ -316,7 +323,33 @@
       return true;
     }
 
+    /* Raison apprise : elle décide seule (affichage, « sûre », modulation) ; le moteur applique et prévient l'interface. */
+    _tonaliteApprise(e, dur) {
+      const ecartee = this._ecartee(e.midi, e.clarteMoy), t = e.fin;
+      this.voise += ecartee ? 0 : dur; if (e.fin_de_phrase) this.finsPhrase++;
+      this.recentes.push({ pc: e.pc, w: ecartee ? 0 : Math.min(dur, 1), t, d: e.debut }); if (this.recentes.length > 200) this.recentes.shift();
+      if (ecartee) return;
+      const d = this.R.note(e);
+      this.L = Float64Array.from(this.R.la);
+      this._hypotheses();
+      if (this.reglages.tonalite) return;
+      if (!this.key) { const b = this.R.meilleure(); if (b !== this.provi && this.voise > 1) { this.provi = b; this._emet('tonaliteProvisoire', { ...this._de(b), confiance: Math.exp(this.R.la[b]), etat: 'provisoire' }); } }
+      if (!d) return;
+      const k = { tonic: d.tonic, mode: d.mode };
+      if (!this.key || this.key.tonic !== k.tonic || this.key.mode !== k.mode) {
+        if (this.key && !d.modulation) this.delaiCorrection = t - d.depuis;
+        this._fixeTon(k, t, !!d.modulation, !!this.key && !d.modulation, d.modulation ? d.depuis : 0);
+      }
+      if (this.etat !== d.etat) {
+        this.etat = d.etat;
+        // Sûre, ou de nouveau probable si la preuve faiblit : l'interface doit le savoir, « sûre » ne reste jamais affiché à tort.
+        this._emet('tonalite', { ...this.key, confiance: d.p, modulation: false, de: null, etat: d.etat, t });
+        if (d.etat === 'sure') this._emet('tonaliteHypotheses', { liste: [{ ...this.key, p: d.p }] });
+      }
+    }
+
     _tonalite(e, dur) {
+      if (this.R) return this._tonaliteApprise(e, dur);
       const P = this.P, ecartee = this._ecartee(e.midi, e.clarteMoy), w = ecartee ? 0 : Math.min(dur, 1), t = e.fin; // docs/noyau-musicien.md, principe 2 : une fin de phrase n'est pas la tonique, elle ne compte que pour l'accord
       this.voise += ecartee ? 0 : dur; if (e.fin_de_phrase) this.finsPhrase++;
       this.recentes.push({ pc: e.pc, w, t, d: e.debut }); if (this.recentes.length > 200) this.recentes.shift();
@@ -694,6 +727,8 @@
   }
 
   GP.Moteur = Moteur;
+  // Sous Node (tests, bancs), la Raison apprise se charge avec le moteur ; dans la page, index.html charge ses deux fichiers avant celui-ci.
+  if (typeof module !== 'undefined' && module.exports && !GP.Raison) { try { require('./raison-poids.js'); require('./raison.js'); } catch (e) { console.error("Raison apprise non chargée : " + e.message); } }
   GP.creeDecimateur = creeDecimateur;
   GP.TRANSITIONS = TRANSITIONS;
   GP.PARAMS_MOTEUR = P0;
