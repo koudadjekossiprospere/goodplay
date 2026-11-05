@@ -2,7 +2,7 @@
 -- Les règles d'accès sont dans la base (Row Level Security) : l'appli ne peut rien faire de plus que ce qu'elles permettent.
 create extension if not exists pgcrypto with schema extensions;
 
--- Chants de base : tout le monde les lit, personne ne les modifie depuis l'appli (seul le propriétaire du projet les charge, par supabase/chants_base.sql).
+-- Chants de base : tout le monde les lit, personne ne les modifie depuis l'appli (seul le propriétaire du projet les charge, depuis supabase/chants_base.csv).
 create table if not exists public.chants_base (
   id text primary key,
   titre text not null,

@@ -7,7 +7,7 @@ Sans cette mise en place, goodplay marche quand même : les chants restent dans 
 2. Dans le projet : **SQL Editor**, coller tout `supabase/schema.sql`, puis **Run**.
    - Ce script crée trois tables : chants de base, travaux, partages.
    - Il pose aussi les règles d'accès : chacun ne lit et ne modifie que ses travaux, personne ne modifie les chants de base, et un partage se lit seulement avec son lien.
-3. Si `supabase/chants_base.sql` existe, le coller et l'exécuter de la même façon : il charge les chants de base.
+3. Charger les chants de base (1 166 chants libres de droits) : **Table Editor**, table `chants_base`, **Insert, Import data from CSV**, puis choisir `supabase/chants_base.csv`. Ce fichier se refait avec `node tests/donnees/publier-bibliotheque.js <chants.jsonl>`.
 
 ## 2. Connexion Google
 1. Sur https://console.cloud.google.com, dans un projet Google, ouvrir **API et services, Identifiants**, puis **Créer des identifiants, ID client OAuth, Application Web**.

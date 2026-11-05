@@ -42,7 +42,10 @@
   }
 
   /* ---------- La Bibliothèque : chants libres de droits, que personne ne modifie ---------- */
-  const BASE = (GP.bibliotheque || (GP.baseHymnes || []).map(C.depuisHymne)).map(e => ({ ...e, base: true }));
+  // Plus d'un millier de chants : bibliotheque.json (tests/donnees/publier-bibliotheque.js) se charge à part, la liste se repeint à son arrivée.
+  let BASE = [], etatBase = 'charge';
+  const chargerBase = fetch('bibliotheque.json').then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(l => { BASE = l.map(e => ({ ...e, base: true })); etatBase = 'ok'; }, () => { etatBase = 'erreur'; });
   let temp = null; // un chant partagé ouvert par un lien, pas encore gardé
   const trouver = id => B.chants.find(c => c.id === id) || BASE.find(c => c.id === id) || (temp && temp.id === id ? temp : null);
 
@@ -73,7 +76,7 @@
     choisir($('#onglets'), onglet);
     const biblio = onglet === 'biblio', q = sansAccents($('#cherche').value.trim());
     $('#ajouter').hidden = biblio; $('#filtres').hidden = !biblio; $('#piedMes').hidden = biblio;
-    $('#intro').textContent = biblio ? `${BASE.length} chants libres de droits, avec leur grille d'accords. Ouvre-en un pour le lire, le jouer, ou en faire ta version.` : B.chants.length ? 'Tes versions et tes chants. Ils restent dans ce navigateur.' : '';
+    $('#intro').textContent = biblio ? (etatBase === 'charge' ? 'La bibliothèque arrive…' : etatBase === 'erreur' ? 'La bibliothèque ne se charge pas : vérifie la connexion, puis recharge la page.' : `${BASE.length} chants libres de droits, avec leur grille d'accords. Ouvre-en un pour le lire, le jouer, ou en faire ta version.`) : B.chants.length ? 'Tes versions et tes chants. Ils restent dans ce navigateur.' : '';
     const src = biblio ? BASE.filter(c => !genre || c.genre === genre) : B.chants;
     const l = src.filter(c => !q || sansAccents([c.titre, c.auteurs && Object.values(c.auteurs).join(' '), c.texte].join(' ')).includes(q)).sort((a, b) => a.titre.localeCompare(b.titre, 'fr'));
     $('#listeChants').innerHTML = l.map(c => {
@@ -83,6 +86,7 @@
     }).join('');
     $('#listeChants').hidden = !l.length;
     const vide = $('#listeVide'); vide.hidden = !!l.length;
+    vide.hidden = vide.hidden || (biblio && etatBase !== 'ok');
     vide.innerHTML = q || genre ? '<b>Aucun chant ne correspond</b><span>Essaie un autre mot.</span>' : biblio ? '<b>La bibliothèque est vide</b>' : '<b>Aucun chant pour l\'instant</b><span>Ouvre un chant de la Bibliothèque et fais ta version, ou crée un nouveau chant.</span>';
   }
   $('#cherche').oninput = peindreListe;
@@ -529,8 +533,9 @@
 
   /* ---------- Départ ---------- */
   const clavier = GP.Clavier($('#clavier'), { basse: 36, haut: 84, mains: true, zoom: !matchMedia('(min-width:1024px)').matches });
-  if (B.chants.length && !BASE.length) onglet = 'mes';
   peindreListe(); montrer('liste'); peindreCompte();
-  (K.configure ? K.demarrer().then(u => { peindreCompte(); if (u) synchroniser(); }, e => annoncer('Comptes indisponibles (' + e.message + ') : tes chants restent sur cet appareil.')) : Promise.resolve()).then(lienRecu);
-  GP.Live = { B, BASE, ouvrir, choisirMode, etat: () => ({ ecran, onglet, mode, cur, decal, entendu, kEcrit, plat: plat.length, estBase }) };
+  const compte = K.configure ? K.demarrer().then(u => { peindreCompte(); if (u) synchroniser(); }, e => annoncer('Comptes indisponibles (' + e.message + ') : tes chants restent sur cet appareil.')) : Promise.resolve();
+  chargerBase.then(() => { if (ecran === 'liste') peindreListe(); });
+  Promise.all([chargerBase, compte]).then(lienRecu);
+  GP.Live = { B, get BASE() { return BASE; }, ouvrir, choisirMode, etat: () => ({ ecran, onglet, mode, cur, decal, entendu, kEcrit, plat: plat.length, estBase }) };
 })();

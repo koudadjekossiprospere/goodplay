@@ -2,7 +2,7 @@
    Chaque outil se vérifie lui-même au chargement ; les lecteurs Python sont vérifiés si Python 3 est installé. Les données elles-mêmes vivent hors du dépôt. */
 const assert = require('assert'), path = require('path'), { spawnSync } = require('child_process');
 
-for (const m of ['analyse', 'assembler', 'oreille-mesure', 'oreille-simulee', 'exemples', 'vraies-voix-jeu', 'eval-vraies-voix', 'source-openhymnal', 'source-goodplay', 'ton-jeux', 'eval-tonalite', 'ton-entrainer', 'ton-seuils', 'ton-reseau-donnees', 'ton-frais', 'concert', 'ton-concert-audio']) require('./donnees/' + m + '.js');
+for (const m of ['analyse', 'assembler', 'oreille-mesure', 'oreille-simulee', 'exemples', 'vraies-voix-jeu', 'eval-vraies-voix', 'source-openhymnal', 'source-goodplay', 'ton-jeux', 'eval-tonalite', 'ton-entrainer', 'ton-seuils', 'ton-reseau-donnees', 'ton-frais', 'concert', 'ton-concert-audio', 'publier-bibliotheque']) require('./donnees/' + m + '.js');
 
 // Raison apprise (js/raison.js et ses poids) : Amazing Grace en Sol, deux couplets, notes parfaites. Une tonalité s'affiche dans la promesse de 5 s
 // (à la note près), c'est Sol majeur à la fin, et deux passes donnent exactement la même chose.
