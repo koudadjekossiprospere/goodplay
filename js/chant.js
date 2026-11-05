@@ -118,7 +118,7 @@
       }).join('');
       const avecMel = cases.filter(c => c.accord || c.paroles);
       if (avecMel.some(c => c.melodie.length)) {
-        t += '\n♪ ' + avecMel.map(c => { let prec = null; return c.melodie.map(([midi, , d]) => { const s = nomNoteMel(midi, prec, notation) + ':' + +d.toFixed(3); prec = midi; return s; }).join(' '); }).join(' | ');
+        t += '\n♪ ' + avecMel.map(c => { let prec = null; return c.melodie.map(([midi, , d]) => { const s = nomNoteMel(midi, prec, notation) + ':' + +d.toFixed(3); prec = midi; return s; }).join(' '); }).join(' | ').replace(/[\s|]+$/, ''); // les cases muettes de la fin ne s'écrivent pas
       }
       return t;
     }).join('\n');
@@ -179,6 +179,21 @@
     return out;
   }
 
+  /* Une mélodie chantée sur l'horloge : notes [midi entendu, temps, durée en temps] rangées dans les cases à plat de depart à jusque.
+     Elles passent dans la tonalité écrite (decal : de l'écrit au chanté), arrondies au quart de temps ; une case sans note entendue devient muette. */
+  function placerMelodie(notes, plat, { depart, jusque, decal = 0 }) {
+    const q = x => Math.round(x * 4) / 4, par = new Map(), fin = plat[jusque].t0 + plat[jusque].c.temps;
+    for (let j = depart; j <= jusque; j++) par.set(j, []);
+    for (const [midi, b, d] of notes) {
+      if (b < plat[depart].t0 - .25 || b >= fin) continue; // une note à peine en avance compte pour sa case
+      let j = depart; while (j < jusque && plat[j + 1].t0 <= b + .125) j++;
+      const x = plat[j], d0 = Math.max(0, q(b - x.t0));
+      if (d0 >= x.c.temps) continue;
+      par.get(j).push([midi - decal, d0, Math.max(.25, Math.min(q(d), x.c.temps - d0))]);
+    }
+    for (const [j, ns] of par) plat[j].c.melodie = ns;
+  }
+
   /* Un chant enregistré par l'ancien Live (Labs, Mes chants) : accords et mélodie, sans paroles, quatre mesures par ligne. */
   function depuisAncien(ch) {
     const mesure = ch.mesure || 4, lignes = []; let ligne = [], temps = 0, t = 0;
@@ -193,5 +208,5 @@
     return { titre: ch.titre, bpm: ch.bpm || 72, mesure, texte: texteDe(lignes, { mesure }) };
   }
 
-  Object.assign(GP, { Chant: { lireAccord, lireNoteMelodie, lireTexte, texteDe, tonaliteDe, decalage, transposer, texteJeu, aPlat, depuisAncien, famille } });
+  Object.assign(GP, { Chant: { lireAccord, lireNoteMelodie, lireTexte, texteDe, tonaliteDe, decalage, transposer, texteJeu, aPlat, placerMelodie, depuisAncien, famille } });
 })();

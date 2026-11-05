@@ -64,4 +64,14 @@ const ancien = C.depuisAncien({ titre: 'x', bpm: 80, mesure: 4, melodie: [[60, 2
 const la = C.lireTexte(ancien.texte).lignes[0];
 assert.deepStrictEqual(la.map(c => [c.accord.racine, c.accord.q, c.temps, c.melodie]), [[0, 'maj', 4, [[60, 0, 2]]], [7, '7', 4, [[64, 0, 4]]]]);
 
+// Mélodie chantée : chaque note dans sa case, au quart de temps, ramenée à l'écrit (chanté un ton plus haut) ;
+// une note à peine en avance compte pour la case qui vient, celles d'après la fin ne comptent pas, une case sans note devient muette.
+{
+  const ls = C.lireTexte('[Do]a [Sol]b [Fa]c\n♪ do | ré | mi', { mesure: 4 }).lignes, p = C.aPlat(ls);
+  C.placerMelodie([[62, .1, 1.02], [64, 1.05, .9], [66, 3.95, 1.4], [69, 9, 1]], p, { depart: 0, jusque: 1, decal: 2 });
+  assert.deepStrictEqual(p.map(x => x.c.melodie), [[[60, 0, 1], [62, 1, 1]], [[64, 0, 1.5]], [[64, 0, 4]]]);
+  C.placerMelodie([], p, { depart: 1, jusque: 1 });
+  assert.deepStrictEqual(p[1].c.melodie, [], 'case muette');
+}
+
 console.log('test-chant : tout passe');

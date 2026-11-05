@@ -199,11 +199,12 @@
   function sonner() { A.contexte(); A.decalage = vue().sh; clavier.ecouter(); }
   $('#cases').onclick = e => {
     const b = e.target.closest('.s-c[data-i]'); if (!b) return;
+    if (enreg) return; // pendant l'enregistrement, l'horloge mène
     if (enEdition) ouvrirCase(+b.dataset.i); else aller(+b.dataset.i, { son: true, recaler: true });
   };
   $('#nowBtn').onclick = () => { if (R.son) sonner(); };
   document.addEventListener('keydown', e => {
-    if (ecran !== 'chant' || e.ctrlKey || e.metaKey || e.altKey || document.querySelector('dialog[open]')) return;
+    if (ecran !== 'chant' || enreg || e.ctrlKey || e.metaKey || e.altKey || document.querySelector('dialog[open]')) return;
     if (e.target.closest && e.target.closest('input,textarea')) return;
     const av = ['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(e.key), ar = ['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key);
     if (!av && !ar) return;
@@ -249,7 +250,7 @@
 
   /* ---------- Modifier une case ---------- */
   let enEdition = false, caseEd = null;
-  function editionCases(b) { enEdition = b; $('#ecranChant').toggleAttribute('data-edition', b); $('#editerBtn').setAttribute('aria-pressed', String(b)); $('#texteBtn').hidden = !b; peindreIdee(); }
+  function editionCases(b) { enEdition = b; $('#ecranChant').toggleAttribute('data-edition', b); $('#editerBtn').setAttribute('aria-pressed', String(b)); $('#texteBtn').hidden = $('#chanterBtn').hidden = !b; peindreIdee(); }
   $('#editerBtn').onclick = () => { if (enEdition) { editionCases(false); return; } editionCases(true); annoncer('Touche une case pour la modifier, ou Tout le texte pour le chant entier.'); };
   $('#texteBtn').onclick = () => { if (ch) editer(ch); };
   function ouvrirCase(i) {
@@ -296,15 +297,68 @@
     if (!horloge) return;
     const b = horloge.b0 + (montre() - horloge.t0) * ch.bpm / 60, der = plat[plat.length - 1];
     if (!der || b >= der.t0 + der.c.temps) { arreterDefile(); return; }
-    let i = cur; while (i + 1 < plat.length && plat[i + 1].t0 <= b) i++; while (i > 0 && plat[i].t0 > b) i--;
+    const bas = enreg ? enreg.depart : 0;
+    let i = cur; while (i + 1 < plat.length && plat[i + 1].t0 <= b) i++; while (i > bas && plat[i].t0 > b) i--;
     if (i !== cur) { cur = i; marquer(); }
+    if (enreg) { const reste = Math.ceil(plat[enreg.depart].t0 - b); if (reste !== enreg.compte) { enreg.compte = reste; annoncer(reste > 0 ? `Chante dans ${reste}` : 'Chante.'); } }
     const pos = b - plat[i].t0, cell = $(`#cases .s-c[data-i="${i}"]`);
     if (cell) { const dots = cell.querySelectorAll('.s-temps i'), k = Math.min(dots.length - 1, Math.floor(pos * dots.length / plat[i].c.temps)); dots.forEach((d, j) => d.classList.toggle('on', j === k)); const ns = cell.querySelectorAll('.s-m i'); plat[i].c.melodie.forEach(([, d0, d], j) => ns[j] && ns[j].classList.toggle('on', pos >= d0 && pos < d0 + d)); }
     setTimeout(tic, 40); // pas requestAnimationFrame : il s'arrête quand la page est cachée, l'horloge doit continuer
   }
-  function arreterDefile() { horloge = null; peindreDefile(); for (const x of $$('#cases .on')) x.classList.remove('on'); }
+  function arreterDefile() {
+    const b = horloge && horloge.b0 + (montre() - horloge.t0) * ch.bpm / 60;
+    horloge = null; peindreDefile(); for (const x of $$('#cases .on')) x.classList.remove('on');
+    if (enreg) finEnregistrement(b);
+  }
   function peindreDefile() { const b = $('#defiler'); b.lastElementChild.textContent = horloge ? 'Pause' : 'Démarrer'; b.firstElementChild.firstElementChild.setAttribute('href', horloge ? '#i-stop' : '#i-play'); }
   $('#defiler').onclick = defiler;
+
+  /* ---------- Mélodie chantée : l'horloge défile après une mesure d'entrée, chaque note entendue va dans sa case ---------- */
+  let enreg = null, lecture = null; // enreg : { depart, notes: [[midi, temps, duree]], tA0, tM0, compte }
+  async function chanterMelodie() {
+    if (enreg) { arreterDefile(); return; }
+    if (!plat.length) return;
+    if (!ecoute) { await ecouter(); if (!ecoute) return; }
+    if (horloge) { horloge = null; peindreDefile(); }
+    const depart = Math.max(0, cur);
+    // Les notes arrivent à l'heure de l'audio, l'horloge suit la montre : on retient les deux à l'instant du départ.
+    enreg = { depart, notes: [], tA0: A.ctx.currentTime, tM0: montre(), compte: null };
+    horloge = { t0: montre(), b0: plat[depart].t0 - ch.mesure };
+    peindreEnreg(); tic();
+  }
+  function capter(n) {
+    if (!enreg || !horloge || n.fin - n.debut < .1) return;
+    const tm = enreg.tM0 + (n.debut - enreg.tA0), b = horloge.b0 + (tm - horloge.t0) * ch.bpm / 60;
+    enreg.notes.push([Math.round(n.midi), b, (n.fin - n.debut) * ch.bpm / 60]);
+  }
+  function finEnregistrement(b) {
+    const e = enreg; enreg = null; peindreEnreg();
+    if (!e || ecran !== 'chant') return; // l'écran a changé : rien n'est gardé
+    if (b == null || b < plat[e.depart].t0) { annoncer('Enregistrement annulé.'); return; }
+    let jusque = e.depart; while (jusque + 1 < plat.length && plat[jusque + 1].t0 <= b) jusque++;
+    const ns = e.notes.filter(([, x]) => x >= plat[e.depart].t0 - .25);
+    if (!ns.length) { annoncer('Aucune note entendue. Chante plus près du téléphone, puis refais.'); return; }
+    prise = { ...e, notes: ns, jusque };
+    $('#melResume').textContent = `${ns.length} note${ns.length > 1 ? 's' : ''} entendue${ns.length > 1 ? 's' : ''}, de la case ${e.depart + 1} à la case ${jusque + 1}. Écoute-la, puis garde-la ou refais-la.`;
+    $('#dlgMel').showModal();
+  }
+  let prise = null;
+  function peindreEnreg() { const b = $('#chanterBtn'); b.lastElementChild.textContent = enreg ? 'Arrêter' : 'Chanter la mélodie'; b.setAttribute('aria-pressed', String(!!enreg)); }
+  $('#chanterBtn').onclick = chanterMelodie;
+  // Écouter la prise : les accords des cases et la mélodie chantée, au tempo du chant, à la hauteur chantée.
+  $('#melEcouter').onclick = () => {
+    if (!prise) return; if (lecture) lecture.forEach(x => x.arreter());
+    A.contexte(); const v = vue(), sh = v.sh, t0 = A.ctx.currentTime + .1, s = 60 / ch.bpm, b0 = plat[prise.depart].t0;
+    A.decalage = sh; lecture = [];
+    for (let j = prise.depart; j <= prise.jusque; j++) { const x = plat[j], a = x.c.accord, vo = GP.voicing(mod(a.racine + decal - v.sh), a.q, { niveau: 0, basse: mod(a.basse + decal - v.sh) }); lecture.push(A.jouerAccord([...vo.mg, ...vo.md], { quand: t0 + (x.t0 - b0) * s, dur: x.c.temps * s * .95, volume: .2 })); }
+    for (const [midi, x, d] of prise.notes) lecture.push(A.jouerAccord([midi - sh], { quand: t0 + Math.max(0, x - b0) * s, dur: Math.max(.15, d * s), volume: .6 }));
+  };
+  $('#melGarder').onclick = () => {
+    if (!prise) return; C.placerMelodie(prise.notes, plat, { depart: prise.depart, jusque: prise.jusque, decal });
+    const n = prise.jusque - prise.depart + 1; prise = null; $('#dlgMel').close(); ecrire(); annoncer(`Mélodie gardée sur ${n} case${n > 1 ? 's' : ''}.`);
+  };
+  $('#melRefaire').onclick = () => { const d = prise && prise.depart; prise = null; $('#dlgMel').close(); if (d != null) { cur = d; marquer(); chanterMelodie(); } };
+  $('#dlgMel').addEventListener('close', () => { prise = null; if (lecture) { lecture.forEach(x => x.arreter()); lecture = null; } });
   // Le temps où l'on est reste le même : seule la vitesse change à partir de maintenant.
   const changerBpm = v => { const b = horloge ? horloge.b0 + (montre() - horloge.t0) * ch.bpm / 60 : 0; ch.bpm = borneBpm(v); $('#bpmV').textContent = ch.bpm; sauver(); if (horloge) horloge = { t0: montre(), b0: b }; };
   $('#bpmMoins').onclick = () => changerBpm(ch.bpm - 2);
@@ -323,6 +377,7 @@
       if (!m) {
         m = new GP.Moteur({ reglages: { modulationAuto: false } });
         m.on('tonalite', e => { if (manuel || ecran !== 'chant') return; entendu = { tonic: e.tonic, mode: e.mode, etat: e.etat }; decal = C.decalage(kEcrit, entendu); peindreChant(); });
+        m.on('note', capter);
       }
       $('#ecouterBtn').setAttribute('aria-busy', 'true');
       await A.micro(m); ecoute = true; manuel = false;

@@ -140,6 +140,7 @@
         <button class="btn" id="changeTon" hidden><svg class="ic"><use href="#i-boucle"/></svg><span>Changement<span class="long"> de tonalité</span></span></button>
         <button class="btn" id="editerBtn" aria-pressed="false"><svg class="ic"><use href="#i-crayon"/></svg><span>Modifier</span></button>
         <button class="btn" id="texteBtn" hidden><svg class="ic"><use href="#i-grille"/></svg><span>Tout le texte</span></button>
+        <button class="btn" id="chanterBtn" aria-pressed="false" hidden title="Depuis la case en cours : une mesure pour entrer, puis chante en suivant les cases"><svg class="ic"><use href="#i-mic"/></svg><span>Chanter la mélodie</span></button>
       </div>
       <div class="s-tempo" id="cTempo" hidden>
         <button class="icone" id="bpmMoins" aria-label="Plus lent"><svg class="ic"><use href="#i-minus"/></svg></button>
@@ -202,6 +203,20 @@
       <button class="btn principal" type="submit">Enregistrer</button>
     </div>
   </form>
+</dialog>
+
+<!-- Mélodie chantée -->
+<dialog id="dlgMel" aria-labelledby="melT">
+  <div class="pop-tete"><h2 id="melT">Mélodie enregistrée</h2><button class="icone" data-fermer aria-label="Fermer sans garder"><svg class="ic"><use href="#i-x"/></svg></button></div>
+  <div class="s-dlg">
+    <p id="melResume"></p>
+    <div class="s-actions">
+      <button class="btn" id="melEcouter"><svg class="ic"><use href="#i-play"/></svg>Écouter</button>
+      <button class="btn" id="melRefaire"><svg class="ic"><use href="#i-boucle"/></svg>Refaire</button>
+      <span class="s-espace"></span>
+      <button class="btn principal" id="melGarder"><svg class="ic"><use href="#i-check"/></svg>Garder</button>
+    </div>
+  </div>
 </dialog>
 
 <!-- Tonalité écrite -->
