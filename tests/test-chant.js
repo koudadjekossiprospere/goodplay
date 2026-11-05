@@ -74,4 +74,27 @@ assert.deepStrictEqual(la.map(c => [c.accord.racine, c.accord.q, c.temps, c.melo
   assert.deepStrictEqual(p[1].c.melodie, [], 'case muette');
 }
 
+// Poser un accord sur un mot : la case se partage ; au début de la case, l'accord change ; sur une levée, elle devient une case.
+{
+  const ls = C.lireTexte('Was [Sol]blind, but now I see', { mesure: 4 }).lignes, l = ls[0], fa = ac(5, 'maj'), re7 = ac(2, '7');
+  assert.strictEqual(C.poserAccord(l, 1, 'blind, but '.length, re7, 4), 2);
+  assert.deepStrictEqual(l.map(c => [c.accord && c.accord.racine, c.temps, c.paroles]), [[null, 0, 'Was '], [7, 4, 'blind, but '], [2, 4, 'now I see']]);
+  C.poserAccord(l, 0, 0, fa, 4);
+  assert.deepStrictEqual(l[0].accord, fa); assert.strictEqual(l[0].temps, 4, 'une levée devient une case d\'une mesure');
+  // Retirer : paroles et durée reviennent à la case d'avant ; en tête de ligne, levée.
+  C.retirerAccord(l, 2);
+  assert.deepStrictEqual(l.map(c => [c.accord && c.accord.racine, c.temps, c.paroles]), [[5, 4, 'Was '], [7, 8, 'blind, but now I see']]);
+  C.retirerAccord(l, 0);
+  assert.deepStrictEqual([l[0].accord, l[0].temps], [null, 0]);
+  assert.strictEqual(C.texteDe(ls, { mesure: 4 }), 'Was [Sol:2]blind, but now I see');
+}
+
+// Un cantique d'Open Hymnal (mélodie et basse par degrés) devient un chant lisible, accords déduits.
+{
+  const h = { id: 'oh0', titre: 'Essai', compositeur: 'x', tonique: 7, mode: 'maj', mesure: 4, bpm: 90, melodie: [[67, 2], [71, 2], [74, 4]], basse: [[1, 4], [5, 4]], source: 'Open Hymnal' };
+  const e = C.depuisHymne(h), l2 = C.lireTexte(e.texte, { mesure: 4 });
+  assert.deepStrictEqual([e.id, e.tonalite, e.genre, l2.erreurs.length], ['oh0', { tonic: 7, mode: 'maj' }, 'cantique', 0]);
+  assert.deepStrictEqual(l2.lignes[0].map(c => [c.accord.racine, c.melodie.map(n => n[0])]), [[7, [67, 71]], [2, [74]]]);
+}
+
 console.log('test-chant : tout passe');

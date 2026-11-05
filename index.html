@@ -75,83 +75,93 @@
 
 <div class="s-app">
   <header class="s-tete">
-    <button class="icone" id="retour" aria-label="Retour à Mes chants" title="Mes chants" hidden><svg class="ic"><use href="#i-retour"/></svg></button>
+    <button class="icone" id="retour" aria-label="Retour aux listes" title="Retour" hidden><svg class="ic"><use href="#i-retour"/></svg></button>
     <svg class="logo" role="img" aria-label="goodplay"><use href="#logo"/></svg>
-    <h1 class="s-titre" id="titre">Mes chants</h1>
-    <button class="icone" id="sonBtn" aria-pressed="true" aria-label="Son des accords" title="Son des accords : un toucher sur un accord le fait sonner"><svg class="ic"><use href="#i-haut-parleur"/></svg></button>
+    <h1 class="s-titre" id="titre" hidden></h1>
+    <nav class="s-onglets" id="onglets" role="tablist" aria-label="Listes">
+      <button role="tab" data-v="biblio" aria-selected="true">Bibliothèque</button>
+      <button role="tab" data-v="mes" aria-selected="false">Mes chants</button>
+    </nav>
+    <span class="s-espace"></span>
+    <button class="icone" id="partagerBtn" aria-label="Partager ce chant" title="Partager ce chant" hidden><svg class="ic"><use href="#i-upload"/></svg></button>
+    <button class="btn s-compte" id="compteBtn" hidden><span>Se connecter</span></button>
     <button class="icone" id="reglagesBtn" aria-label="Réglages" title="Réglages"><svg class="ic"><use href="#i-sliders"/></svg></button>
   </header>
 
-  <!-- Mes chants -->
+  <!-- Les listes -->
   <main class="s-ecran s-liste" id="ecranListe">
+    <p class="s-intro" id="intro"></p>
     <div class="s-barre">
-      <label class="s-cherche"><svg class="ic"><use href="#i-recherche"/></svg><input id="cherche" type="search" placeholder="Chercher un chant" aria-label="Chercher un chant" autocomplete="off"></label>
-      <button class="btn principal" id="ajouter"><svg class="ic"><use href="#i-plus"/></svg>Ajouter un chant</button>
+      <label class="s-cherche"><svg class="ic"><use href="#i-recherche"/></svg><input id="cherche" type="search" placeholder="Titre, auteur ou paroles" aria-label="Chercher un chant" autocomplete="off"></label>
+      <button class="btn principal" id="ajouter" hidden><svg class="ic"><use href="#i-plus"/></svg>Nouveau chant</button>
+    </div>
+    <div class="s-filtres" id="filtres" role="group" aria-label="Genre">
+      <button data-v="" aria-pressed="true">Tous</button><button data-v="cantique" aria-pressed="false">Cantiques</button><button data-v="spiritual" aria-pressed="false">Spirituals</button><button data-v="gospel" aria-pressed="false">Gospel</button>
     </div>
     <ul class="s-chants" id="listeChants"></ul>
-    <div class="s-vide" id="listeVide" hidden>
-      <b>Aucun chant pour l'instant</b>
-      <span>Ajoute ton premier chant : son titre, puis ses paroles avec les accords entre crochets.</span>
-    </div>
-    <div class="s-pied">
+    <div class="s-vide" id="listeVide" hidden></div>
+    <div class="s-pied" id="piedMes" hidden>
       <button class="lien" id="exporter"><svg class="ic"><use href="#i-download"/></svg>Exporter mes chants</button>
       <label class="lien"><svg class="ic"><use href="#i-upload"/></svg>Importer<input type="file" id="importer" accept=".json,application/json"></label>
-      <p class="note">Tes chants restent dans ce navigateur. Exporte-les pour les passer sur un autre appareil.</p>
     </div>
   </main>
 
-  <!-- Ajouter ou modifier un chant -->
+  <!-- Nouveau chant : titre, tonalité, paroles ; les accords se posent ensuite au doigt -->
   <main class="s-ecran s-edit" id="ecranEdition" hidden>
     <form id="formChant" novalidate>
+      <h2 class="s-h2">Nouveau chant</h2>
       <label class="s-champ"><span>Titre</span><input id="fTitre" maxlength="80" autocomplete="off" aria-describedby="fTitreErr"><small class="s-err" id="fTitreErr" hidden>Donne un titre au chant.</small></label>
+      <div class="s-champ"><span id="fTonL">Tonalité du chant</span>
+        <div class="s-notes s-notes-12" id="fTonNotes" role="group" aria-labelledby="fTonL"></div>
+        <div class="seg" id="fTonMode" role="group" aria-label="Mode"><button type="button" data-v="maj">Majeur</button><button type="button" data-v="min">Mineur</button></div>
+      </div>
       <div class="s-rang">
-        <label class="s-champ s-court"><span>Tempo</span><span class="s-unite"><input id="fBpm" type="number" inputmode="numeric" min="30" max="240" step="1"><small>bpm</small></span></label>
+        <label class="s-champ"><span>Tempo</span><span class="s-unite"><input id="fBpm" type="number" inputmode="numeric" min="30" max="240" step="1" value="72"><small>bpm</small></span></label>
         <div class="s-champ"><span id="fMesureL">Temps par mesure</span><div class="seg" id="fMesure" role="group" aria-labelledby="fMesureL"><button type="button" data-v="2">2</button><button type="button" data-v="3">3</button><button type="button" data-v="4">4</button><button type="button" data-v="6">6</button></div></div>
       </div>
-      <label class="s-champ"><span>Paroles et accords</span><textarea id="fTexte" rows="12" spellcheck="false" autocapitalize="off" placeholder="[Sol]Amazing [Sol7]grace, how [Do]sweet the [Sol]sound&#10;That [Sol]saved a [Ré]wretch like [Sol]me"></textarea></label>
-      <p class="note">L'accord entre crochets, juste avant les mots qu'il couvre. Un accord dure une mesure : <kbd>[Fa:2]</kbd> pour deux, <kbd>[Sol:½]</kbd> pour une demie. Une ligne qui commence par <kbd>♪</kbd> donne la mélodie de la ligne du dessus, une case par barre : <kbd>♪ sol la si | do</kbd>.</p>
-      <p class="s-erreurs" id="fErreurs" role="status"></p>
-      <div class="s-ton-ecrit"><span>Tonalité</span><b id="fTon">Pas encore d'accord</b><button class="lien" type="button" id="fTonChanger">Changer</button></div>
-      <div class="s-apercu" id="fApercu" aria-label="Aperçu en cases"></div>
-      <div class="s-actions">
-        <button class="btn s-danger" type="button" id="fSupprimer" hidden><svg class="ic"><use href="#i-trash"/></svg>Supprimer</button>
-        <span class="s-espace"></span>
-        <button class="btn" type="button" id="fAnnuler">Annuler</button>
-        <button class="btn principal" type="submit">Enregistrer</button>
-      </div>
+      <label class="s-champ"><span>Paroles</span><textarea id="fTexte" rows="10" spellcheck="false" placeholder="Une ligne par phrase.&#10;Tu poseras les accords juste après, en touchant les mots."></textarea></label>
+      <p class="note">Tu as déjà le chant avec ses accords entre crochets, comme <kbd>[Sol]Amazing [Do]grace</kbd> ? Colle-le tel quel : les accords sont repris.</p>
+      <div class="s-actions"><span class="s-espace"></span><button class="btn" type="button" id="fAnnuler">Annuler</button><button class="btn principal" type="submit">Continuer : placer les accords</button></div>
     </form>
   </main>
 
   <!-- Le chant -->
   <main class="s-ecran s-chant" id="ecranChant" hidden>
-    <section class="s-tonbar" aria-label="Tonalité">
-      <div class="s-ton">
-        <span class="s-etiq">Chant</span>
-        <b id="cTon"></b>
-        <span class="s-etat" id="cTonEtat"></span>
-        <span class="s-pas" role="group" aria-label="Hauteur du chant">
-          <button class="icone" id="cMoins" aria-label="Le chant est un demi-ton plus bas" title="Un demi-ton plus bas"><svg class="ic"><use href="#i-minus"/></svg></button>
-          <button class="icone" id="cPlus" aria-label="Le chant est un demi-ton plus haut" title="Un demi-ton plus haut"><svg class="ic"><use href="#i-plus"/></svg></button>
-        </span>
-      </div>
-      <p class="s-jeu" id="cJeu"></p>
-      <div class="s-actions-chant">
-        <button class="btn principal" id="ecouterBtn"><svg class="ic"><use href="#i-mic"/></svg><span>Écouter</span></button>
-        <button class="btn" id="changeTon" hidden><svg class="ic"><use href="#i-boucle"/></svg><span>Changement<span class="long"> de tonalité</span></span></button>
-        <button class="btn" id="editerBtn" aria-pressed="false"><svg class="ic"><use href="#i-crayon"/></svg><span>Modifier</span></button>
-        <button class="btn" id="texteBtn" hidden><svg class="ic"><use href="#i-grille"/></svg><span>Tout le texte</span></button>
-        <button class="btn" id="chanterBtn" aria-pressed="false" hidden title="Depuis la case en cours : une mesure pour entrer, puis chante en suivant les cases"><svg class="ic"><use href="#i-mic"/></svg><span>Chanter la mélodie</span></button>
-      </div>
-      <div class="s-tempo" id="cTempo" hidden>
+    <section class="s-cle" aria-label="Tonalité">
+      <div class="s-cle-bloc"><span class="s-etiq">Tonalité du chant</span><button class="s-pastille" id="tonBtn" aria-haspopup="dialog"><b id="tonNom"></b><svg class="ic"><use href="#i-chevron"/></svg></button><small id="tonEtat"></small></div>
+      <div class="s-cle-bloc"><span class="s-etiq">Je joue en</span><button class="s-pastille" id="jeuBtn" aria-haspopup="dialog"><b id="jeuNom"></b><svg class="ic"><use href="#i-chevron"/></svg></button><small id="transpose"></small></div>
+    </section>
+
+    <nav class="s-modes" id="modes" role="tablist" aria-label="Mode">
+      <button role="tab" data-v="lire" aria-selected="true"><svg class="ic"><use href="#i-oeil"/></svg>Lire</button>
+      <button role="tab" data-v="jouer" aria-selected="false"><svg class="ic"><use href="#i-piano"/></svg>Jouer</button>
+      <button role="tab" data-v="modifier" aria-selected="false"><svg class="ic"><use href="#i-crayon"/></svg>Modifier</button>
+    </nav>
+
+    <section class="s-outils" id="outilsJouer" hidden>
+      <button class="btn principal" id="ecouterBtn"><svg class="ic"><use href="#i-mic"/></svg><span>Tonalité au micro</span></button>
+      <button class="btn" id="changeTon" hidden><svg class="ic"><use href="#i-boucle"/></svg><span>Changement de tonalité</span></button>
+      <span class="s-tempo">
+        <button class="btn" id="defiler"><svg class="ic"><use href="#i-play"/></svg><span>Défiler</span></button>
         <button class="icone" id="bpmMoins" aria-label="Plus lent"><svg class="ic"><use href="#i-minus"/></svg></button>
         <span class="s-bpm"><b id="bpmV">72</b><small>bpm</small></span>
         <button class="icone" id="bpmPlus" aria-label="Plus vite"><svg class="ic"><use href="#i-plus"/></svg></button>
         <button class="btn" id="taper">Taper</button>
-        <button class="btn" id="defiler"><svg class="ic"><use href="#i-play"/></svg><span>Démarrer</span></button>
+      </span>
+    </section>
+
+    <section class="s-outils s-modif" id="outilsModif" hidden>
+      <p class="s-aide" id="aideModif"></p>
+      <div class="s-actions" id="actionsModif">
+        <button class="btn principal" id="versionBtn" hidden><svg class="ic"><use href="#i-copy"/></svg>Faire ma version</button>
+        <button class="btn" id="chanterBtn" aria-pressed="false"><svg class="ic"><use href="#i-mic"/></svg><span>Chanter la mélodie</span></button>
+        <button class="btn" id="texteBtn"><svg class="ic"><use href="#i-grille"/></svg>Texte complet</button>
+        <span class="s-espace"></span>
+        <button class="btn s-danger" id="supprimerBtn"><svg class="ic"><use href="#i-trash"/></svg>Supprimer</button>
       </div>
     </section>
 
-    <section class="s-now" aria-label="Accord en cours">
+    <section class="s-now" id="now" aria-label="Accord en cours" hidden>
       <button class="s-maint" id="nowBtn" aria-label="Écouter l'accord en cours"><span class="s-etiq">Maintenant</span><b id="nowAcc"></b><small id="nowDeg"></small></button>
       <div class="s-ens"><span class="s-etiq">Ensuite</span><b id="nextAcc"></b></div>
       <div class="s-idee" id="idee" hidden>
@@ -163,44 +173,64 @@
 
     <section class="s-cases" id="cases" aria-label="Le chant, case par case" tabindex="-1"></section>
 
-    <section class="s-kb" aria-label="Clavier">
+    <section class="s-kb" id="kb" aria-label="Clavier">
       <div class="clavier" id="clavier"></div>
     </section>
+  </main>
+
+  <!-- Texte complet (format avancé) -->
+  <main class="s-ecran s-edit" id="ecranTexte" hidden>
+    <form id="formTexte" novalidate>
+      <h2 class="s-h2">Texte complet</h2>
+      <p class="note">L'accord entre crochets juste avant les mots qu'il couvre. Un accord dure une mesure : <kbd>[Fa:2]</kbd> pour deux, <kbd>[Sol:½]</kbd> pour une demie. Une ligne qui commence par <kbd>♪</kbd> donne la mélodie de la ligne du dessus, une case par barre : <kbd>♪ sol la si | do</kbd>.</p>
+      <label class="s-champ"><span>Titre</span><input id="tTitre" maxlength="80" autocomplete="off"></label>
+      <label class="s-champ"><span>Paroles et accords</span><textarea id="tTexte" rows="14" spellcheck="false" autocapitalize="off"></textarea></label>
+      <p class="s-erreurs" id="tErreurs" role="status"></p>
+      <div class="s-actions"><span class="s-espace"></span><button class="btn" type="button" id="tAnnuler">Annuler</button><button class="btn principal" type="submit">Enregistrer</button></div>
+    </form>
   </main>
 
   <div class="s-annonce" id="annonce" role="status" hidden></div>
 </div>
 
-<!-- Réglages -->
-<dialog id="dlgReglages" aria-labelledby="regT">
-  <div class="pop-tete"><h2 id="regT">Réglages</h2><button class="icone" data-fermer aria-label="Fermer"><svg class="ic"><use href="#i-x"/></svg></button></div>
+<!-- Je joue en -->
+<dialog id="dlgJeu" aria-labelledby="jeuT">
+  <div class="pop-tete"><h2 id="jeuT">Je joue en</h2><button class="icone" data-fermer aria-label="Fermer"><svg class="ic"><use href="#i-x"/></svg></button></div>
   <div class="s-dlg">
-    <h3 id="jeuT">La tonalité où tu es à l'aise</h3>
-    <p class="note">Tout s'affiche dans cette tonalité, et l'appli te dit de combien régler le Transpose de ton piano. Un chant mineur se joue sur les mêmes touches, dans sa mineure relative.</p>
+    <p class="note">La tonalité où tu es à l'aise. Tout s'affiche dedans, et l'appli te dit de combien régler le Transpose de ton piano pour garder le son du chant. Un chant mineur se joue sur les mêmes touches, dans sa mineure relative.</p>
     <div class="s-notes" id="jeuNotes" role="group" aria-labelledby="jeuT"></div>
-    <div class="s-reg">
-      <span id="notaT">Noms des notes</span>
-      <div class="seg" id="notation" role="group" aria-labelledby="notaT"><button data-v="fr">Do Ré Mi</button><button data-v="en">C D E</button></div>
-    </div>
-    <label class="interrupteur"><span><b>Son des accords</b><small>Un toucher sur un accord le fait sonner.</small></span><input type="checkbox" role="switch" id="rSon"><i></i></label>
-    <label class="interrupteur"><span><b>Idées</b><small>Un accord de passage ou une couleur pour aller à l'accord suivant.</small></span><input type="checkbox" role="switch" id="rIdees"><i></i></label>
-    <label class="interrupteur"><span><b>Défiler au tempo</b><small>Coupé, c'est toi qui avances : toucher une case, flèches ou pédale.</small></span><input type="checkbox" role="switch" id="rDefile"><i></i></label>
   </div>
 </dialog>
 
-<!-- Une case -->
-<dialog id="dlgCase" aria-labelledby="caseT">
-  <div class="pop-tete"><h2 id="caseT">La case</h2><button class="icone" data-fermer aria-label="Fermer"><svg class="ic"><use href="#i-x"/></svg></button></div>
-  <form class="s-dlg" id="formCase" novalidate>
-    <label class="s-champ"><span>Accord</span><input id="kAcc" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="kAccErr"><small class="s-err" id="kAccErr" hidden>Cet accord ne se lit pas. Exemples : Do, Lam, Sol7, Fa/La, Am, Bb.</small></label>
-    <label class="s-champ"><span>Paroles</span><input id="kPar" autocomplete="off"></label>
-    <label class="s-champ"><span>Mélodie</span><input id="kMel" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="sol la si" aria-describedby="kMelErr"><small class="s-err" id="kMelErr" hidden></small></label>
-    <div class="s-champ"><span id="kDurT">Durée</span><div class="seg" id="kDur" role="group" aria-labelledby="kDurT"><button type="button" data-v="0.25">¼</button><button type="button" data-v="0.5">½</button><button type="button" data-v="1">1</button><button type="button" data-v="2">2</button><button type="button" data-v="4">4</button></div><small>mesure(s)</small></div>
+<!-- Tonalité du chant -->
+<dialog id="dlgTon" aria-labelledby="tonT">
+  <div class="pop-tete"><h2 id="tonT">Tonalité du chant</h2><button class="icone" data-fermer aria-label="Fermer"><svg class="ic"><use href="#i-x"/></svg></button></div>
+  <div class="s-dlg">
+    <p id="tonResume"></p>
+    <div class="s-rang">
+      <button class="btn" id="tonMoins"><svg class="ic"><use href="#i-minus"/></svg>Demi-ton plus bas</button>
+      <button class="btn" id="tonPlus"><svg class="ic"><use href="#i-plus"/></svg>Demi-ton plus haut</button>
+    </div>
+    <button class="btn principal" id="tonMicro"><svg class="ic"><use href="#i-mic"/></svg>Trouver au micro</button>
+    <button class="btn" id="tonEcrite">Revenir à la tonalité écrite</button>
+  </div>
+</dialog>
+
+<!-- Un accord (poser, changer, retirer) et sa case -->
+<dialog id="dlgAccord" aria-labelledby="accT">
+  <div class="pop-tete"><h2 id="accT">Accord</h2><button class="icone" data-fermer aria-label="Fermer"><svg class="ic"><use href="#i-x"/></svg></button></div>
+  <form class="s-dlg" id="formAccord" novalidate>
+    <div class="s-palette" id="palette" role="group" aria-label="Accords de la tonalité"></div>
+    <label class="s-champ"><span>Autre accord</span><input id="aAutre" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Sol7, Fa/La, Si♭, Am…" aria-describedby="aAutreErr"><small class="s-err" id="aAutreErr" hidden>Cet accord ne se lit pas. Exemples : Do, Lam, Sol7, Fa/La, Am, Bb.</small></label>
+    <div class="s-champ" id="aDurBloc"><span id="aDurT">Durée</span><div class="seg" id="aDur" role="group" aria-labelledby="aDurT"><button type="button" data-v="0.25">¼</button><button type="button" data-v="0.5">½</button><button type="button" data-v="1">1</button><button type="button" data-v="2">2</button><button type="button" data-v="4">4</button></div><small>mesure(s)</small></div>
+    <details class="s-plus" id="aPlus"><summary>Paroles et mélodie de la case</summary>
+      <label class="s-champ"><span>Paroles</span><input id="aPar" autocomplete="off"></label>
+      <label class="s-champ"><span>Mélodie</span><input id="aMel" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="sol la si" aria-describedby="aMelErr"><small class="s-err" id="aMelErr" hidden></small></label>
+    </details>
     <div class="s-actions">
-      <button class="btn s-danger" type="button" id="kSupprimer"><svg class="ic"><use href="#i-trash"/></svg>Supprimer</button>
-      <button class="btn" type="button" id="kPartager"><svg class="ic"><use href="#i-plus"/></svg>Ajouter un accord après</button>
+      <button class="btn s-danger" type="button" id="aRetirer"><svg class="ic"><use href="#i-trash"/></svg>Retirer l'accord</button>
       <span class="s-espace"></span>
-      <button class="btn principal" type="submit">Enregistrer</button>
+      <button class="btn principal" type="submit">Valider</button>
     </div>
   </form>
 </dialog>
@@ -219,14 +249,13 @@
   </div>
 </dialog>
 
-<!-- Tonalité écrite -->
-<dialog id="dlgTon" aria-labelledby="tonT">
-  <div class="pop-tete"><h2 id="tonT">Tonalité écrite</h2><button class="icone" data-fermer aria-label="Fermer"><svg class="ic"><use href="#i-x"/></svg></button></div>
+<!-- Réglages -->
+<dialog id="dlgReglages" aria-labelledby="regT">
+  <div class="pop-tete"><h2 id="regT">Réglages</h2><button class="icone" data-fermer aria-label="Fermer"><svg class="ic"><use href="#i-x"/></svg></button></div>
   <div class="s-dlg">
-    <p class="note">Déduite des accords. Change-la seulement si elle est fausse.</p>
-    <div class="s-notes" id="tonNotes" role="group" aria-label="Tonique"></div>
-    <div class="seg" id="tonMode" role="group" aria-label="Mode"><button data-v="maj">Majeur</button><button data-v="min">Mineur</button></div>
-    <button class="btn" id="tonAuto">Revenir à la tonalité déduite</button>
+    <div class="s-reg"><span id="notaT">Noms des notes</span><div class="seg" id="notation" role="group" aria-labelledby="notaT"><button data-v="fr">Do Ré Mi</button><button data-v="en">C D E</button></div></div>
+    <label class="interrupteur"><span><b>Son des accords</b><small>Toucher un accord le fait sonner.</small></span><input type="checkbox" role="switch" id="rSon"><i></i></label>
+    <label class="interrupteur"><span><b>Idées en mode Jouer</b><small>Un accord de passage ou une couleur vers l'accord suivant.</small></span><input type="checkbox" role="switch" id="rIdees"><i></i></label>
   </div>
 </dialog>
 
@@ -239,7 +268,10 @@
 <script src="js/enrichir.js"></script>
 <script src="js/audio.js"></script>
 <script src="js/clavier.js"></script>
+<script src="js/base-hymnes.js"></script>
 <script src="js/chant.js"></script>
+<script src="js/config.js"></script>
+<script src="js/compte.js"></script>
 <script src="js/live.js"></script>
 </body>
 </html>

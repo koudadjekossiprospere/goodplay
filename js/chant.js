@@ -194,6 +194,29 @@
     for (const [j, ns] of par) plat[j].c.melodie = ns;
   }
 
+  /* Un accord posé sur un mot (off : sa place dans les paroles de la case). Au début de la case, l'accord change ;
+     ailleurs, une case d'une mesure commence à ce mot. Rend l'indice de la case qui porte l'accord. */
+  function poserAccord(cases, i, off, accord, mesure) {
+    const c = cases[i];
+    if (off <= 0) { c.accord = accord; c.nom = ''; if (!c.temps) c.temps = mesure; return i; }
+    cases.splice(i + 1, 0, { accord, nom: '', temps: mesure, paroles: c.paroles.slice(off), melodie: [] });
+    c.paroles = c.paroles.slice(0, off);
+    return i + 1;
+  }
+  /* Retirer un accord : ses paroles, sa mélodie et sa durée reviennent à la case d'avant ; en tête de ligne, la case devient une levée. */
+  function retirerAccord(cases, i) {
+    const c = cases[i], p = cases[i - 1];
+    if (p) { p.melodie = p.melodie.concat(c.melodie.map(([m, d0, d]) => [m, d0 + p.temps, d])); p.paroles += c.paroles; p.temps += c.temps; cases.splice(i, 1); }
+    else { c.accord = null; c.nom = ''; c.temps = 0; }
+  }
+
+  /* Un cantique de la base Open Hymnal (js/base-hymnes.js : mélodie et basse par degrés) : les accords sont déduits des degrés. */
+  function depuisHymne(h) {
+    const k = { tonic: h.tonique, mode: h.mode };
+    const cases = h.basse.map(([deg, t]) => { const a = GP.accordDeDegre(k, deg); return a && { racine: a.racine, q: a.q, basse: a.basse, t }; }).filter(Boolean);
+    return { ...depuisAncien({ titre: h.titre, bpm: h.bpm, mesure: h.mesure, melodie: h.melodie, cases }), id: h.id, auteurs: { musique: h.compositeur || '' }, genre: 'cantique', source: h.source, licence: 'domaine public', tonalite: k, accords_source: 'deduits', paroles: false, melodie: true };
+  }
+
   /* Un chant enregistré par l'ancien Live (Labs, Mes chants) : accords et mélodie, sans paroles, quatre mesures par ligne. */
   function depuisAncien(ch) {
     const mesure = ch.mesure || 4, lignes = []; let ligne = [], temps = 0, t = 0;
@@ -208,5 +231,5 @@
     return { titre: ch.titre, bpm: ch.bpm || 72, mesure, texte: texteDe(lignes, { mesure }) };
   }
 
-  Object.assign(GP, { Chant: { lireAccord, lireNoteMelodie, lireTexte, texteDe, tonaliteDe, decalage, transposer, texteJeu, aPlat, placerMelodie, depuisAncien, famille } });
+  Object.assign(GP, { Chant: { lireAccord, lireNoteMelodie, lireTexte, texteDe, tonaliteDe, decalage, transposer, texteJeu, aPlat, placerMelodie, poserAccord, retirerAccord, depuisHymne, depuisAncien, famille } });
 })();
